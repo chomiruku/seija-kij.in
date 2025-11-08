@@ -39,7 +39,7 @@
     <nav class="navbar fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 hidden lg:block">
       <div class="px-4 flex items-center justify-between h-16">
         <NuxtLink to="/" class="flex items-center space-x-2 text-xl navbar-brand pb-4 pt-4">
-          <nuxt-img src="/seijakijin.svg" alt="seija-kij.in" class="w-6 h-6" ></nuxt-img>
+          <nuxt-img src="/seijakijin.svg" alt="seija-kij.in" class="w-6 h-6" />
           <span>{{ brand }}</span>
         </NuxtLink>
 
@@ -179,7 +179,7 @@ onMounted(() => {
   // Update time every second
   timer.value = setInterval(updateTime, 1000)
 
-  if (process.client) {
+  if (import.meta.client) {
     const handleClickOutside = (event) => {
       if (!event.target.closest('nav')) {
         isMobileMenuOpen.value = false

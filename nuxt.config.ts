@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindScrollbar from 'tailwind-scrollbar'
+
 export default defineNuxtConfig({
     compatibilityDate: '2025-07-15',
     devtools: {enabled: true},
@@ -18,7 +20,7 @@ export default defineNuxtConfig({
 
     tailwindcss: {
         config: {
-            plugins: [require('tailwind-scrollbar')]
+            plugins: [tailwindScrollbar]
         }
     },
 

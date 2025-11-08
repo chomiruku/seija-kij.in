@@ -1,8 +1,9 @@
 import chalk from 'chalk'
+import type { H3Event } from 'h3'
 
 export default defineEventHandler(async (event) => {
     // Get the IP address, considering proxies and load balancers
-    const getClientIP = (event: any) => {
+    const getClientIP = (event: H3Event) => {
         // Check common proxy headers first
         const forwarded = getHeader(event, 'x-forwarded-for')
         const realIP = getHeader(event, 'x-real-ip')
