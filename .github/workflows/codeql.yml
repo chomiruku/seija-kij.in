@@ -48,6 +48,13 @@ jobs:
               - .nuxt
               - .output
               - dist
+              - unused
+            # Extract JavaScript/TypeScript from Vue Single File Components
+            extractors:
+              javascript:
+                index:
+                  filters:
+                    - include: "**/*.vue"
 
       # Autobuild attempts to build any compiled languages (JavaScript/TypeScript doesn't need this typically)
       # But we'll run the Nuxt build to ensure all generated code is analyzed
