@@ -30,27 +30,6 @@ export default defineNuxtConfig({
     app: {
         head: {
             title: 'Kijin Seija - 鬼人 正邪 | seija-kij.in',
-            script: [
-                {
-                    children: `
-                        (function() {
-                            const storageKey = 'nuxt-color-mode';
-                            let preference = localStorage.getItem(storageKey);
-
-                            // If no preference stored, check system preference
-                            if (!preference) {
-                                preference = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                            }
-
-                            const html = document.documentElement;
-                            html.classList.add(preference + '-mode');
-                            html.style.colorScheme = preference;
-                        })();
-                    `,
-                    type: 'text/javascript',
-                    tagPosition: 'head'
-                }
-            ],
             meta: [
                 // Basic meta tags
                 {name: 'description', content: 'Holy Damn I Love Kijin Seija So Much. くそー、鬼人正邪が大好きだよ。'},
@@ -92,5 +71,16 @@ export default defineNuxtConfig({
     devServer: {
         port: 3000,
         host: '0.0.0.0'
+    },
+
+    nitro: {
+        routeRules: {
+            // Don't cache HTML pages aggressively - prevent stale color mode
+            '/': { headers: { 'Cache-Control': 'no-cache, must-revalidate' } },
+            '/**': { headers: { 'Cache-Control': 'no-cache, must-revalidate' } },
+            // But keep caching for static assets
+            '/_nuxt/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
+            '/assets/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } }
+        }
     }
 })
