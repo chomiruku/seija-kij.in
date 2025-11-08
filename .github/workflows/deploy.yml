@@ -9,6 +9,8 @@ jobs:
   deploy:
     name: Deploy to Server
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     # Only deploy if all checks pass
     needs: []
     steps:
