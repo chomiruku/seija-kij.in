@@ -19,7 +19,7 @@ updates:
       - "automated"
     # Automatically merge minor and patch updates
     reviewers:
-      - "chomiruku"  # Replace with your GitHub username
+      - "chomiruku"
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
