@@ -30,6 +30,27 @@ export default defineNuxtConfig({
     app: {
         head: {
             title: 'Kijin Seija - 鬼人 正邪 | seija-kij.in',
+            script: [
+                {
+                    children: `
+                        (function() {
+                            const storageKey = 'nuxt-color-mode';
+                            let preference = localStorage.getItem(storageKey);
+
+                            // If no preference stored, check system preference
+                            if (!preference) {
+                                preference = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                            }
+
+                            const html = document.documentElement;
+                            html.classList.add(preference + '-mode');
+                            html.style.colorScheme = preference;
+                        })();
+                    `,
+                    type: 'text/javascript',
+                    tagPosition: 'head'
+                }
+            ],
             meta: [
                 // Basic meta tags
                 {name: 'description', content: 'Holy Damn I Love Kijin Seija So Much. くそー、鬼人正邪が大好きだよ。'},
