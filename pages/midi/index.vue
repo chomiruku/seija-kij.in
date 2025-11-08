@@ -22,7 +22,7 @@
                 type="text"
                 placeholder="Search MIDI files by name..."
                 class="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-xl leading-5 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 relative z-0"
-            />
+            >
           </div>
         </div>
         
@@ -31,16 +31,16 @@
           <div
             v-for="(midi, index) in filteredMidis"
             :key="index"
-            @click="openMidiDetails(midi)"
             class="group relative overflow-hidden p-4 sm:p-6 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-200/50 dark:border-gray-700/50 hover:border-purple-300 dark:hover:border-purple-600 animate-fade-in-up cursor-pointer"
             :style="`animation-delay: ${index * 100}ms`"
+            @click="openMidiDetails(midi)"
           >
-            <div class="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"/>
             
             <div class="relative flex items-center">
               <div class="flex-shrink-0 mr-5">
                 <div class="relative">
-                  <div class="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+                  <div class="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"/>
                   <div class="relative w-12 h-12 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900 dark:to-pink-900 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <svg class="w-7 h-7 text-purple-600 dark:text-purple-300" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
@@ -84,7 +84,7 @@
               </div>
             </div>
 
-            <div class="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out"></div>
+            <div class="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out"/>
           </div>
         </div>
 
@@ -97,16 +97,16 @@
           >
             <div class="flex items-center">
               <div class="flex-shrink-0 mr-5">
-                <div class="w-12 h-12 bg-gray-300/20 rounded-full"></div>
+                <div class="w-12 h-12 bg-gray-300/20 rounded-full"/>
               </div>
               <div class="flex-1">
-                <div class="h-6 bg-gray-300/20 rounded mb-2 w-3/4"></div>
-                <div class="h-4 bg-gray-300/20 rounded mb-1 w-1/2"></div>
-                <div class="h-4 bg-gray-300/20 rounded w-2/3"></div>
+                <div class="h-6 bg-gray-300/20 rounded mb-2 w-3/4"/>
+                <div class="h-4 bg-gray-300/20 rounded mb-1 w-1/2"/>
+                <div class="h-4 bg-gray-300/20 rounded w-2/3"/>
               </div>
               <div class="flex-shrink-0 ml-4 flex gap-2">
-                <div class="w-10 h-10 bg-gray-300/20 rounded-full"></div>
-                <div class="w-10 h-10 bg-gray-300/20 rounded-full"></div>
+                <div class="w-10 h-10 bg-gray-300/20 rounded-full"/>
+                <div class="w-10 h-10 bg-gray-300/20 rounded-full"/>
               </div>
             </div>
           </div>
@@ -117,7 +117,7 @@
           <h1 class="text-4xl font-bold mb-6">
             oof
           </h1>
-          <nuxt-img src="/seijaflustered.png" alt="seija-kij.in" class="mx-auto h-48 w-auto mb-2"></nuxt-img>
+          <nuxt-img src="/seijaflustered.png" alt="seija-kij.in" class="mx-auto h-48 w-auto mb-2"/>
           <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">couldn't load the midi files</h3>
           <p class="text-gray-800 dark:text-gray-400">the server might be having issues, try refreshing</p>
         </div>
@@ -127,7 +127,7 @@
           <h1 class="text-4xl font-bold mb-6">
             huh?
           </h1>
-          <nuxt-img src="/seijaflustered.png" alt="seija-kij.in" class="mx-auto h-48 w-auto mb-2"></nuxt-img>
+          <nuxt-img src="/seijaflustered.png" alt="seija-kij.in" class="mx-auto h-48 w-auto mb-2"/>
           <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">what the hell is {{searchQuery}}</h3>
           <p class="text-gray-800 dark:text-gray-400">there is no midi named {{ searchQuery }}</p>
         </div>
@@ -153,8 +153,7 @@
                     class="absolute inset-0 w-full h-full"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                </iframe>
+                    allowfullscreen/>
               </div>
             </div>
 
@@ -302,13 +301,13 @@ const openMidiDetails = (midi) => {
 // Extract YouTube video ID from URL
 const getYouTubeVideoId = (url) => {
   if (!url) return null;
-  const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+  const match = url.match(/(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/ |.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/);
   return match ? match[1] : null;
 };
 
 // Download function
 const downloadMidi = (midi, version) => {
-  if (!process.client) return;
+  if (!import.meta.client) return;
   
   const baseUrl = 'https://samba.seija-kij.in/public/midis/';
   const link = document.createElement('a');

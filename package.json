@@ -3,28 +3,33 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
+    "build": "node --no-deprecation node_modules/nuxt/bin/nuxt.mjs build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "start": "node .output/server/index.mjs --host 0.0.0.0",
+    "buildstart": "node --no-deprecation node_modules/nuxt/bin/nuxt.mjs build && node .output/server/index.mjs --host 0.0.0.0",
     "clean": "nuxt cleanup && rimraf .output dist",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@nuxt/eslint": "^1.9.0",
-    "@nuxt/icon": "^2.0.0",
-    "@nuxt/image": "^1.11.0",
-    "@nuxt/ui": "^3.3.5",
-    "chalk": "^5.6.0",
-    "eslint": "^9.34.0",
-    "nuxt": "^4.1.2",
-    "tailwind-scrollbar": "^4.0.2",
-    "vue": "^3.5.20",
-    "vue-router": "^4.5.1"
+    "@nuxt/eslint": "latest",
+    "@nuxt/icon": "latest",
+    "@nuxt/image": "latest",
+    "@nuxt/ui": "latest",
+    "chalk": "latest",
+    "eslint": "latest",
+    "nuxt": "latest",
+    "sharp": "^0.33.5",
+    "tailwind-scrollbar": "latest",
+    "vue": "latest",
+    "vue-router": "latest"
   },
   "devDependencies": {
     "@types/chalk": "^0.4.31",
     "rimraf": "^5.0.0"
+  },
+  "overrides": {
+    "sharp": "^0.33.5"
   }
 }

@@ -43,7 +43,12 @@
 </template>
 
 <script setup>
-const props = defineProps(['error'])
+defineProps({
+  error: {
+    type: Object,
+    required: true
+  }
+})
 const route = useRoute()
 
 const handleError = () => clearError({ redirect: '/' })

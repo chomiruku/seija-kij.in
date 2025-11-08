@@ -1,0 +1,117 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # Allow manual deployment
+
+jobs:
+  deploy:
+    name: Deploy to Server
+    runs-on: ubuntu-latest
+    # Only deploy if all checks pass
+    needs: []
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Create deployment package
+        run: |
+          mkdir -p deploy
+          cp -r .output deploy/
+          cp package.json package-lock.json deploy/
+          cd deploy
+          tar -czf ../deploy.tar.gz .
+          cd ..
+
+      - name: Deploy to Server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          source: "deploy.tar.gz"
+          target: "/tmp/"
+
+      - name: Execute deployment on server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script: |
+            # Define the deployment directory
+            DEPLOY_DIR="${{ secrets.DEPLOY_PATH || '/var/www/seija-kij.in' }}"
+
+            # Create backup of current deployment
+            if [ -d "$DEPLOY_DIR" ]; then
+              echo "Creating backup..."
+              cp -r "$DEPLOY_DIR" "$DEPLOY_DIR.backup.$(date +%Y%m%d_%H%M%S)"
+              # Keep only last 5 backups
+              ls -dt "$DEPLOY_DIR".backup.* 2>/dev/null | tail -n +6 | xargs rm -rf 2>/dev/null || true
+            fi
+
+            # Create deployment directory if it doesn't exist
+            mkdir -p "$DEPLOY_DIR"
+
+            # Extract new deployment
+            echo "Extracting deployment package..."
+            cd "$DEPLOY_DIR"
+            tar -xzf /tmp/deploy.tar.gz
+            rm /tmp/deploy.tar.gz
+
+            # Set proper ownership
+            chown -R $USER:$USER "$DEPLOY_DIR"
+
+            # Restart the application with PM2
+            if command -v pm2 &> /dev/null; then
+              echo "Restarting application with PM2..."
+              pm2 restart seija-kijin || pm2 start "$DEPLOY_DIR/.output/server/index.mjs" --name seija-kijin -- --host 0.0.0.0
+              pm2 save
+            else
+              echo "⚠️ PM2 not found. Please ensure PM2 is installed."
+              exit 1
+            fi
+
+            echo "✅ Deployment completed successfully!"
+
+      - name: Health check
+        run: |
+          echo "Waiting 10 seconds for application to start..."
+          sleep 10
+
+          if [ -n "${{ secrets.HEALTH_CHECK_URL }}" ]; then
+            echo "Performing health check..."
+            response=$(curl -s -o /dev/null -w "%{http_code}" ${{ secrets.HEALTH_CHECK_URL }})
+            if [ "$response" = "200" ]; then
+              echo "✅ Health check passed (HTTP $response)"
+            else
+              echo "⚠️ Health check returned HTTP $response"
+              exit 1
+            fi
+          else
+            echo "No HEALTH_CHECK_URL configured, skipping health check"
+          fi
+
+      - name: Notify deployment status
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "🚀 Deployment successful!"
+          else
+            echo "❌ Deployment failed!"
+          fi

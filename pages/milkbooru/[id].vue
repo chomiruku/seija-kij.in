@@ -64,7 +64,7 @@
                     :max="post.media_asset.variants.length - 1"
                     class="flex-1 h-2 bg-gray-200 dark:bg-gray-700 appearance-none slider"
                     @input="onVariantChange"
-                  />
+                  >
                   <span class="text-xs text-gray-500">High</span>
                 </div>
               </div>
@@ -168,7 +168,7 @@
                     
                     <!-- Comment Body with Quote Parsing -->
                     <div class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
-                      <div v-html="parseCommentBody(comment.body)"></div>
+                      <div v-html="parseCommentBody(comment.body)"/>
                     </div>
                   </div>
                 </div>
@@ -510,14 +510,14 @@ const checkAndShowQualityToast = () => {
   }
 }
 
-const upgradeToHighestQuality = () => {
+const _upgradeToHighestQuality = () => { // eslint-disable-line @typescript-eslint/no-unused-vars
   if (!post.value?.media_asset?.variants?.length) return
   selectedVariantIndex.value = post.value.media_asset.variants.length - 1
   onVariantChange()
 }
 
 // Methods
-const getImageUrl = (post) => {
+const _getImageUrl = (post) => { // eslint-disable-line @typescript-eslint/no-unused-vars
   if (post.is_banned) return '/banned.jpg'
   if (!post.media_asset?.variants?.length) return '/placeholder.jpg'
   
@@ -637,7 +637,7 @@ const initializeQualityPreference = () => {
 }
 
 // Comment parsing and styling methods
-const getInitials = (name) => {
+const _getInitials = (name) => { // eslint-disable-line @typescript-eslint/no-unused-vars
   if (!name || name === 'Anonymous') return '?'
   return name.charAt(0).toUpperCase()
 }

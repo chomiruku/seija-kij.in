@@ -13,8 +13,8 @@
             </figcaption>
           </figure>
           <div v-else class="animate-pulse">
-            <div class="h-6 bg-gray-300/20 rounded mb-4"></div>
-            <div class="h-4 bg-gray-300/20 rounded w-32 mx-auto"></div>
+            <div class="h-6 bg-gray-300/20 rounded mb-4"/>
+            <div class="h-4 bg-gray-300/20 rounded w-32 mx-auto"/>
           </div>
         </div>
       </div>
@@ -33,19 +33,19 @@
 
           <ul class="space-y-2">
             <li class="flex items-center">
-              <span class="w-2 h-2 bg-pink-400 rounded-full mr-3"></span>
+              <span class="w-2 h-2 bg-pink-400 rounded-full mr-3"/>
               <span class="font-semibold">Species:</span> <span class="ml-2">Amanojaku</span>
             </li>
             <li class="flex items-center">
-              <span class="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
+              <span class="w-2 h-2 bg-purple-400 rounded-full mr-3"/>
               <span class="font-semibold">Ability:</span> <span class="ml-2">Turn over anything</span>
             </li>
             <li class="flex items-center">
-              <span class="w-2 h-2 bg-red-400 rounded-full mr-3"></span>
+              <span class="w-2 h-2 bg-red-400 rounded-full mr-3"/>
               <span class="font-semibold">First Appearance:</span> <span class="ml-2">Double Dealing Character</span>
             </li>
             <li class="flex items-center">
-              <span class="w-2 h-2 bg-blue-400 rounded-full mr-3"></span>
+              <span class="w-2 h-2 bg-blue-400 rounded-full mr-3"/>
               <span class="font-semibold">Location:</span> <span class="ml-2">Unknown</span>
             </li>
           </ul>
@@ -105,15 +105,15 @@
             <p class="mb-4">Can flip anything upside down, including:</p>
             <ul class="space-y-2 ">
               <li class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"></span>
+                <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"/>
                 Physical objects
               </li>
               <li class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"></span>
+                <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"/>
                 Directions
               </li>
               <li class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"></span>
+                <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"/>
                 Abstract concepts
               </li>
             </ul>
@@ -127,39 +127,39 @@
             </h4>
             <div class="space-y-2 text-sm max-h-64 overflow-y-auto">
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"></span>
+                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
                 欺符「逆さ撃ち」
               </div>
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"></span>
+                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
                 逆符「鏡の国の弾幕」
               </div>
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"></span>
+                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
                 逆符「イーヴィルインザミラー」
               </div>
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"></span>
+                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
                 逆符「天地有用」
               </div>
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"></span>
+                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
                 逆符「天下転覆」
               </div>
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"></span>
+                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
                 逆弓「天壌夢弓」
               </div>
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"></span>
+                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
                 逆弓「天壌夢弓の詔勅」
               </div>
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"></span>
+                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
                 逆転「リバースヒエラルキー」
               </div>
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"></span>
+                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
                 逆転「チェンジエアブレイブ」
               </div>
             </div>

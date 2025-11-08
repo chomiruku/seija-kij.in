@@ -18,8 +18,8 @@
           <div class="flex justify-center mb-8">
             <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-2 border border-gray-200 dark:border-gray-700">
               <div class="flex gap-2">
-                <div class="px-6 py-3 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse w-32 h-12"></div>
-                <div class="px-6 py-3 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse w-32 h-12"></div>
+                <div class="px-6 py-3 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse w-32 h-12"/>
+                <div class="px-6 py-3 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse w-32 h-12"/>
               </div>
             </div>
           </div>
@@ -29,22 +29,22 @@
             <!-- Month Header Skeleton -->
             <div class="w-full flex justify-between items-center p-4 bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-xl border border-purple-300/20 dark:border-purple-700/20 mb-4 animate-pulse">
               <div class="flex items-center">
-                <div class="w-5 h-5 bg-gray-300 dark:bg-gray-600 rounded mr-3"></div>
-                <div class="h-6 bg-gray-300 dark:bg-gray-600 rounded w-32"></div>
+                <div class="w-5 h-5 bg-gray-300 dark:bg-gray-600 rounded mr-3"/>
+                <div class="h-6 bg-gray-300 dark:bg-gray-600 rounded w-32"/>
               </div>
-              <div class="bg-gray-300 dark:bg-gray-600 px-3 py-1 rounded-full w-8 h-6"></div>
+              <div class="bg-gray-300 dark:bg-gray-600 px-3 py-1 rounded-full w-8 h-6"/>
             </div>
 
             <!-- Images Grid Skeleton -->
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-4">
               <div v-for="j in 10" :key="`skeleton-image-${i}-${j}`" class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 animate-pulse">
-                <div class="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg mb-3"></div>
+                <div class="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg mb-3"/>
                 <div class="p-3">
                   <div class="flex justify-between items-center mb-2">
-                    <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-16"></div>
-                    <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-12"></div>
+                    <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-16"/>
+                    <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-12"/>
                   </div>
-                  <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-20"></div>
+                  <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-20"/>
                 </div>
               </div>
             </div>
@@ -75,13 +75,13 @@
           <div class="flex justify-center mb-8">
             <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-2 border border-gray-200 dark:border-gray-700">
               <button
-                  @click="activeView = 'images'"
                   :class="[
                   'px-6 py-3 rounded-lg font-medium transition-all duration-300',
                   activeView === 'images'
                     ? 'bg-purple-500 text-white shadow-lg'
                     : 'text-gray-600 dark:text-gray-300 hover:text-purple-500'
                 ]"
+                  @click="activeView = 'images'"
               >
                 <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -114,9 +114,9 @@
               <div v-for="(monthGroup, monthIndex) in yearGroup.months" :key="`${yearGroup.year}-${monthIndex}`" class="mb-8">
               <!-- Month Header -->
               <button
-                  @click="toggleMonth('images', `${yearGroup.year}-${monthGroup.month}`)"
                   class="w-full flex justify-between items-center p-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-xl border border-purple-300/30 dark:border-purple-700/30 hover:from-purple-500/30 hover:to-pink-500/30 transition-all duration-300 mb-4 cursor-pointer"
                   :class="{ 'shadow-lg': isMonthExpanded('images', `${yearGroup.year}-${monthGroup.month}`) }"
+                  @click="toggleMonth('images', `${yearGroup.year}-${monthGroup.month}`)"
               >
                 <div class="flex items-center">
                   <svg
@@ -141,8 +141,8 @@
                 <div
                     v-for="(image, imageIndex) in monthGroup.items"
                     :key="image.href"
-                    @click="openImageModal(getGlobalImageIndex(yearGroup.year, monthGroup.month, imageIndex))"
                     class="group relative overflow-hidden rounded-xl bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                    @click="openImageModal(getGlobalImageIndex(yearGroup.year, monthGroup.month, imageIndex))"
                 >
                   <div class="aspect-square overflow-hidden rounded-lg">
                     <nuxt-img
@@ -194,9 +194,9 @@
               <div v-for="(monthGroup, monthIndex) in yearGroup.months" :key="`${yearGroup.year}-${monthIndex}`" class="mb-8">
               <!-- Month Header -->
               <button
-                  @click="toggleMonth('videos', `${yearGroup.year}-${monthGroup.month}`)"
                   class="w-full flex justify-between items-center p-4 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-sm rounded-xl border border-pink-300/30 dark:border-pink-700/30 hover:from-pink-500/30 hover:to-purple-500/30 transition-all duration-300 mb-4"
                   :class="{ 'shadow-lg': isMonthExpanded('videos', `${yearGroup.year}-${monthGroup.month}`) }"
+                  @click="toggleMonth('videos', `${yearGroup.year}-${monthGroup.month}`)"
               >
                 <div class="flex items-center">
                   <svg
@@ -275,8 +275,8 @@
     >
       <div class="relative w-full h-full flex items-center justify-center">
         <button
-            @click="closeImageModal"
             class="absolute top-4 right-4 z-10 bg-black/50 text-white rounded-full p-2 hover:bg-black/70 transition-colors"
+            @click="closeImageModal"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -286,8 +286,8 @@
         <!-- Navigation buttons -->
         <button
             v-if="selectedImageIndex > 0"
-            @click.stop="navigateImage(-1)"
             class="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-black/50 text-white rounded-full p-3 hover:bg-black/70 transition-colors"
+            @click.stop="navigateImage(-1)"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
@@ -296,8 +296,8 @@
 
         <button
             v-if="selectedImageIndex < allImages.length - 1"
-            @click.stop="navigateImage(1)"
             class="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-black/50 text-white rounded-full p-3 hover:bg-black/70 transition-colors"
+            @click.stop="navigateImage(1)"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -491,7 +491,7 @@ const groupedVideosByYear = computed(() => {
 
 const allImages = computed(() => {
   if (!galleryData.value?.images) return []
-  return galleryData.value.images.sort((a, b) => b.ts - a.ts)
+  return [...galleryData.value.images].sort((a, b) => b.ts - a.ts)
 })
 
 const hasContent = computed(() => {

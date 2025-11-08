@@ -22,19 +22,19 @@
             :style="`animation-delay: ${index * 100}ms`"
           >
 
-            <div class="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"/>
             
             <div class="relative flex items-center">
               <div class="flex-shrink-0 mr-5">
                 <div class="relative">
-                  <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+                  <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"/>
                   <div class="relative w-12 h-12 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <img
                       v-if="link.image"
                       :src="link.image"
                       :alt="link.name"
                       class="w-7 h-7 object-contain filter group-hover:brightness-110 transition-all duration-300"
-                    />
+                    >
                   </div>
                 </div>
               </div>
@@ -57,7 +57,7 @@
               </div>
             </div>
 
-            <div class="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out"></div>
+            <div class="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out"/>
           </a>
         </div>
       </div>

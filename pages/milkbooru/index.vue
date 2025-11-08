@@ -115,7 +115,8 @@
                 />
 
                 <!-- Blacklist overlay -->
-                <div v-if="getPostBlacklistInfo(post).isBlacklisted"
+                <div
+v-if="getPostBlacklistInfo(post).isBlacklisted"
                      class="absolute inset-0 bg-black/80 backdrop-blur-lg flex items-center justify-center">
                   <div class="text-center text-white w-full">
                     <p class="text-sm font-extrabold mb-1 text-red-500 bg-black w-full py-1">Blacklisted</p>
@@ -240,8 +241,8 @@
               Tag Blacklist
             </label>
             <UTextarea
-                color="error"
-              v-model="blacklistTags"
+                v-model="blacklistTags"
+              color="error"
               placeholder="Enter tags to blacklist, separated by spaces... (e.g., gore blood violence)"
               :rows="4"
               class="w-full"
@@ -270,15 +271,15 @@
         <div class="flex gap-3 justify-center">
           <UButton
               class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
-              @click="confirmAge(false)"
               color="pink"
+              @click="confirmAge(false)"
           >
             na✋
           </UButton>
           <UButton
               class="px-6 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors font-medium"
-              @click="confirmAge(true)"
               color="pink"
+              @click="confirmAge(true)"
           >
             ye🤙
           </UButton>
@@ -298,7 +299,7 @@ const router = useRouter()
 const posts = ref([])
 const pagination = ref(null)
 const isLoading = ref(false)
-const toast = useToast()
+const _toast = useToast() // eslint-disable-line @typescript-eslint/no-unused-vars
 const maxPages = 1000
 const totalPages = ref(0)
 const hasError = ref(false)
@@ -629,6 +630,7 @@ onUnmounted(() => {
 })
 
 // Helper functions
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getImageUrl = (post) => {
   if (post.is_banned) return '/banned.jpg'
   if (!post.media_asset?.variants?.length) return '/placeholder.jpg'
@@ -744,7 +746,7 @@ const handlePageChange = (page) => {
 }
 
 // Generate visible page numbers for pagination - Mobile optimized
-const getVisiblePagesMobile = () => {
+const _getVisiblePagesMobile = () => { // eslint-disable-line @typescript-eslint/no-unused-vars
   if (!pagination.value?.total_pages) return []
   
   const current = pagination.value.current_page
@@ -793,7 +795,7 @@ const getVisiblePagesMobile = () => {
 }
 
 // Generate visible page numbers for pagination - Desktop version (kept for reference)
-const getVisiblePages = () => {
+const _getVisiblePages = () => { // eslint-disable-line @typescript-eslint/no-unused-vars
   if (!pagination.value?.total_pages) return []
   
   const current = pagination.value.current_page
@@ -931,6 +933,7 @@ const confirmAge = (isOver18) => {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const closeAgeModal = () => {
   showAgeModal.value = false
   allowNSFW.value = false
