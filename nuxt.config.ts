@@ -10,6 +10,12 @@ export default defineNuxtConfig({
         '@nuxt/ui'
     ],
 
+    vite: {
+        build: {
+            sourcemap: false  // Disable sourcemaps in production builds
+        }
+    },
+
     tailwindcss: {
         config: {
             plugins: [require('tailwind-scrollbar')]

@@ -154,3 +154,9 @@ unused/
 
 # Server configuration
 Caddyfile
+
+/.github/DEPLOYMENT.md
+/github_deploy
+/github_deploy.pub
+/.github/DEPLOYMENT_SECRETS.md
+/.github/README.md
