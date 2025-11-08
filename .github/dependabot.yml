@@ -14,9 +14,9 @@ updates:
         patterns:
           - "*"
     # Add labels to dependabot PRs
-    # labels:
-    #   - "dependencies"
-    #   - "automated"
+    labels:
+      - "dependencies"
+      - "npm"
     # Automatically merge minor and patch updates
     reviewers:
       - "chomiruku"
@@ -29,7 +29,6 @@ updates:
       day: "monday"
       time: "00:00"
     open-pull-requests-limit: 5
-    # labels:
-    #   - "dependencies"
-    #   - "github-actions"
-    #   - "automated"
+    labels:
+      - "dependencies"
+      - "github-actions"
