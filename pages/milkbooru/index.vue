@@ -36,26 +36,30 @@
                   @keyup.enter="handleSearch"
                   @focus="handleSearchFocus"
               >
-              <UButton
-                  :disabled="isLoading"
-                  class="absolute right-2 top-1/2 transform -translate-y-1/2 px-4 py-2 bg-pink-600 hover:bg-pink-700 disabled:bg-gray-400 text-white rounded-lg transition-colors text-sm font-medium disabled:cursor-progress cursor-pointer"
-                  color="pink"
-                  @click="handleSearch"
-              >
-                <span v-if="!isLoading">Search</span>
-                <svg v-else class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                </svg>
-              </UButton>
+              <UTooltip text="Search for posts">
+                <UButton
+                    :disabled="isLoading"
+                    class="absolute right-2 top-1/2 transform -translate-y-1/2 px-4 py-2 text-white rounded-lg transition-colors text-sm font-medium disabled:cursor-progress cursor-pointer"
+                    color="deeppink"
+                    @click="handleSearch"
+                >
+                  <span v-if="!isLoading">Search</span>
+                  <svg v-else class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                  </svg>
+                </UButton>
+              </UTooltip>
             </div>
 
             <div class="flex items-end justify-end">
-              <UButton
-                  class="bg-pink-600 hover:bg-pink-700 transition-colors text-white"
-                  label="Search Preferences"
-                  color="pink"
-                  @click="openSearchPrefs()"
-              />
+              <UTooltip text="Configure NSFW settings and tag blacklist">
+                <UButton
+                    class="text-white"
+                    label="Search Preferences"
+                    color="deeppink"
+                    @click="openSearchPrefs()"
+                />
+              </UTooltip>
             </div>
           </div>
         </div>
@@ -152,9 +156,9 @@ v-if="getPostBlacklistInfo(post).isBlacklisted"
               :total="totalPages"
               :items-per-page="1"
               :sibling-count="2"
-              color="error"
-              variant="subtle"
-              active-color="error"
+              color="neutral"
+              variant="link"
+              active-color="deeppink"
               active-variant="solid"
               size="md"
               :disabled="isLoading"
@@ -174,53 +178,13 @@ v-if="getPostBlacklistInfo(post).isBlacklisted"
         </div>
       </div>
     </div>
-
-    <!-- Age Verification Modal -->
-<!--    <div
-      v-if="showAgeModal"
-      class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-      @click="closeAgeModal"
-    >
-      <div class="relative max-w-md w-full bg-white dark:bg-gray-800 rounded-xl p-6" @click.stop>
-        <div class="text-center">
-          <div class="mx-auto mb-4 w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
-            <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.35 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-            </svg>
-          </div>
-          
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-            Age Verification Required
-          </h3>
-          
-          <p class="text-gray-600 dark:text-gray-300 mb-6">
-            You must be 18 years or older to view NSFW content. Are you 18 or older?
-          </p>
-          
-          <div class="flex gap-3 justify-center">
-            <button
-              class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
-              @click="confirmAge(false)"
-            >
-              No
-            </button>
-            <button
-              class="px-6 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors font-medium"
-              @click="confirmAge(true)"
-            >
-              Yes, I'm 18+
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>-->
     <USlideover
         v-model:open="showSearchPrefs"
         title="Milkbooru Search Preferences"
         :close="{
-          color: 'pink',
+          class: 'text-white',
+          color: 'deeppink',
           variant: 'solid',
-          class: 'rounded-full bg-pink-600 hover:bg-pink-700 text-white transition-colors'
         }"
     >
       <template #body>
@@ -262,27 +226,31 @@ v-if="getPostBlacklistInfo(post).isBlacklisted"
         v-model:open="showAgeModal"
         title="r u over 18"
         description="pinky promise u r over 18 and not at work to look at spicy images"
-        :close="{ onClick: () => confirmAge(false) }"
+        :close="{color: 'deeppink', variant:'solid', onClick: () => confirmAge(false) }"
         :ui="{
         content: ''
       }"
     >
       <template #body>
         <div class="flex gap-3 justify-center">
-          <UButton
-              class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
-              color="pink"
-              @click="confirmAge(false)"
-          >
-            na✋
-          </UButton>
-          <UButton
-              class="px-6 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors font-medium"
-              color="pink"
-              @click="confirmAge(true)"
-          >
-            ye🤙
-          </UButton>
+          <UTooltip text="I'm under 18">
+            <UButton
+                class=""
+                color="neutral"
+                @click="confirmAge(false)"
+            >
+              na✋
+            </UButton>
+          </UTooltip>
+          <UTooltip text="I'm 18 or older">
+            <UButton
+                class=""
+                color="deeppink"
+                @click="confirmAge(true)"
+            >
+              ye🤙
+            </UButton>
+          </UTooltip>
         </div>
       </template>
     </UModal>
@@ -458,7 +426,7 @@ const fetchPosts = async (tags = 'rating:g kijin_seija', page = 1, updateUrlFlag
           title: 'Pagination Limited',
           description: originalTotalPages === 1000 ? `Showing first ${maxPages} pages. Use tags to narrow down your search for better results.` : `Showing first ${maxPages} pages of ${originalTotalPages} total pages. Use tags to narrow down your search for better results.`,
           icon: 'i-heroicons-information-circle',
-          color: 'error',
+          color: 'deeppink',
           duration: 8000
         })
         paginationToastShown.value = true
@@ -515,7 +483,7 @@ const initializeFromUrl = () => {
     blacklistTags.value = decodeURIComponent(blacklistCookie)
   } else {
     // No cookie exists - new user, set default blacklist tags
-    const defaultBlacklistTags = 'guro scat furry pee loli fart vomit ryona blood'
+    const defaultBlacklistTags = 'guro scat furry pee loli shota fart vomit ryona blood'
     blacklistTags.value = defaultBlacklistTags
     // Set cookie so we know user has seen the blacklist feature (no expiration)
     setCookie('tag_blacklist', encodeURIComponent(defaultBlacklistTags))
@@ -884,7 +852,7 @@ const showKeyboardNavigationToast = () => {
     title: 'Keyboard Navigation',
     description: 'Use ← → arrow keys to navigate between pages quickly!',
     icon: 'i-heroicons-command-line',
-    color: 'error',
+    color: 'deeppink',
     duration: 5000
   })
 }
@@ -914,7 +882,7 @@ const confirmAge = (isOver18) => {
       title: 'NSFW Content Enabled',
       description: 'You can now view all content types. This preference will be remembered for 30 days.',
       icon: 'i-heroicons-check-circle',
-      color: 'error',
+      color: 'royalblue',
       duration: 4000
     })
   } else {
@@ -927,7 +895,7 @@ const confirmAge = (isOver18) => {
       title: 'NSFW Content Disabled',
       description: 'Only safe content will be shown.',
       icon: 'i-heroicons-shield-check',
-      color: 'error',
+      color: 'crimson',
       duration: 3000
     })
   }

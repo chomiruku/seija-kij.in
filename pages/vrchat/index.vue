@@ -15,8 +15,8 @@
         <!-- Loading State -->
         <div v-if="isLoading">
           <!-- Toggle Buttons Skeleton -->
-          <div class="flex justify-center mb-8">
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-2 border border-gray-200 dark:border-gray-700">
+          <div class="flex justify-start mb-8">
+            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-2">
               <div class="flex gap-2">
                 <div class="px-6 py-3 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse w-32 h-12"/>
                 <div class="px-6 py-3 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse w-32 h-12"/>
@@ -60,56 +60,29 @@
             <nuxt-img src="/seijaflustered.png" alt="seija-kij.in" class="mx-auto h-48 w-auto mb-2"/>
             <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">the query failed</h3>
             <p class="text-gray-800 dark:text-gray-400 mb-4">probably the server is dead</p>
-            <UButton
-                class="bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
-                @click="retryFetch"
-            >
-              Retry
-            </UButton>
+            <UTooltip text="Retry loading gallery">
+              <UButton
+                  class="bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
+                  @click="retryFetch"
+              >
+                Retry
+              </UButton>
+            </UTooltip>
           </div>
         </div>
 
         <!-- Gallery Content -->
         <template v-else-if="galleryData">
           <!-- Toggle Buttons -->
-          <div class="flex justify-center mb-8">
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-2 border border-gray-200 dark:border-gray-700">
-              <button
-                  :class="[
-                  'px-6 py-3 rounded-lg font-medium transition-all duration-300',
-                  activeView === 'images'
-                    ? 'bg-purple-500 text-white shadow-lg'
-                    : 'text-gray-600 dark:text-gray-300 hover:text-purple-500'
-                ]"
-                  @click="activeView = 'images'"
-              >
-                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                </svg>
-                Images ({{ galleryData.images?.length || 0 }})
-              </button>
-              <button
-                  :class="[
-                  'px-6 py-3 rounded-lg font-medium transition-all duration-300',
-                  activeView === 'videos'
-                    ? 'bg-purple-500 text-white shadow-lg'
-                    : 'text-gray-600 dark:text-gray-300 hover:text-purple-500'
-                ]"
-                  @click="activeView = 'videos'"
-              >
-                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                </svg>
-                Videos ({{ galleryData.videos?.length || 0 }})
-              </button>
-            </div>
+          <div class="mb-8">
+            <UTabs v-model="activeView" :items="tabItems" color="deeppink" variant="link" size="xl"/>
           </div>
 
           <!-- Images Gallery -->
           <div v-if="activeView === 'images' && groupedImagesByYear.length" class="mb-8">
             <div v-for="(yearGroup, yearIndex) in groupedImagesByYear" :key="yearGroup.year">
               <!-- Year Separator -->
-              <USeparator v-if="yearIndex > 0" :label="yearGroup.year" class="mb-8" color="error" size="lg"/>
+              <USeparator v-if="yearIndex > 0" :label="yearGroup.year" class="mb-8" color="deeppink" size="lg"/>
               
               <div v-for="(monthGroup, monthIndex) in yearGroup.months" :key="`${yearGroup.year}-${monthIndex}`" class="mb-8">
               <!-- Month Header -->
@@ -189,7 +162,7 @@
           <div v-if="activeView === 'videos' && groupedVideosByYear.length" class="mb-8">
             <div v-for="(yearGroup, yearIndex) in groupedVideosByYear" :key="yearGroup.year">
               <!-- Year Separator -->
-              <USeparator v-if="yearIndex > 0" :label="yearGroup.year" class="mb-8" color="error" size="lg"/>
+              <USeparator v-if="yearIndex > 0" :label="yearGroup.year" class="mb-8" color="deeppink" size="lg"/>
               
               <div v-for="(monthGroup, monthIndex) in yearGroup.months" :key="`${yearGroup.year}-${monthIndex}`" class="mb-8">
               <!-- Month Header -->
@@ -268,65 +241,60 @@
     </div>
 
     <!-- Image Modal -->
-    <div
-        v-if="showImageModal && selectedImageIndex !== null"
-        class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-        @click="closeImageModal"
-    >
-      <div class="relative w-full h-full flex items-center justify-center">
-        <button
-            class="absolute top-4 right-4 z-10 bg-black/50 text-white rounded-full p-2 hover:bg-black/70 transition-colors"
-            @click="closeImageModal"
-        >
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
+    <ClientOnly>
+      <UModal
+        v-model:open="showImageModal"
+        fullscreen
+        :ui="{
+          body: 'flex-1 p-0 !p-0 sm:!p-0',
+          content: 'bg-white/95 dark:bg-black/80 backdrop-blur-sm',
+          title: 'text-sm sm:text-base',
+          description: 'text-xs sm:text-sm',
+        }"
+        :close="{
+          color: 'deeppink',
+          variant: 'solid',
+        }"
+        :title="modalTitle"
+        :description="modalDescription"
+      >
 
-        <!-- Navigation buttons -->
-        <button
-            v-if="selectedImageIndex > 0"
-            class="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-black/50 text-white rounded-full p-3 hover:bg-black/70 transition-colors"
-            @click.stop="navigateImage(-1)"
-        >
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
-        </button>
+        <template #body>
+          <div class="relative w-full h-full flex items-center justify-center">
+            <!-- Navigation buttons -->
+            <UButton
+                v-if="selectedImageIndex !== null && selectedImageIndex > 0"
+                icon="i-lucide-chevron-left"
+                color="gray"
+                variant="soft"
+                class="absolute left-4 top-1/2 transform -translate-y-1/2 z-10"
+                size="xl"
+                :ui="{ rounded: 'rounded-full' }"
+                @click.stop="navigateImage(-1)"
+            />
 
-        <button
-            v-if="selectedImageIndex < allImages.length - 1"
-            class="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-black/50 text-white rounded-full p-3 hover:bg-black/70 transition-colors"
-            @click.stop="navigateImage(1)"
-        >
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-          </svg>
-        </button>
+            <UButton
+                v-if="selectedImageIndex !== null && selectedImageIndex < allImages.length - 1"
+                icon="i-lucide-chevron-right"
+                color="gray"
+                variant="soft"
+                class="absolute right-4 top-1/2 transform -translate-y-1/2 z-10"
+                size="xl"
+                :ui="{ rounded: 'rounded-full' }"
+                @click.stop="navigateImage(1)"
+            />
 
-        <nuxt-img
-            :src="`https://samba.seija-kij.in/public/vrchat/gallery/images/${allImages[selectedImageIndex]?.href}`"
-            :alt="`VRChat Screenshot ${allImages[selectedImageIndex]?.href}`"
-            class="max-w-[calc(100vw-8rem)] max-h-[calc(100vh-8rem)] object-contain rounded-lg"
-            @click.stop
-        />
-
-        <!-- Image info overlay -->
-        <div class="absolute bottom-4 left-4 right-4 bg-black/50 text-white p-4 rounded-lg">
-          <div class="flex justify-between items-center">
-            <span class="font-medium">{{ allImages[selectedImageIndex]?.href }}</span>
-            <span class="text-sm">{{ selectedImageIndex + 1 }} / {{ allImages.length }}</span>
+            <nuxt-img
+                v-if="selectedImageIndex !== null && allImages[selectedImageIndex]"
+                :src="`https://samba.seija-kij.in/public/vrchat/gallery/images/${allImages[selectedImageIndex].href}`"
+                :alt="`VRChat Screenshot ${allImages[selectedImageIndex].href}`"
+                class="max-w-full max-h-full object-contain"
+                @click.stop
+            />
           </div>
-          <div class="flex justify-between items-center text-sm mt-2">
-            <span>{{ formatDate(allImages[selectedImageIndex]?.ts * 1000) }}</span>
-            <div class="flex gap-4">
-              <span>{{ allImages[selectedImageIndex]?.tags?.res || 'Unknown resolution' }}</span>
-              <span>{{ formatFileSize(allImages[selectedImageIndex]?.sz) }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+        </template>
+      </UModal>
+    </ClientOnly>
   </div>
 </template>
 
@@ -367,6 +335,20 @@ if (!galleryData.value) {
     isLoading.value = false
   })
 }
+
+// Tab items with counts
+const tabItems = computed(() => [
+  {
+    label: `Images (${galleryData.value?.images?.length || 0})`,
+    value: 'images',
+    icon: 'i-lucide-image'
+  },
+  {
+    label: `Videos (${galleryData.value?.videos?.length || 0})`,
+    value: 'videos',
+    icon: 'i-lucide-video'
+  }
+])
 
 const retryFetch = () => {
   galleryData.value = null
@@ -526,15 +508,16 @@ const getGlobalImageIndex = (year, month, imageIndex) => {
 }
 
 const openImageModal = (globalIndex) => {
+  console.log('Opening modal with index:', globalIndex)
+  console.log('Total images:', allImages.value.length)
   selectedImageIndex.value = globalIndex
   showImageModal.value = true
-  document.body.style.overflow = 'hidden'
+  console.log('Modal state:', showImageModal.value, 'Selected index:', selectedImageIndex.value)
 }
 
 const closeImageModal = () => {
   showImageModal.value = false
   selectedImageIndex.value = null
-  document.body.style.overflow = ''
 }
 
 const navigateImage = (direction) => {
@@ -544,31 +527,45 @@ const navigateImage = (direction) => {
   }
 }
 
+// Modal title and description computed properties
+const modalTitle = computed(() => {
+  if (selectedImageIndex.value === null || !allImages.value[selectedImageIndex.value]) {
+    return ''
+  }
+  return allImages.value[selectedImageIndex.value].href
+})
+
+const modalDescription = computed(() => {
+  if (selectedImageIndex.value === null || !allImages.value[selectedImageIndex.value]) {
+    return ''
+  }
+  const image = allImages.value[selectedImageIndex.value]
+  return `${formatDate(image.ts * 1000)} • ${image.tags?.res || 'Unknown resolution'} • ${formatFileSize(image.sz)}`
+})
+
 // Keyboard navigation
 const handleKeydown = (event) => {
   if (!showImageModal.value) return
 
   switch (event.key) {
-    case 'Escape':
-      closeImageModal()
-      break
     case 'ArrowLeft':
+      event.preventDefault()
       navigateImage(-1)
       break
     case 'ArrowRight':
+      event.preventDefault()
       navigateImage(1)
       break
   }
 }
 
-// Cleanup on unmount
+// Keyboard navigation - Let UModal handle Escape key
 onMounted(() => {
   document.addEventListener('keydown', handleKeydown)
 })
 
 onUnmounted(() => {
   document.removeEventListener('keydown', handleKeydown)
-  document.body.style.overflow = ''
 })
 
 // SEO

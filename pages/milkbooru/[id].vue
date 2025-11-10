@@ -499,8 +499,8 @@ const checkAndShowQualityToast = () => {
     toast.add({
       title: 'Increase image quality',
       description: 'You can view this image in higher resolution using the slider above.',
-      icon: 'i-heroicons-information-circle',
-      color: 'error',
+      icon: 'i-lucide-settings-2',
+      color: 'royalblue',
       timeout: 8000
     })
     qualityToastShown.value = true

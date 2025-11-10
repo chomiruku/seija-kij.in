@@ -5,6 +5,86 @@
 @import 'tailwindcss/utilities' layer(utilities);
 @import '@nuxt/ui';
 
+@theme static {
+    /* Reorganized so bright pink (#ff4bcd) is at 500 - the default shade Nuxt UI uses */
+    --color-brand-50: #fff5fc;
+    --color-brand-100: #ffe6f8;
+    --color-brand-200: #ffd8f3;
+    --color-brand-300: #ffafe6;
+    --color-brand-400: #ff5bd4;  /* Darker 400 for better dark mode appearance */
+    --color-brand-500: #ff4bcd;  /* Main color - what Nuxt UI uses by default */
+    --color-brand-600: #dc44b1;
+    --color-brand-700: #b93c95;
+    --color-brand-800: #98347b;
+    --color-brand-900: #782c61;
+    --color-brand-950: #5a2449;
+
+    /* Crimson: reorganized so #ff3342 (originally 300) is at 500 */
+    --color-crimson-50: #fff5f5;
+    --color-crimson-100: #ffe9e9;
+    --color-crimson-200: #ffd5d5;
+    --color-crimson-300: #ffb4b6;
+    --color-crimson-400: #ff4a50;  /* Darker 400 for better dark mode appearance */
+    --color-crimson-500: #ff3342;  /* Main crimson color */
+    --color-crimson-600: #d73039;
+    --color-crimson-700: #b02c30;
+    --color-crimson-800: #8b2728;
+    --color-crimson-900: #682120;
+    --color-crimson-950: #461a18;
+
+    /* Deeppink: reorganized so #ff348b (originally 300) is at 500 */
+    --color-deeppink-50: #fff5fa;
+    --color-deeppink-100: #ffe9f4;
+    --color-deeppink-200: #ffd4ea;
+    --color-deeppink-300: #ffb0d8;
+    --color-deeppink-400: #ff4a99;  /* Darker 400 for better dark mode appearance */
+    --color-deeppink-500: #ff348b;  /* Main deeppink color */
+    --color-deeppink-600: #d73176;
+    --color-deeppink-700: #b02d61;
+    --color-deeppink-800: #8b284e;
+    --color-deeppink-900: #67223b;
+    --color-deeppink-950: #451b29;
+
+    /* Blueviolet: reorganized so #723dff (originally 700) is at 500 */
+    --color-blueviolet-50: #f7f1ff;
+    --color-blueviolet-100: #efe3ff;
+    --color-blueviolet-200: #dec7ff;
+    --color-blueviolet-300: #ccacff;
+    --color-blueviolet-400: #8a52ff;  /* Darker 400 for better dark mode appearance */
+    --color-blueviolet-500: #723dff;  /* Main blueviolet color */
+    --color-blueviolet-600: #5f34d6;
+    --color-blueviolet-700: #4e2ca2;
+    --color-blueviolet-800: #3d2380;
+    --color-blueviolet-900: #2b1b4f;
+    --color-blueviolet-950: #1a122a;
+
+    /* Plum: reorganized so #c29dff (originally 50) is at 500 */
+    --color-plum-50: #fbf8ff;
+    --color-plum-100: #f6f0ff;
+    --color-plum-200: #ede1ff;
+    --color-plum-300: #dfc9ff;
+    --color-plum-400: #caa3ff;  /* Darker 400 for better dark mode appearance */
+    --color-plum-500: #c29dff;  /* Main plum color */
+    --color-plum-600: #b08ce6;
+    --color-plum-700: #9874c9;
+    --color-plum-800: #7a5ca3;
+    --color-plum-900: #5d4580;
+    --color-plum-950: #3b2d52;
+
+    /* Royalblue: reorganized so #204dff (originally 800) is at 500 */
+    --color-royalblue-50: #eff3ff;
+    --color-royalblue-100: #dce6ff;
+    --color-royalblue-200: #c0d4ff;
+    --color-royalblue-300: #94b4ff;
+    --color-royalblue-400: #3a67ff;  /* Darker 400 for better dark mode appearance */
+    --color-royalblue-500: #204dff;  /* Main royalblue color */
+    --color-royalblue-600: #1a40d6;
+    --color-royalblue-700: #1634ad;
+    --color-royalblue-800: #122985;
+    --color-royalblue-900: #0e1e5c;
+    --color-royalblue-950: #0a1438;
+}
+
 /*
 Set the default cursor for buttons.
 */
