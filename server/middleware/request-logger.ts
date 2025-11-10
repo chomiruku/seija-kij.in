@@ -29,8 +29,37 @@ export default defineEventHandler(async (event) => {
     const method = getMethod(event)
     const url = getRequestURL(event)
     const userAgent = getHeader(event, 'user-agent') || 'Unknown'
+    const countryCode = getHeader(event, 'cf-ipcountry') || 'XX'
+    const cfRay = getHeader(event, 'cf-ray') || null
+    const cfCity = getHeader(event, 'cf-ipcity') || null
+    const cfBotScore = getHeader(event, 'cf-bot-score') || null
+    const cfVerifiedBot = getHeader(event, 'cf-verified-bot') === 'true'
     const startTime = Date.now()
     const timestamp = new Date().toISOString()
+
+    // Filter out health check spam from Go-http-client on /api/health (only from localhost)
+    const isLocalhost = clientIP === '127.0.0.1' || clientIP === '::1' || clientIP === '::ffff:127.0.0.1' || clientIP === 'localhost'
+    if (url.pathname === '/api/health' && userAgent === 'Go-http-client/1.1' && isLocalhost) {
+        return // Skip logging this request
+    }
+
+    // Filter out asset requests (Nuxt icons, images, fonts, CSS, JS, etc.)
+    const assetPatterns = [
+        '/api/_nuxt_icon/',
+        '/_nuxt/',
+        '/fonts/',
+        '/images/',
+        '/__nuxt_error',
+        '/favicon.ico',
+        '/favicon.svg'
+    ]
+
+    const isAssetRequest = assetPatterns.some(pattern => url.pathname.startsWith(pattern)) ||
+                          url.pathname.match(/\.(css|js|map|woff2?|ttf|eot|otf|png|jpg|jpeg|gif|svg|webp|ico)$/)
+
+    if (isAssetRequest) {
+        return // Skip logging asset requests
+    }
 
     // Color-coded method styling
     const getMethodColor = (method: string) => {
@@ -62,18 +91,51 @@ export default defineEventHandler(async (event) => {
         const statusCode = event.node.res.statusCode
 
         // Log the complete request with response info
-        console.log(
-            chalk.gray(`[${timestamp}]`) + ' ' +
-            getMethodColor(method) + ' ' +
-            getStatusColor(statusCode) + ' ' +
-            chalk.bold.blue('IP:') + ' ' + chalk.cyan(clientIP) + ' ' +
-            chalk.dim('-') + ' ' +
-            chalk.white(url.pathname) + ' ' +
-            chalk.dim('-') + ' ' +
-            chalk.bold.magenta('Time:') + ' ' + chalk.yellow(`${duration}ms`) + ' ' +
-            chalk.dim('-') + ' ' +
-            chalk.bold.gray('UA:') + ' ' + chalk.dim(userAgent.substring(0, 50) + (userAgent.length > 50 ? '...' : ''))
-        )
+        if (cfVerifiedBot) {
+            // Simplified logging for verified bots
+            console.log(
+                chalk.gray(`[${timestamp}]`) + ' ' +
+                getMethodColor(method) + ' ' +
+                getStatusColor(statusCode) + ' ' +
+                chalk.bold.cyan('[BOT]') + ' ' +
+                chalk.dim(userAgent.substring(0, 40) + (userAgent.length > 40 ? '...' : '')) + ' ' +
+                chalk.dim('-') + ' ' +
+                chalk.white(url.pathname)
+            )
+        } else {
+            // Full logging for legitimate traffic
+            let logMessage =
+                chalk.gray(`[${timestamp}]`) + ' ' +
+                getMethodColor(method) + ' ' +
+                getStatusColor(statusCode) + ' ' +
+                chalk.bold.blue('IP:') + ' ' + chalk.cyan(clientIP) + ' ' +
+                chalk.bold.yellow(`[${countryCode}]`)
+
+            // Add city if available
+            if (cfCity) {
+                logMessage += ' ' + chalk.dim(`(${cfCity})`)
+            }
+
+            logMessage += ' ' + chalk.dim('-') + ' ' + chalk.white(url.pathname)
+
+            // Add CF-Ray if available
+            if (cfRay) {
+                logMessage += ' ' + chalk.dim('-') + ' ' + chalk.bold.gray('Ray:') + ' ' + chalk.dim(cfRay)
+            }
+
+            logMessage += ' ' + chalk.dim('-') + ' ' + chalk.bold.magenta('Time:') + ' ' + chalk.yellow(`${duration}ms`)
+
+            // Add bot score if available
+            if (cfBotScore) {
+                const score = parseInt(cfBotScore)
+                const scoreColor = score < 30 ? chalk.red : score < 50 ? chalk.yellow : chalk.green
+                logMessage += ' ' + chalk.dim('-') + ' ' + chalk.bold.gray('Bot:') + ' ' + scoreColor(cfBotScore)
+            }
+
+            logMessage += ' ' + chalk.dim('-') + ' ' + chalk.bold.gray('UA:') + ' ' + chalk.dim(userAgent.substring(0, 50) + (userAgent.length > 50 ? '...' : ''))
+
+            console.log(logMessage)
+        }
     })
 
     // Optional: Log the initial request (without status code yet)

@@ -27,15 +27,13 @@
             <p v-else class="text-lg mb-8">
               {{ error }}
             </p>
-            
-            <UTooltip text="Go back to home page">
-              <UButton
+
+            <UButton
                 class="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300"
                 @click="handleError"
-              >
-                go to back lol
-              </UButton>
-            </UTooltip>
+            >
+              go back lol
+            </UButton>
             
           </div>
         </div>
