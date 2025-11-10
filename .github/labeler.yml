@@ -1,0 +1,62 @@
+# Configuration for the labeler GitHub Action
+# Automatically labels pull requests based on the files that are changed
+
+# Documentation
+documentation:
+  - changed-files:
+    - any-glob-to-any-file: ['**/*.md']
+
+# Dependencies
+dependencies:
+  - changed-files:
+    - any-glob-to-any-file: ['package.json', 'package-lock.json', 'pnpm-lock.yaml', 'yarn.lock']
+
+# Configuration files
+config:
+  - changed-files:
+    - any-glob-to-any-file: ['*.config.*', 'nuxt.config.ts', 'tsconfig.json', '.env*', 'Caddyfile']
+
+# CI/CD and GitHub workflows
+ci-cd:
+  - changed-files:
+    - any-glob-to-any-file: ['.github/**/*']
+
+# Frontend / UI
+ui:
+  - changed-files:
+    - any-glob-to-any-file: ['components/**/*', 'pages/**/*', 'layouts/**/*', 'assets/**/*']
+
+# Styling
+styling:
+  - changed-files:
+    - any-glob-to-any-file: ['**/*.css', 'tailwind.config.ts', 'assets/css/**/*']
+
+# Backend / API
+backend:
+  - changed-files:
+    - any-glob-to-any-file: ['server/**/*']
+
+# Types
+types:
+  - changed-files:
+    - any-glob-to-any-file: ['**/*.d.ts', 'types/**/*']
+
+# MilkBooru feature
+milkbooru:
+  - changed-files:
+    - any-glob-to-any-file: ['pages/milkbooru/**/*']
+
+# VRChat feature
+vrchat:
+  - changed-files:
+    - any-glob-to-any-file: ['pages/vrchat/**/*', 'server/api/vrchat/**/*']
+
+# Midis
+midi:
+  - changed-files:
+    - any-glob-to-any-file: ['pages/midi/**/*']
+
+# Links
+links:
+  - changed-files:
+    - any-glob-to-any-file: ['pages/links/**/*']
