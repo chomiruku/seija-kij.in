@@ -515,11 +515,6 @@ const openImageModal = (globalIndex) => {
   console.log('Modal state:', showImageModal.value, 'Selected index:', selectedImageIndex.value)
 }
 
-const closeImageModal = () => {
-  showImageModal.value = false
-  selectedImageIndex.value = null
-}
-
 const navigateImage = (direction) => {
   const newIndex = selectedImageIndex.value + direction
   if (newIndex >= 0 && newIndex < allImages.value.length) {

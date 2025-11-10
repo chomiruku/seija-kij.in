@@ -267,7 +267,7 @@ const router = useRouter()
 const posts = ref([])
 const pagination = ref(null)
 const isLoading = ref(false)
-const _toast = useToast() // eslint-disable-line @typescript-eslint/no-unused-vars
+const _toast = useToast()
 const maxPages = 1000
 const totalPages = ref(0)
 const hasError = ref(false)
@@ -598,7 +598,6 @@ onUnmounted(() => {
 })
 
 // Helper functions
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getImageUrl = (post) => {
   if (post.is_banned) return '/banned.jpg'
   if (!post.media_asset?.variants?.length) return '/placeholder.jpg'
@@ -714,7 +713,7 @@ const handlePageChange = (page) => {
 }
 
 // Generate visible page numbers for pagination - Mobile optimized
-const _getVisiblePagesMobile = () => { // eslint-disable-line @typescript-eslint/no-unused-vars
+const _getVisiblePagesMobile = () => {
   if (!pagination.value?.total_pages) return []
   
   const current = pagination.value.current_page
@@ -763,7 +762,7 @@ const _getVisiblePagesMobile = () => { // eslint-disable-line @typescript-eslint
 }
 
 // Generate visible page numbers for pagination - Desktop version (kept for reference)
-const _getVisiblePages = () => { // eslint-disable-line @typescript-eslint/no-unused-vars
+const _getVisiblePages = () => {
   if (!pagination.value?.total_pages) return []
   
   const current = pagination.value.current_page
@@ -901,8 +900,7 @@ const confirmAge = (isOver18) => {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const closeAgeModal = () => {
+const _closeAgeModal = () => {
   showAgeModal.value = false
   allowNSFW.value = false
 }
