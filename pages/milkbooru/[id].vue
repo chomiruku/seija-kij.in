@@ -168,6 +168,7 @@
                     
                     <!-- Comment Body with Quote Parsing -->
                     <div class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                      <!-- eslint-disable-next-line vue/no-v-html -->
                       <div v-html="parseCommentBody(comment.body)"/>
                     </div>
                   </div>

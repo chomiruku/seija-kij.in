@@ -34,7 +34,7 @@ export default defineNuxtConfig({
     // Suppress Vue Router warnings
     vue: {
         compilerOptions: {
-            isCustomElement: (tag) => false
+            isCustomElement: (_tag) => false
         }
     },
 
