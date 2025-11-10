@@ -12,6 +12,12 @@ export default defineNuxtConfig({
         '@nuxt/ui'
     ],
 
+    ui: {
+        theme: {
+            colors: ['primary', 'secondary', 'tertiary', 'success', 'info', 'warning', 'error', 'brand', 'crimson', 'deeppink', 'blueviolet', 'plum', 'royalblue']
+        }
+    },
+
     vite: {
         build: {
             sourcemap: false  // Disable sourcemaps in production builds

@@ -160,3 +160,4 @@ Caddyfile
 /github_deploy.pub
 /.github/DEPLOYMENT_SECRETS.md
 /.github/README.md
+/SERVER.md

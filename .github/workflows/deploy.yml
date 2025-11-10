@@ -3,6 +3,24 @@ name: Deploy to Server
 on:
   push:
     branches: [main]
+    paths:
+      - '**.vue'
+      - '**.ts'
+      - '**.js'
+      - '**.json'
+      - '**.css'
+      - 'public/**'
+      - 'server/**'
+      - 'app.config.ts'
+      - 'nuxt.config.ts'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'Caddyfile'
+      - '.output/**'
+      # Ignore workflow and documentation changes
+      - '!.github/**'
+      - '!**.md'
+      - '!LICENSE'
   workflow_dispatch:  # Allow manual deployment
 
 jobs:

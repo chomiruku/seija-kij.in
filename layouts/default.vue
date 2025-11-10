@@ -8,12 +8,14 @@
           <span>{{ brand.toUpperCase() }}</span>
         </NuxtLink>
 
-        <UButton
-            icon="i-heroicons-bars-3"
-            variant="ghost"
-            color="neutral"
-            @click="isMobileMenuOpen = !isMobileMenuOpen"
-        />
+        <UTooltip text="Toggle menu">
+          <UButton
+              icon="i-lucide-menu"
+              variant="ghost"
+              color="neutral"
+              @click="isMobileMenuOpen = !isMobileMenuOpen"
+          />
+        </UTooltip>
       </div>
 
       <!-- Mobile Menu Overlay -->
@@ -82,9 +84,11 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
           <!-- Theme Toggle -->
           <div class="text-center md:text-left">
-            <UButton color="error" class="cursor-pointer" variant="solid" @click="switchTheme">
-              {{ isDark ? 'Dark' : 'Light' }}
-            </UButton>
+            <ClientOnly>
+              <UTooltip :text="`Switch to ${isDark ? 'light' : 'dark'} mode`">
+                <UButton color="deeppink" class="cursor-pointer text-white" size="xl" :icon="isDark ? 'i-heroicons-sun' : 'i-heroicons-moon'" variant="solid" @click="switchTheme"/>
+              </UTooltip>
+            </ClientOnly>
           </div>
 
           <!-- Quote -->
@@ -132,7 +136,7 @@ const routes = [
 const isDark = computed(() => colorMode.value === 'dark')
 
 const switchTheme = () => {
-  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+  colorMode.preference = isDark.value ? 'light' : 'dark'
 }
 
 const playAudio = () => {

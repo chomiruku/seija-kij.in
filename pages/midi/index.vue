@@ -213,15 +213,17 @@
                     <div class="font-medium text-gray-900 dark:text-white">{{ version.name }}</div>
                     <div class="text-sm text-gray-500 dark:text-gray-400">{{ version.filename }}</div>
                   </div>
-                  <UButton
-                      color="purple"
-                      variant="solid"
-                      icon="i-heroicons-arrow-down-tray"
-                      @click="downloadMidi(selectedMidi, version)"
-                  >
-                    <span class="hidden sm:inline">Download</span>
-                    <span class="sm:hidden">DL</span>
-                  </UButton>
+                  <UTooltip text="Download MIDI file">
+                    <UButton
+                        color="purple"
+                        variant="solid"
+                        icon="i-heroicons-arrow-down-tray"
+                        @click="downloadMidi(selectedMidi, version)"
+                    >
+                      <span class="hidden sm:inline">Download</span>
+                      <span class="sm:hidden">DL</span>
+                    </UButton>
+                  </UTooltip>
                 </div>
               </div>
             </div>
