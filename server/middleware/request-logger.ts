@@ -51,7 +51,8 @@ export default defineEventHandler(async (event) => {
         '/images/',
         '/__nuxt_error',
         '/favicon.ico',
-        '/favicon.svg'
+        '/favicon.svg',
+        '/api/track-page-view'
     ]
 
     const isAssetRequest = assetPatterns.some(pattern => url.pathname.startsWith(pattern)) ||
