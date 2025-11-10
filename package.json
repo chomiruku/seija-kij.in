@@ -10,6 +10,8 @@
     "start": "node .output/server/index.mjs --host 0.0.0.0",
     "buildstart": "node --no-deprecation node_modules/nuxt/bin/nuxt.mjs build && node .output/server/index.mjs --host 0.0.0.0",
     "clean": "nuxt cleanup && rimraf .output dist",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {

@@ -510,14 +510,14 @@ const checkAndShowQualityToast = () => {
   }
 }
 
-const _upgradeToHighestQuality = () => { // eslint-disable-line @typescript-eslint/no-unused-vars
+const _upgradeToHighestQuality = () => {
   if (!post.value?.media_asset?.variants?.length) return
   selectedVariantIndex.value = post.value.media_asset.variants.length - 1
   onVariantChange()
 }
 
 // Methods
-const _getImageUrl = (post) => { // eslint-disable-line @typescript-eslint/no-unused-vars
+const _getImageUrl = (post) => {
   if (post.is_banned) return '/banned.jpg'
   if (!post.media_asset?.variants?.length) return '/placeholder.jpg'
   
@@ -637,7 +637,7 @@ const initializeQualityPreference = () => {
 }
 
 // Comment parsing and styling methods
-const _getInitials = (name) => { // eslint-disable-line @typescript-eslint/no-unused-vars
+const _getInitials = (name) => {
   if (!name || name === 'Anonymous') return '?'
   return name.charAt(0).toUpperCase()
 }
