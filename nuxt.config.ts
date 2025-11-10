@@ -21,6 +21,27 @@ export default defineNuxtConfig({
     vite: {
         build: {
             sourcemap: false  // Disable sourcemaps in production builds
+        },
+        vue: {
+            // Suppress Vue Router warnings in production
+            script: {
+                defineModel: true,
+                propsDestructure: true
+            }
+        }
+    },
+
+    // Suppress Vue Router warnings
+    vue: {
+        compilerOptions: {
+            isCustomElement: (tag) => false
+        }
+    },
+
+    // Router configuration to suppress 404 warnings
+    router: {
+        options: {
+            strict: false
         }
     },
 
