@@ -2,7 +2,7 @@ export default defineNuxtPlugin(() => {
   // Only suppress in production
   if (process.env.NODE_ENV === 'production') {
     const originalWarn = console.warn
-    console.warn = (...args: any[]) => {
+    console.warn = (...args: unknown[]) => {
       // Suppress Vue Router "No match found for location" warnings
       const message = args[0]?.toString() || ''
       if (message.includes('No match found for location with path')) {

@@ -1,10 +1,11 @@
+import type { H3Event } from 'h3'
 import chalk from 'chalk'
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)
 
     // Get the IP address (same logic as request logger)
-    const getClientIP = (event: any) => {
+    const getClientIP = (event: H3Event) => {
         const forwarded = getHeader(event, 'x-forwarded-for')
         const realIP = getHeader(event, 'x-real-ip')
         const cfConnectingIP = getHeader(event, 'cf-connecting-ip')
