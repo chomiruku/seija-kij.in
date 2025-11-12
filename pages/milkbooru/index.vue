@@ -194,7 +194,7 @@ v-if="getPostBlacklistInfo(post).isBlacklisted"
               <span class="me-3 text-sm font-medium text-gray-600 dark:text-gray-300">nsfw</span>
               <USwitch
                   v-model="allowNSFW"
-                  color="neutral"
+                  color="deeppink"
                   @change="handleNSFWToggle"
               />
             </label>
