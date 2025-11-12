@@ -36,21 +36,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
+      - name: Create artifact download directory
+        run: mkdir -p ${{ runner.temp }}/artifacts
+
       - name: Try to download build artifact from PR
         id: download-artifact
         continue-on-error: true
         uses: dawidd6/action-download-artifact@v8
         with:
           name: build-output
-          path: .output
+          path: ${{ runner.temp }}/artifacts
           workflow: build.yml
           commit: ${{ github.sha }}
           if_no_artifact_found: warn
 
-      - name: Check if artifact was downloaded
+      - name: Check if artifact was downloaded and move to workspace
         id: check-artifact
         run: |
-          if [ -d ".output" ] && [ "$(ls -A .output)" ]; then
+          if [ -d "${{ runner.temp }}/artifacts" ] && [ "$(ls -A ${{ runner.temp }}/artifacts)" ]; then
+            echo "✅ Artifact found, moving to workspace..."
+            # Move artifact contents to .output in workspace
+            mv ${{ runner.temp }}/artifacts .output
             echo "found=true" >> $GITHUB_OUTPUT
             echo "✅ Using build artifact from PR workflow"
           else
