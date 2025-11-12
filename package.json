@@ -22,7 +22,7 @@
     "chalk": "latest",
     "eslint": "latest",
     "nuxt": "latest",
-    "sharp": "^0.33.5",
+    "sharp": "latest",
     "tailwind-scrollbar": "latest",
     "vue": "latest",
     "vue-router": "latest"
@@ -30,8 +30,5 @@
   "devDependencies": {
     "@types/chalk": "^2.2.4",
     "rimraf": "^6.1.0"
-  },
-  "overrides": {
-    "sharp": "^0.33.5"
   }
 }
