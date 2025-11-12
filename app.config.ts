@@ -10,10 +10,5 @@ export default defineAppConfig({
       plum: 'plum',
       royalblue: 'royalblue'
     }
-  },
-  colorMode: {
-    preference: 'system', // Respect system preference by default
-    fallback: 'light', // Fallback to light if system preference unavailable
-    storageKey: 'nuxt-color-mode'
   }
 })
