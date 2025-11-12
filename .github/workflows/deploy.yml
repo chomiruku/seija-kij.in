@@ -53,10 +53,10 @@ jobs:
       - name: Check if artifact was downloaded and move to workspace
         id: check-artifact
         run: |
-          if [ -d "${{ runner.temp }}/artifacts" ] && [ "$(ls -A ${{ runner.temp }}/artifacts)" ]; then
+          if [ -d "${{ runner.temp }}/artifacts/build-artifacts" ] && [ "$(ls -A ${{ runner.temp }}/artifacts/build-artifacts)" ]; then
             echo "✅ Artifact found, moving to workspace..."
-            # Move artifact contents to .output in workspace
-            mv ${{ runner.temp }}/artifacts .output
+            # The artifact contains build-artifacts folder, move it to .output in workspace
+            mv ${{ runner.temp }}/artifacts/build-artifacts .output
             echo "found=true" >> $GITHUB_OUTPUT
             echo "✅ Using build artifact from PR workflow"
           else
