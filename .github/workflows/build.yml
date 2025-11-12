@@ -35,6 +35,8 @@ jobs:
           if [ -d ".output" ]; then
             echo "✅ .output directory exists"
             ls -la .output
+            echo "Working directory: $(pwd)"
+            echo "Absolute path: $(pwd)/.output"
           else
             echo "❌ .output directory not found!"
             exit 1
@@ -44,5 +46,5 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: build-output
-          path: .output
+          path: ${{ github.workspace }}/.output
           retention-days: 7
