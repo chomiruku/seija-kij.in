@@ -29,23 +29,44 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      actions: read  # Required to download artifacts
     # Only deploy if all checks pass
     needs: []
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
 
+      - name: Try to download build artifact from PR
+        id: download-artifact
+        continue-on-error: true
+        uses: actions/download-artifact@v5
+        with:
+          name: build-output
+          path: .output
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Setup Node.js
+        if: steps.download-artifact.outcome == 'failure'
         uses: actions/setup-node@v6
         with:
           node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
+        if: steps.download-artifact.outcome == 'failure'
         run: npm ci
 
       - name: Build project
+        if: steps.download-artifact.outcome == 'failure'
         run: npm run build
+
+      - name: Log build source
+        run: |
+          if [ "${{ steps.download-artifact.outcome }}" = "success" ]; then
+            echo "✅ Using build artifact from PR workflow"
+          else
+            echo "🔨 Built fresh in deploy workflow"
+          fi
 
       - name: Create deployment package
         run: |

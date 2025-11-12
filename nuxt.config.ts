@@ -87,6 +87,38 @@ export default defineNuxtConfig({
                 // Favicon links
                 {rel: 'icon', type: 'image/x-icon', href: '/seijakijin.ico'},
                 {rel: 'alternate icon', type: 'image/svg+xml', href: '/seijakijin.svg'}
+            ],
+            script: [
+                {
+                    children: `
+                        (function() {
+                            const storageKey = 'nuxt-color-mode';
+                            const preference = localStorage.getItem(storageKey);
+                            const htmlEl = document.documentElement;
+
+                            // Determine the color mode to apply
+                            let colorMode = 'light'; // default fallback
+
+                            if (preference) {
+                                colorMode = preference;
+                            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                                colorMode = 'dark';
+                            }
+
+                            // Apply the color mode class immediately
+                            if (colorMode === 'dark') {
+                                htmlEl.classList.add('dark');
+                            } else {
+                                htmlEl.classList.remove('dark');
+                            }
+
+                            // Set the color-mode attribute for Nuxt UI
+                            htmlEl.setAttribute('data-color-mode', colorMode);
+                        })();
+                    `,
+                    type: 'text/javascript',
+                    tagPosition: 'head'
+                }
             ]
         }
     },
