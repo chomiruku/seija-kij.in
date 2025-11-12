@@ -28,15 +28,17 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Verify build output exists
+      - name: Prepare artifacts for upload
         run: |
           echo "Checking if .output directory exists..."
-          ls -la
           if [ -d ".output" ]; then
             echo "✅ .output directory exists"
             ls -la .output
-            echo "Working directory: $(pwd)"
-            echo "Absolute path: $(pwd)/.output"
+            # Copy to a non-gitignored location for artifact upload
+            echo "Copying .output to build-artifacts..."
+            cp -r .output build-artifacts
+            ls -la build-artifacts
+            echo "✅ Artifacts prepared for upload"
           else
             echo "❌ .output directory not found!"
             exit 1
@@ -46,5 +48,5 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: build-output
-          path: ${{ github.workspace }}/.output
+          path: build-artifacts
           retention-days: 7
