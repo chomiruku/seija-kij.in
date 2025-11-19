@@ -1,2 +1,9 @@
-User-Agent: *
-Disallow:
+# Allow crawling of main site
+User-agent: *
+Allow: /
+
+# Block all bots from milkbooru
+Disallow: /milkbooru/
+
+# Also block API endpoints from being indexed
+Disallow: /api/
