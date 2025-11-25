@@ -119,15 +119,10 @@
                 >
                   <div class="aspect-square overflow-hidden rounded-lg">
                     <nuxt-img
-                        :src="`https://samba.seija-kij.in/public/vrchat/gallery/images/${image.href}`"
+                        :src="`https://samba.seija-kij.in/public/vrchat/gallery/images/${image.href}?th=300`"
                         :alt="`VRChat Screenshot ${image.href}`"
                         class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                         loading="lazy"
-                        format="webp"
-                        :quality="60"
-                        :width="300"
-                        :height="300"
-                        fit="cover"
                     />
                   </div>
 
