@@ -34,7 +34,7 @@ jobs:
     needs: []
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Create artifact download directory
         run: mkdir -p ${{ runner.temp }}/artifacts
