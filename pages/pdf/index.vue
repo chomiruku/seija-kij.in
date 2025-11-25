@@ -48,7 +48,8 @@
 useHead({
   title: 'PDF Tracker - seija-kij.in',
   meta: [
-    { name: 'description', content: 'Information archive about dangerous individuals in VRChat and related platforms' }
+    { name: 'description', content: 'Information archive about dangerous individuals in VRChat and related platforms' },
+    { name: 'robots', content: 'noindex, nofollow, noarchive' }
   ]
 })
 </script>

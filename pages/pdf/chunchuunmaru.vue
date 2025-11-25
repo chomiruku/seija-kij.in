@@ -317,7 +317,8 @@ onUnmounted(() => {
 useHead({
   title: 'ChunChuunMaru - PDF Tracker - seija-kij.in',
   meta: [
-    { name: 'description', content: 'Information about ChunChuunMaru' }
+    { name: 'description', content: 'Information about ChunChuunMaru' },
+    { name: 'robots', content: 'noindex, nofollow, noarchive' }
   ]
 })
 </script>
