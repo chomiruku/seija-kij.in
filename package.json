@@ -12,6 +12,9 @@
     "clean": "nuxt cleanup && rimraf .output dist",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
@@ -29,6 +32,11 @@
   },
   "devDependencies": {
     "@types/chalk": "^2.2.4",
-    "rimraf": "^6.1.0"
+    "@vitest/coverage-v8": "^4.0.17",
+    "@vitest/ui": "^4.0.17",
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^20.1.0",
+    "rimraf": "^6.1.0",
+    "vitest": "^4.0.17"
   }
 }

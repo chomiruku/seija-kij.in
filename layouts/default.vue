@@ -13,6 +13,7 @@
               icon="i-lucide-menu"
               variant="ghost"
               color="neutral"
+              aria-label="Toggle mobile navigation menu"
               @click="isMobileMenuOpen = !isMobileMenuOpen"
           />
         </UTooltip>
@@ -86,17 +87,33 @@
           <div class="text-center md:text-left">
             <ClientOnly>
               <UTooltip :text="`Switch to ${isDark ? 'light' : 'dark'} mode`">
-                <UButton color="deeppink" class="cursor-pointer text-white" size="xl" :icon="isDark ? 'i-heroicons-sun' : 'i-heroicons-moon'" variant="solid" @click="switchTheme"/>
+                <UButton
+                  color="deeppink"
+                  class="cursor-pointer text-white"
+                  size="xl"
+                  :icon="isDark ? 'i-heroicons-sun' : 'i-heroicons-moon'"
+                  variant="solid"
+                  :aria-label="`Switch to ${isDark ? 'light' : 'dark'} mode`"
+                  @click="switchTheme"
+                />
               </UTooltip>
             </ClientOnly>
           </div>
 
           <!-- Quote -->
           <div class="text-center">
-            <figure class="cursor-pointer hover:opacity-80 transition-opacity" @click="playAudio">
+            <figure
+              class="cursor-pointer hover:opacity-80 transition-opacity"
+              role="button"
+              tabindex="0"
+              aria-label="Play audio: We are japanese goblin"
+              @click="playAudio"
+              @keydown.enter="playAudio"
+              @keydown.space.prevent="playAudio"
+            >
               <blockquote class="text-sm italic">
                 <p>"we are japanese goblin"</p>
-                <audio ref="audioRef" preload="none">
+                <audio ref="audioRef" preload="none" aria-label="Audio quote">
                   <source src="/liltihjapanesegoblin_01.ogg" type="audio/ogg">
                 </audio>
               </blockquote>

@@ -120,9 +120,13 @@
                   <div class="aspect-square overflow-hidden rounded-lg">
                     <nuxt-img
                         :src="`https://samba.seija-kij.in/public/vrchat/gallery/images/${image.href}?th=300`"
-                        :alt="`VRChat Screenshot ${image.href}`"
+                        :alt="`VRChat screenshot taken on ${formatDate(image.ts * 1000)}`"
                         class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                         loading="lazy"
+                        format="webp"
+                        :width="300"
+                        :height="300"
+                        fit="cover"
                     />
                   </div>
 
@@ -282,8 +286,10 @@
             <nuxt-img
                 v-if="selectedImageIndex !== null && allImages[selectedImageIndex]"
                 :src="`https://samba.seija-kij.in/public/vrchat/gallery/images/${allImages[selectedImageIndex].href}`"
-                :alt="`VRChat Screenshot ${allImages[selectedImageIndex].href}`"
+                :alt="`VRChat screenshot - ${allImages[selectedImageIndex].tags?.res || 'Unknown resolution'} - taken on ${formatDate(allImages[selectedImageIndex].ts * 1000)}`"
                 class="max-w-full max-h-full object-contain"
+                format="webp"
+                quality="90"
                 @click.stop
             />
           </div>
