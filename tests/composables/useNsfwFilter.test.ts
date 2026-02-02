@@ -238,4 +238,110 @@ describe('useNsfwFilter', () => {
       expect(showAgeModal.value).toBe(true)
     })
   })
+
+  describe('edge cases', () => {
+    it('should handle rapid toggle on/off', () => {
+      cookies.set({ age_verified: 'true' })
+      const { handleNsfwToggle, allowNSFW } = useNsfwFilter()
+
+      handleNsfwToggle(true)
+      expect(allowNSFW.value).toBe(true)
+
+      handleNsfwToggle(false)
+      expect(allowNSFW.value).toBe(false)
+
+      handleNsfwToggle(true)
+      expect(allowNSFW.value).toBe(true)
+    })
+
+    it('should handle confirmAge called multiple times', () => {
+      const { confirmAge, allowNSFW } = useNsfwFilter()
+
+      confirmAge(true)
+      expect(allowNSFW.value).toBe(true)
+
+      // User confirms again
+      confirmAge(true)
+      expect(allowNSFW.value).toBe(true)
+
+      // Then changes mind
+      confirmAge(false)
+      expect(allowNSFW.value).toBe(false)
+    })
+
+    it('should handle cookie values other than true/false', () => {
+      cookies.set({ nsfw_enabled: 'yes', age_verified: '1' })
+      const { initializeNsfwPreference, allowNSFW } = useNsfwFilter()
+      initializeNsfwPreference()
+      // Should treat non-true values as false
+      expect(allowNSFW.value).toBe(false)
+    })
+
+    it('should handle missing age_verified cookie with nsfw_enabled present', () => {
+      cookies.set({ nsfw_enabled: 'true' })
+      const { initializeNsfwPreference, allowNSFW } = useNsfwFilter()
+      initializeNsfwPreference()
+      // Should disable NSFW since age is not verified
+      expect(allowNSFW.value).toBe(false)
+    })
+
+    it('should handle validateNsfwSetting when NSFW is disabled', () => {
+      const { validateNsfwSetting, allowNSFW } = useNsfwFilter()
+
+      // NSFW is already disabled by default
+      expect(allowNSFW.value).toBe(false)
+
+      // Validation should not change anything
+      validateNsfwSetting()
+      expect(allowNSFW.value).toBe(false)
+    })
+
+    it('should close age modal when confirmAge is called with false', () => {
+      const { handleNsfwToggle, confirmAge, showAgeModal } = useNsfwFilter()
+
+      // Try to enable NSFW without age verification
+      handleNsfwToggle(true)
+      expect(showAgeModal.value).toBe(true)
+
+      // Decline age verification
+      confirmAge(false)
+      expect(showAgeModal.value).toBe(false)
+    })
+
+    it('should preserve NSFW state across multiple initializations', () => {
+      cookies.set({ age_verified: 'true', nsfw_enabled: 'true' })
+
+      const { initializeNsfwPreference: init1, allowNSFW: nsfw1 } = useNsfwFilter()
+      init1()
+      expect(nsfw1.value).toBe(true)
+
+      // Second initialization with same cookies
+      const { initializeNsfwPreference: init2, allowNSFW: nsfw2 } = useNsfwFilter()
+      init2()
+      expect(nsfw2.value).toBe(true)
+    })
+
+    it('should return correct message format for confirmAge', () => {
+      const { confirmAge } = useNsfwFilter()
+
+      const resultTrue = confirmAge(true)
+      expect(resultTrue.success).toBe(true)
+      expect(resultTrue.message).toContain('NSFW Content Enabled')
+      expect(resultTrue.message).toContain('30 days')
+
+      const resultFalse = confirmAge(false)
+      expect(resultFalse.success).toBe(false)
+      expect(resultFalse.message).toContain('NSFW Content Disabled')
+    })
+
+    it('should not show age modal when disabling NSFW', () => {
+      cookies.set({ age_verified: 'true', nsfw_enabled: 'true' })
+      const { initializeNsfwPreference, handleNsfwToggle, showAgeModal } = useNsfwFilter()
+      initializeNsfwPreference()
+
+      // Disable NSFW - should not show modal
+      handleNsfwToggle(false)
+      expect(showAgeModal.value).toBe(false)
+    })
+  })
 })

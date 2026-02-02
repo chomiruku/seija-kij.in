@@ -7,9 +7,12 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'happy-dom',
+    include: ['tests/**/*.test.ts'],
+    exclude: ['tests/e2e/**', 'node_modules/**'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
+      include: ['composables/**/*.ts'],
       exclude: [
         'node_modules/',
         'tests/',
@@ -19,6 +22,7 @@ export default defineConfig({
         'unused/',
       ],
     },
+    setupFiles: ['./tests/setup.ts'],
   },
   resolve: {
     alias: {

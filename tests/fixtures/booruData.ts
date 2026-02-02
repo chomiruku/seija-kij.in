@@ -38,6 +38,11 @@ export const mockMediaAsset: MediaAsset = {
   ],
 }
 
+export const createMockMediaAsset = (overrides: Partial<MediaAsset> = {}): MediaAsset => ({
+  ...mockMediaAsset,
+  ...overrides,
+})
+
 export const createMockPost = (overrides: Partial<Post> = {}): Post => ({
   id: 1,
   created_at: '2024-01-01T00:00:00.000Z',
@@ -130,3 +135,118 @@ export const createAnimatedPost = (): Post =>
       file_ext: 'gif',
     },
   })
+
+export const createVideoPost = (): Post =>
+  createMockPost({
+    id: 666,
+    file_ext: 'mp4',
+    media_asset: {
+      ...mockMediaAsset,
+      file_ext: 'mp4',
+    },
+  })
+
+export const createQuestionablePost = (): Post =>
+  createMockPost({
+    id: 555,
+    rating: 'q',
+    tag_string: 'kijin_seija rating:q',
+    tag_string_general: 'questionable',
+  })
+
+export const createSensitivePost = (): Post =>
+  createMockPost({
+    id: 444,
+    rating: 's',
+    tag_string: 'kijin_seija rating:s',
+    tag_string_general: 'sensitive',
+  })
+
+export const createPostWithParent = (parentId: number): Post =>
+  createMockPost({
+    id: 333,
+    parent_id: parentId,
+  })
+
+export const createPostWithChildren = (): Post =>
+  createMockPost({
+    id: 222,
+    has_children: true,
+    has_active_children: true,
+    has_visible_children: true,
+  })
+
+export const createDeletedPost = (): Post =>
+  createMockPost({
+    id: 111,
+    is_deleted: true,
+  })
+
+export const createPendingPost = (): Post =>
+  createMockPost({
+    id: 100,
+    is_pending: true,
+  })
+
+export const createFlaggedPost = (): Post =>
+  createMockPost({
+    id: 99,
+    is_flagged: true,
+  })
+
+export const createHighScorePost = (score: number = 100): Post =>
+  createMockPost({
+    id: 98,
+    score,
+    up_score: score,
+    fav_count: Math.floor(score / 2),
+  })
+
+export const createPostWithAllTags = (): Post =>
+  createMockPost({
+    id: 97,
+    tag_string_general: 'solo standing smile',
+    tag_string_character: 'kijin_seija sukuna_shinmyoumaru',
+    tag_string_copyright: 'touhou double_dealing_character',
+    tag_string_artist: 'famous_artist',
+    tag_string_meta: 'highres absurdres',
+    tag_count_general: 3,
+    tag_count_character: 2,
+    tag_count_copyright: 2,
+    tag_count_artist: 1,
+    tag_count_meta: 2,
+    tag_count: 10,
+  })
+
+// Helper to create multiple posts for pagination testing
+export const createMockPosts = (count: number, startId: number = 1): Post[] =>
+  Array.from({ length: count }, (_, i) =>
+    createMockPost({ id: startId + i })
+  )
+
+// Helper to create posts with specific rating distribution
+export const createMixedRatingPosts = (count: number): Post[] => {
+  const ratings: Array<'g' | 's' | 'q' | 'e'> = ['g', 's', 'q', 'e']
+  return Array.from({ length: count }, (_, i) =>
+    createMockPost({
+      id: i + 1,
+      rating: ratings[i % ratings.length],
+      tag_string: `kijin_seija rating:${ratings[i % ratings.length]}`,
+    })
+  )
+}
+
+// Helper to create empty API response
+export const createEmptyBooruResponse = (): BooruResponse => ({
+  posts: [],
+  pagination: createMockPagination({ total_pages: 0, total_posts: 0 }),
+})
+
+// Helper to create large pagination (for pagination limit testing)
+export const createLargePaginationResponse = (totalPages: number = 1500): BooruResponse => ({
+  posts: createMockPosts(20),
+  pagination: createMockPagination({
+    total_pages: totalPages,
+    total_posts: totalPages * 20,
+  }),
+})

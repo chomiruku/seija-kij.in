@@ -278,4 +278,153 @@ describe('useTagManagement', () => {
       expect(decoded).toBe(original)
     })
   })
+
+  describe('edge cases', () => {
+    describe('sanitizeTags edge cases', () => {
+      it('should handle tags with only whitespace', () => {
+        const { sanitizeTags } = useTagManagement()
+        const result = sanitizeTags('   ', false)
+        expect(result).toBe('rating:g')
+      })
+
+      it('should handle multiple rating tags in one string', () => {
+        const { sanitizeTags } = useTagManagement()
+        const result = sanitizeTags('rating:e rating:q rating:g kijin_seija', false)
+        expect(result).toBe('rating:g kijin_seija')
+      })
+
+      it('should preserve tag order after sanitization', () => {
+        const { sanitizeTags } = useTagManagement()
+        const result = sanitizeTags('alpha beta gamma', false)
+        expect(result).toBe('rating:g alpha beta gamma')
+      })
+
+      it('should handle mixed case rating tags', () => {
+        const { sanitizeTags } = useTagManagement()
+        const result = sanitizeTags('RATING:E kijin_seija', false)
+        expect(result).toBe('rating:g kijin_seija')
+      })
+
+      it('should not modify NSFW content when allowNSFW is true', () => {
+        const { sanitizeTags } = useTagManagement()
+        const result = sanitizeTags('rating:e explicit nsfw', true)
+        expect(result).toBe('rating:e explicit nsfw')
+      })
+    })
+
+    describe('getPostBlacklistInfo edge cases', () => {
+      it('should handle post with empty tag strings', () => {
+        const { getPostBlacklistInfo } = useTagManagement()
+        const post = createMockPost({
+          tag_string_general: '',
+          tag_string_artist: '',
+          tag_string_copyright: '',
+          tag_string_character: '',
+          tag_string_meta: '',
+        })
+        const result = getPostBlacklistInfo(post, 'gore')
+        expect(result.isBlacklisted).toBe(false)
+      })
+
+      it('should handle blacklist with extra whitespace', () => {
+        const { getPostBlacklistInfo } = useTagManagement()
+        const post = createBlacklistedPost('gore')
+        const result = getPostBlacklistInfo(post, '  gore   violence  ')
+        expect(result.isBlacklisted).toBe(true)
+      })
+
+      it('should handle blacklist with mixed newlines and spaces', () => {
+        const { getPostBlacklistInfo } = useTagManagement()
+        const post = createBlacklistedPost('gore')
+        const result = getPostBlacklistInfo(post, 'guro\n gore \n violence')
+        expect(result.isBlacklisted).toBe(true)
+        expect(result.matchedTag).toBe('gore')
+      })
+
+      it('should handle tags with underscores correctly', () => {
+        const { getPostBlacklistInfo } = useTagManagement()
+        const post = createMockPost({
+          tag_string_general: 'gore_test test_gore',
+        })
+        // Should not match 'gore' as substring
+        const result = getPostBlacklistInfo(post, 'gore')
+        expect(result.isBlacklisted).toBe(false)
+      })
+
+      it('should check all tag categories', () => {
+        const { getPostBlacklistInfo } = useTagManagement()
+
+        // Test meta tags
+        const postWithMeta = createMockPost({ tag_string_meta: 'banned_meta' })
+        expect(getPostBlacklistInfo(postWithMeta, 'banned_meta').isBlacklisted).toBe(true)
+
+        // Test copyright tags
+        const postWithCopyright = createMockPost({ tag_string_copyright: 'banned_series' })
+        expect(getPostBlacklistInfo(postWithCopyright, 'banned_series').isBlacklisted).toBe(true)
+      })
+
+      it('should handle unicode tags', () => {
+        const { getPostBlacklistInfo } = useTagManagement()
+        const post = createMockPost({
+          tag_string_general: '鬼人正邪',
+        })
+        const result = getPostBlacklistInfo(post, '鬼人正邪')
+        expect(result.isBlacklisted).toBe(true)
+      })
+    })
+
+    describe('URL encoding edge cases', () => {
+      it('should handle empty string', () => {
+        const { encodeTagsForUrl, decodeTagsFromUrl } = useTagManagement()
+        expect(encodeTagsForUrl('')).toBe('')
+        expect(decodeTagsFromUrl('')).toBe('')
+      })
+
+      it('should handle single tag', () => {
+        const { encodeTagsForUrl, decodeTagsFromUrl } = useTagManagement()
+        expect(encodeTagsForUrl('kijin_seija')).toBe('kijin_seija')
+        expect(decodeTagsFromUrl('kijin_seija')).toBe('kijin_seija')
+      })
+
+      it('should handle tags with colons', () => {
+        const { encodeTagsForUrl, decodeTagsFromUrl } = useTagManagement()
+        const original = 'rating:g order:score'
+        const encoded = encodeTagsForUrl(original)
+        const decoded = decodeTagsFromUrl(encoded)
+        expect(decoded).toBe(original)
+      })
+
+      it('should handle tags with special Danbooru operators', () => {
+        const { encodeTagsForUrl, decodeTagsFromUrl } = useTagManagement()
+        const original = '-guro ~solo kijin_seija'
+        const encoded = encodeTagsForUrl(original)
+        const decoded = decodeTagsFromUrl(encoded)
+        expect(decoded).toBe(original)
+      })
+    })
+
+    describe('blacklist persistence edge cases', () => {
+      it('should handle empty blacklist cookie gracefully', () => {
+        cookies.set({ tag_blacklist: '' })
+        const { loadBlacklistFromCookie } = useTagManagement()
+        const result = loadBlacklistFromCookie()
+        expect(result).toBe('')
+      })
+
+      it('should handle very long blacklist', () => {
+        const longBlacklist = Array(100).fill('tag').map((t, i) => `${t}${i}`).join(' ')
+        const { updateBlacklist, blacklistTags } = useTagManagement()
+        updateBlacklist(longBlacklist)
+        expect(blacklistTags.value).toBe(longBlacklist)
+      })
+
+      it('should properly encode special characters in blacklist cookie', () => {
+        const specialTags = 'tag1 tag2 tag/special'
+        cookies.set({ tag_blacklist: encodeURIComponent(specialTags) })
+        const { loadBlacklistFromCookie } = useTagManagement()
+        const result = loadBlacklistFromCookie()
+        expect(result).toBe(specialTags)
+      })
+    })
+  })
 })
