@@ -4,7 +4,7 @@
       v-for="(post, index) in posts"
       :key="post.id"
       :to="getPostRoute(post)"
-      class="group relative overflow-hidden rounded-xl bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl animate-fade-in-up block"
+      class="group relative overflow-hidden rounded-xl bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:-translate-y-1 hover:border-pink-300 dark:hover:border-pink-600 animate-fade-in-up block"
       :style="`animation-delay: ${index * 50}ms`"
     >
       <div class="aspect-square overflow-hidden rounded-lg relative">

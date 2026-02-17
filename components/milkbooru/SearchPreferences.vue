@@ -13,7 +13,7 @@
         <!-- NSFW Toggle -->
         <div>
           <label class="inline-flex cursor-pointer items-center gap-3">
-            <span class="text-sm font-medium text-gray-600 dark:text-gray-300">NSFW Content</span>
+            <span class="text-sm font-medium text-gray-600 dark:text-gray-300">nsfw</span>
             <USwitch
               v-model="nsfwValue"
               color="deeppink"
@@ -21,7 +21,7 @@
             />
           </label>
           <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-            Enable to view all content ratings including explicit content.
+            Enable to search through all content ratings.
           </p>
         </div>
 

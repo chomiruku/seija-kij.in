@@ -19,91 +19,91 @@
         </div>
       </div>
 
-      <!-- Main Character Section -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-        <!-- Character Info -->
-        <div class="bg-gradient-to-br from-white/50 dark:from-red-900/50 to-white/50 dark:to-pink-500/20 backdrop-blur-sm border border-white/20 rounded-2xl p-6 sm:p-8 shadow-lg">
-          <h2 class="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-red-600 to-purple-400 mb-6">
-            鬼人 正邪
-          </h2>
+      <!-- Main Character Card -->
+      <div class="bg-linear-to-br from-white/50 dark:from-red-900/50 to-white/50 dark:to-pink-500/20 backdrop-blur-sm border border-white/20 rounded-2xl p-6 sm:p-8 shadow-lg mb-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <!-- Character Info -->
+          <div>
+            <h2 class="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-linear-to-r from-pink-400 via-red-600 to-purple-400 mb-6">
+              鬼人 正邪
+            </h2>
 
-          <p class="mb-6 leading-relaxed">
-            Seija Kijin 鬼人 正邪 is an amanojaku with the power to turn over anything. She is a rebellious youkai that often causes trouble in Gensokyo such as in Double Dealing Character when she tried to overthrow society and make the weak rule over the strong. Seija first appeared in Double Dealing Character as the midboss and boss of Stage 5 as well as the midboss of Stage 6 in the same game. She then became a playable character as the main protagonist of Impossible Spell Card and the minigame Gold Rush.
-          </p>
+            <p class="mb-6 leading-relaxed">
+              Seija Kijin 鬼人 正邪 is an amanojaku with the power to turn over anything. She is a rebellious youkai that often causes trouble in Gensokyo such as in Double Dealing Character when she tried to overthrow society and make the weak rule over the strong. Seija first appeared in Double Dealing Character as the midboss and boss of Stage 5 as well as the midboss of Stage 6 in the same game. She then became a playable character as the main protagonist of Impossible Spell Card and the minigame Gold Rush.
+            </p>
 
-          <ul class="space-y-2">
-            <li class="flex items-center">
-              <span class="w-2 h-2 bg-pink-400 rounded-full mr-3"/>
-              <span class="font-semibold">Species:</span> <span class="ml-2">Amanojaku</span>
-            </li>
-            <li class="flex items-center">
-              <span class="w-2 h-2 bg-purple-400 rounded-full mr-3"/>
-              <span class="font-semibold">Ability:</span> <span class="ml-2">Turn over anything</span>
-            </li>
-            <li class="flex items-center">
-              <span class="w-2 h-2 bg-red-400 rounded-full mr-3"/>
-              <span class="font-semibold">First Appearance:</span> <span class="ml-2">Double Dealing Character</span>
-            </li>
-            <li class="flex items-center">
-              <span class="w-2 h-2 bg-blue-400 rounded-full mr-3"/>
-              <span class="font-semibold">Location:</span> <span class="ml-2">Unknown</span>
-            </li>
-          </ul>
-        </div>
+            <ul class="space-y-2 mb-6">
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-pink-400 rounded-full mr-3"/>
+                <span class="font-semibold">Species:</span> <span class="ml-2">Amanojaku</span>
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-purple-400 rounded-full mr-3"/>
+                <span class="font-semibold">Ability:</span> <span class="ml-2">Turn over anything</span>
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-red-400 rounded-full mr-3"/>
+                <span class="font-semibold">First Appearance:</span> <span class="ml-2">Double Dealing Character</span>
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-blue-400 rounded-full mr-3"/>
+                <span class="font-semibold">Location:</span> <span class="ml-2">Unknown</span>
+              </li>
+            </ul>
 
-        <!-- seija mood index -->
-        <div class="bg-gradient-to-br from-red-300 dark:from-red-900/50 to-orange-200 dark:to-red-900/20 backdrop-blur-sm border border-white/20 rounded-2xl p-6 sm:p-8 text-center shadow-lg">
-          <div class="inline-block bg-white/20 rounded-xl w-auto h-100 sm:h-150 ">
-            <nuxt-img
-                v-if="mood"
-                :src="`https://mood.seija-kij.in${mood.imageUrl}`"
-                :alt="`Kijin Seija feeling ${mood.mood}`"
-                class="w-auto h-100 sm:h-150 rounded-lg mx-auto transition-transform duration-900 hover:scale-105 hover:rotate-180"
-            />
-            <div v-else class="w-80 h-100 sm:h-150 bg-gray-300/20 rounded-lg animate-pulse mx-auto"/>
+            <!-- Personality -->
+            <div class="border-s-4 border-pink-400/50 dark:border-purple-400/50 ps-4">
+              <h3 class="text-lg font-bold mb-2">Personality</h3>
+              <p class="leading-relaxed text-sm">
+                Seija always thinks and acts the opposite to those around her. She's disliked and considered a nuisance, but welcomes that hatred towards her. She's more like a rebellious teenager who enjoys being against what everyone else thinks instead of someone who really wants to change things.
+              </p>
+            </div>
           </div>
-          <p class="mt-4 italic">
-            Seija is feeling 
-            <span class="dreamy-container not-italic">
-              <span 
-                v-for="(letter, index) in (mood?.mood || '...').split('')" 
-                :key="`${mood?.mood}-${index}`"
-                class="float-x"
-                :style="{ animationDelay: `${index * 0.15}s` }"
-              >
-                <span 
-                  class="float-y dreamy-letter"
+
+          <!-- Seija Mood Index -->
+          <div class="text-center">
+            <div class="inline-block bg-white/20 rounded-xl w-auto h-100 sm:h-150">
+              <nuxt-img
+                  v-if="mood"
+                  :src="`https://mood.seija-kij.in${mood.imageUrl}`"
+                  :alt="`Kijin Seija feeling ${mood.mood}`"
+                  class="w-auto h-100 sm:h-150 rounded-lg mx-auto transition-transform duration-900 hover:scale-105 hover:rotate-180"
+              />
+              <div v-else class="w-80 h-100 sm:h-150 bg-gray-300/20 rounded-lg animate-pulse mx-auto"/>
+            </div>
+            <p class="mt-4 italic">
+              Seija is feeling
+              <span class="dreamy-container not-italic">
+                <span
+                  v-for="(letter, index) in (mood?.mood || '...').split('')"
+                  :key="`${mood?.mood}-${index}`"
+                  class="float-x"
                   :style="{ animationDelay: `${index * 0.15}s` }"
                 >
-                  {{ letter }}
+                  <span
+                    class="float-y dreamy-letter"
+                    :style="{ animationDelay: `${index * 0.15}s` }"
+                  >
+                    {{ letter }}
+                  </span>
                 </span>
               </span>
-            </span> 
-            today.
-          </p>
+              today.
+            </p>
+          </div>
         </div>
       </div>
 
-      <!-- Personality Section -->
-      <div class="bg-gradient-to-r from-amber-200/40 dark:from-blue-600/30 to-amber-300/40 dark:to-blue-500/10 backdrop-blur-sm rounded-2xl border-s-4 p-6 sm:p-8 mb-8 shadow-lg">
-        <h3 class="text-2xl font-bold mb-4">Personality</h3>
-        <p class="leading-relaxed">
-          Seija always thinks and acts the opposite to those around her. She's disliked and considered a nuisance, but welcomes that hatred towards her. She's more like a rebellious teenager who enjoys being against what everyone else thinks instead of someone who really wants to change things.
-        </p>
-      </div>
-
-      <!-- Abilities Section -->
-      <div class="mb-12">
+      <!-- Abilities & Spell Cards -->
+      <div class="bg-linear-to-br from-purple-500/50 dark:from-pink-600/50 to-purple-800/20 dark:to-red-500/20 backdrop-blur-sm border border-white/10 rounded-2xl p-6 sm:p-8 shadow-lg">
         <h3 class="text-3xl font-bold text-center mb-8">Abilities & Spell Cards</h3>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <!-- Turning Over Ability -->
-          <div class="bg-gradient-to-br from-purple-500/50 dark:from-pink-600/50 to-purple-800/20 dark:to-red-500/20 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:scale-105 transition-all duration-300 shadow-lg">
-            <h4 class="text-xl font-bold mb-4 flex items-center">
-              Turning Over
-            </h4>
+          <div>
+            <h4 class="text-xl font-bold mb-4">Turning Over</h4>
             <p class="mb-4">Can flip anything upside down, including:</p>
-            <ul class="space-y-2 ">
+            <ul class="space-y-2">
               <li class="flex items-center">
                 <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"/>
                 Physical objects
@@ -120,12 +120,11 @@
           </div>
 
           <!-- Spell Cards -->
-          <div class="bg-gradient-to-br from-red-300 dark:from-red-900/80 to-orange-200 dark:to-black/20 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:scale-105 transition-all duration-300 shadow-lg">
-            <h4 class="text-xl font-bold  mb-4 flex items-center">
-              <span class="text-2xl mr-2">✨</span>
+          <div>
+            <h4 class="text-xl font-bold mb-4">
               Spell Cards
             </h4>
-            <div class="space-y-2 text-sm max-h-64 overflow-y-auto">
+            <div class="space-y-2 text-sm">
               <div class="flex items-center">
                 <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
                 欺符「逆さ撃ち」

@@ -69,7 +69,7 @@
                   </p>
                 </div>
                 <div v-if="midi.versions?.length" class="flex flex-wrap gap-1 mt-2">
-                  <span v-for="version in midi.versions" :key="version.filename" class="inline-block px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full">
+                  <span v-for="version in midi.versions" :key="version.filename" class="inline-block px-2.5 py-0.5 text-xs font-medium bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full">
                     {{ version.name }}
                   </span>
                 </div>

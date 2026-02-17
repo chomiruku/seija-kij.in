@@ -1,22 +1,43 @@
 <template>
   <div class="min-h-screen flex flex-col bg-gradient-to-br from-white dark:from-blue-200/10 via-orange-200 dark:via-red-600/10 to-purple-400 dark:to-red-900/10 w-full">
     <!-- Mobile Navbar -->
-    <nav class="navbar fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 lg:hidden">
-      <div class="px-4 flex items-center justify-between h-14">
-        <NuxtLink to="/" class="flex items-center space-x-2 text-lg navbar-brand">
-          <img src="/seijakijin.svg" alt="seija-kij.in" class="w-5 h-5" >
-          <span>{{ brand.toUpperCase() }}</span>
-        </NuxtLink>
+    <nav class="navbar navbar-arrows fixed top-0 left-0 right-0 z-50 border-b border-gray-200 dark:border-gray-700 lg:hidden">
+      <svg class="navbar-arrows-bg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <defs>
+          <pattern id="arrows-mobile" x="0" y="0" width="600" height="200" patternTransform="rotate(-60) scale(0.25)" patternUnits="userSpaceOnUse">
+            <animate attributeName="x" from="0" to="600" dur="30s" repeatCount="indefinite"/>
+            <rect width="600" height="200" fill="#111111"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#424242" stroke="#424242" stroke-width="1.5" stroke-linejoin="miter" transform="translate(-150,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#424242" stroke="#424242" stroke-width="1.5" transform="translate(450,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#424242" stroke="#424242" stroke-width="1.5" transform="translate(-150,100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#424242" stroke="#424242" stroke-width="1.5" transform="translate(450,100)"/>
+            <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" fill="#ffffff" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="miter"/>
+            <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" fill="#cc0000" stroke="#cc0000" stroke-width="1.5" stroke-linejoin="miter" transform="translate(300,0)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#111111" stroke="#111111" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#111111" stroke="#111111" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,100)"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#arrows-mobile)"/>
+      </svg>
+      <div class="relative z-10 flex items-stretch justify-between h-14 w-full">
+        <div class="navbar-blur-zone navbar-brand-fade">
+          <NuxtLink to="/" class="relative z-10 flex items-center space-x-2 text-lg navbar-brand px-3">
+            <img src="/seijakijin.svg" alt="seija-kij.in" class="w-5 h-5" >
+            <span>{{ brand.toUpperCase() }}</span>
+          </NuxtLink>
+        </div>
 
-        <UTooltip text="Toggle menu">
-          <UButton
-              icon="i-lucide-menu"
-              variant="ghost"
-              color="neutral"
-              aria-label="Toggle mobile navigation menu"
-              @click="isMobileMenuOpen = !isMobileMenuOpen"
-          />
-        </UTooltip>
+        <div class="navbar-blur-zone navbar-links-fade flex items-center px-2">
+          <UTooltip text="Toggle menu">
+            <UButton
+                icon="i-lucide-menu"
+                variant="ghost"
+                color="neutral"
+                aria-label="Toggle mobile navigation menu"
+                @click="isMobileMenuOpen = !isMobileMenuOpen"
+            />
+          </UTooltip>
+        </div>
       </div>
 
       <!-- Mobile Menu Overlay -->
@@ -39,19 +60,38 @@
     </nav>
 
     <!-- Desktop Navbar -->
-    <nav class="navbar fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 hidden lg:block">
-      <div class="px-4 flex items-center justify-between h-16">
-        <NuxtLink to="/" class="flex items-center space-x-2 text-xl navbar-brand pb-4 pt-4">
-          <img src="/seijakijin.svg" alt="seija-kij.in" class="w-6 h-6" >
-          <span>{{ brand }}</span>
-        </NuxtLink>
+    <nav class="navbar navbar-arrows fixed top-0 left-0 right-0 z-50 h-16 border-b border-gray-200 dark:border-gray-700 hidden lg:block">
+      <svg class="navbar-arrows-bg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <defs>
+          <pattern id="arrows-desktop" x="0" y="0" width="600" height="200" patternTransform="rotate(-60) scale(0.25)" patternUnits="userSpaceOnUse">
+            <animate attributeName="x" from="0" to="600" dur="30s" repeatCount="indefinite"/>
+            <rect width="600" height="200" fill="#111111"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#424242" stroke="#424242" stroke-width="1.5" stroke-linejoin="miter" transform="translate(-150,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#424242" stroke="#424242" stroke-width="1.5" transform="translate(450,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#424242" stroke="#424242" stroke-width="1.5" transform="translate(-150,100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#424242" stroke="#424242" stroke-width="1.5" transform="translate(450,100)"/>
+            <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" fill="#ffffff" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="miter"/>
+            <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" fill="#cc0000" stroke="#cc0000" stroke-width="1.5" stroke-linejoin="miter" transform="translate(300,0)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#111111" stroke="#111111" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#111111" stroke="#111111" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,100)"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#arrows-desktop)"/>
+      </svg>
+      <div class="relative z-10 flex items-stretch h-full w-full">
+        <div class="navbar-blur-zone navbar-brand-fade">
+          <NuxtLink to="/" class="relative z-10 flex items-center space-x-2 text-xl navbar-brand px-4">
+            <img src="/seijakijin.svg" alt="seija-kij.in" class="w-6 h-6" >
+            <span>{{ brand }}</span>
+          </NuxtLink>
+        </div>
 
-        <div class="flex items-center space-x-5">
+        <div class="navbar-blur-zone navbar-links-fade flex items-stretch ml-auto">
           <NuxtLink
               v-for="item in routes"
               :key="item.route"
               :to="item.route"
-              class="font-medium transition-colors pb-4 pt-4"
+              class="relative z-10 font-medium transition-colors px-3 flex items-center"
           >
             {{ item.name }}
           </NuxtLink>
@@ -261,5 +301,58 @@ onUnmounted(() => {
 
 .time-banner-text {
   font-family: "Azonix-1VB0", cursive;
+}
+
+.navbar-arrows {
+  overflow: hidden;
+}
+
+.navbar-arrows-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+}
+
+/* Navbar blur zones - single blur per group, no seams between links */
+.navbar-blur-zone {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  overflow: visible;
+}
+
+.navbar-blur-zone::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  backdrop-filter: blur(4px);
+  background: rgb(255 255 255 / 0.9);
+  z-index: 0;
+}
+
+.dark .navbar-blur-zone::before {
+  background: rgb(17 24 39 / 0.9);
+}
+
+/* Brand: opaque over text, fade out past the right edge */
+.navbar-brand-fade::before {
+  left: 0;
+  right: -3rem;
+  mask-image: linear-gradient(to right, black 70%, transparent);
+  -webkit-mask-image: linear-gradient(to right, black 70%, transparent);
+}
+
+/* Links: opaque over text, fade out past the left edge */
+.navbar-links-fade::before {
+  left: -3rem;
+  right: 0;
+  mask-image: linear-gradient(to left, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to left, black 85%, transparent);
 }
 </style>

@@ -11,14 +11,14 @@
           </p>
         </div>
         
-        <div class="grid gap-4 sm:gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           <a
             v-for="(link, index) in links"
             :key="link.url"
             :href="link.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="group relative overflow-hidden p-4 sm:p-6 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-200/50 dark:border-gray-700/50 hover:border-blue-300 dark:hover:border-blue-600 animate-fade-in-up"
+            class="group relative overflow-hidden p-4 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-gray-200/50 dark:border-gray-700/50 hover:border-blue-300 dark:hover:border-blue-600 animate-fade-in-up"
             :style="`animation-delay: ${index * 100}ms`"
           >
 
