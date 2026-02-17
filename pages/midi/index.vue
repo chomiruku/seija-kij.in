@@ -243,7 +243,8 @@ const route = useRoute();
 const router = useRouter();
 
 const searchQuery = ref(route.query.search || '');
-const midiData = useState('midi-data', () => null);
+// Use ref instead of useState to prevent server-side memory accumulation
+const midiData = ref(null);
 const isLoading = ref(false);
 const hasError = ref(false);
 const selectedMidi = ref(null);
@@ -257,12 +258,12 @@ watch(searchQuery, (newQuery) => {
   } else {
     delete query.search;
   }
-  
+
   router.replace({ query });
 }, { immediate: false });
 
-// Non-blocking API call
-if (!midiData.value) {
+// Fetch data client-side only to prevent server memory leaks
+onMounted(() => {
   isLoading.value = true;
   $fetch('https://samba.seija-kij.in/public/midis/midis.json').then(data => {
     midiData.value = data;
@@ -272,7 +273,7 @@ if (!midiData.value) {
     hasError.value = true;
     isLoading.value = false;
   })
-}
+})
 
 // Computed property for filtered MIDIs
 const filteredMidis = computed(() => {

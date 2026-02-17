@@ -303,8 +303,8 @@
 const title = 'VRChat Gallery'
 const description = 'my vrc gallery :)'
 
-// State
-const galleryData = useState('vrchat-gallery', () => null)
+// State - use ref instead of useState to prevent server-side memory accumulation
+const galleryData = ref(null)
 const isLoading = ref(false)
 const hasError = ref(false)
 const activeView = ref('images')
@@ -315,8 +315,12 @@ const expandedMonths = ref({
 const showImageModal = ref(false)
 const selectedImageIndex = ref(null)
 
-// Non-blocking API calls
-if (!galleryData.value) {
+// Fetch data client-side only to prevent server memory leaks
+onMounted(() => {
+  // Keyboard navigation for image modal
+  document.addEventListener('keydown', handleKeydown)
+
+  // Fetch gallery data
   isLoading.value = true
   hasError.value = false
 
@@ -335,7 +339,7 @@ if (!galleryData.value) {
     galleryData.value = { images: [], videos: [] }
     isLoading.value = false
   })
-}
+})
 
 // Tab items with counts
 const tabItems = computed(() => [
@@ -555,10 +559,7 @@ const handleKeydown = (event) => {
   }
 }
 
-// Keyboard navigation - Let UModal handle Escape key
-onMounted(() => {
-  document.addEventListener('keydown', handleKeydown)
-})
+// Keyboard navigation - added to the main onMounted above
 
 onUnmounted(() => {
   document.removeEventListener('keydown', handleKeydown)

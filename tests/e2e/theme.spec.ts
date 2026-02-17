@@ -1,69 +1,103 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Theme Toggle', () => {
-  test.beforeEach(async ({ page }) => {
+  test('should have theme toggle button in footer', async ({ page }) => {
     await page.goto('/')
-  })
 
-  test('should have theme toggle in footer', async ({ page }) => {
     const footer = page.locator('footer')
     await expect(footer).toBeVisible()
+
+    // Theme toggle button should have an aria-label indicating the mode switch
+    const themeButton = footer.locator('button[aria-label*="Switch to"]')
+    await expect(themeButton).toBeVisible()
   })
 
   test('should toggle between light and dark mode', async ({ page }) => {
-    // Find theme toggle button
-    const themeButton = page.locator('footer button, footer [role="switch"], footer [class*="theme"]').first()
+    await page.goto('/')
+    await page.waitForLoadState('networkidle')
 
-    if (await themeButton.isVisible()) {
-      // Get initial state
-      const html = page.locator('html')
-      const initialClass = await html.getAttribute('class')
+    const html = page.locator('html')
+    const themeButton = page.locator('footer button[aria-label*="Switch to"]')
 
-      // Click to toggle
-      await themeButton.click()
-      await page.waitForTimeout(500)
+    // Get initial state
+    const initialClass = await html.getAttribute('class') || ''
+    const initialIsDark = initialClass.includes('dark')
 
-      // Class should change
-      const newClass = await html.getAttribute('class')
-      // Theme state should have changed (class might include 'dark' or 'light')
-      expect(newClass !== initialClass || true).toBe(true)
-    }
+    // Click to toggle
+    await themeButton.click()
+    await page.waitForTimeout(500)
+
+    // After toggling, the state should be different
+    const newClass = await html.getAttribute('class') || ''
+    const newIsDark = newClass.includes('dark')
+    expect(newIsDark).not.toBe(initialIsDark)
+
+    // Toggle back
+    await themeButton.click()
+    await page.waitForTimeout(500)
+
+    const revertedClass = await html.getAttribute('class') || ''
+    const revertedIsDark = revertedClass.includes('dark')
+    expect(revertedIsDark).toBe(initialIsDark)
   })
 
-  test('should persist theme preference', async ({ page, context }) => {
-    // Find and click theme toggle if exists
-    const themeButton = page.locator('footer button, footer [role="switch"]').first()
+  test('should persist theme preference after reload', async ({ page }) => {
+    await page.goto('/')
+    await page.waitForLoadState('networkidle')
 
-    if (await themeButton.isVisible().catch(() => false)) {
+    const html = page.locator('html')
+    const themeButton = page.locator('footer button[aria-label*="Switch to"]')
+
+    // Toggle to dark mode
+    const initialClass = await html.getAttribute('class') || ''
+    if (!initialClass.includes('dark')) {
       await themeButton.click()
       await page.waitForTimeout(500)
-
-      const html = page.locator('html')
-      const currentClass = await html.getAttribute('class')
-
-      // Reload page
-      await page.reload()
-      await page.waitForLoadState('domcontentloaded')
-
-      // Theme should be persisted (check via cookies or localStorage)
-      await expect(page.locator('body')).toBeVisible()
     }
+
+    // Verify it's dark
+    await expect(html).toHaveClass(/dark/)
+
+    // Reload
+    await page.reload()
+    await page.waitForLoadState('networkidle')
+
+    // Should still be dark after reload
+    await expect(html).toHaveClass(/dark/)
+  })
+
+  test('should update button icon when toggling', async ({ page }) => {
+    await page.goto('/')
+    await page.waitForLoadState('networkidle')
+
+    const themeButton = page.locator('footer button[aria-label*="Switch to"]')
+
+    // Get initial aria-label
+    const initialLabel = await themeButton.getAttribute('aria-label')
+
+    // Toggle
+    await themeButton.click()
+    await page.waitForTimeout(500)
+
+    // Label should change (light <-> dark)
+    const newLabel = await themeButton.getAttribute('aria-label')
+    expect(newLabel).not.toBe(initialLabel)
   })
 })
 
-test.describe('Color Mode', () => {
-  test('should respect system preference for dark mode', async ({ page }) => {
-    // Emulate dark color scheme
+test.describe('Color Mode - System Preference', () => {
+  test('should respect dark mode system preference', async ({ page }) => {
     await page.emulateMedia({ colorScheme: 'dark' })
     await page.goto('/')
+    await page.waitForLoadState('networkidle')
 
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('should respect system preference for light mode', async ({ page }) => {
-    // Emulate light color scheme
+  test('should respect light mode system preference', async ({ page }) => {
     await page.emulateMedia({ colorScheme: 'light' })
     await page.goto('/')
+    await page.waitForLoadState('networkidle')
 
     await expect(page.locator('body')).toBeVisible()
   })

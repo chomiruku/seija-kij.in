@@ -84,7 +84,7 @@
           <!-- Pagination -->
           <div v-if="search.pagination.value" class="flex justify-center">
             <UPagination
-              :model-value="search.currentPage.value"
+              :page="search.currentPage.value"
               :total="search.totalPages.value"
               :items-per-page="1"
               :sibling-count="2"
@@ -94,7 +94,7 @@
               active-variant="solid"
               size="md"
               :disabled="search.isLoading.value"
-              @update:model-value="search.goToPage"
+              @update:page="search.goToPage"
             />
           </div>
         </template>

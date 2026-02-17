@@ -171,25 +171,24 @@
 </template>
 
 <script setup>
-const quote = useState('seija-quote', () => null)
-const mood = useState('seija-mood', () => null)
+// Use ref instead of useState to prevent server-side memory accumulation
+const quote = ref(null)
+const mood = ref(null)
 
-// Non-blocking API calls
-if (!quote.value) {
+// Fetch data client-side only to prevent server memory leaks
+onMounted(() => {
   $fetch('https://mood.seija-kij.in/quote').then(data => {
     quote.value = data
   }).catch(() => {
     quote.value = null
   })
-}
 
-if (!mood.value) {
   $fetch('https://mood.seija-kij.in/mood').then(data => {
     mood.value = data
   }).catch(() => {
     mood.value = null
   })
-}
+})
 
 useHead({
   title: 'Kijin Seija - 鬼人 正邪 | seija-kij.in',

@@ -21,7 +21,7 @@
             />
           </label>
           <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-            Enable to view all content ratings including explicit content. Requires age verification.
+            Enable to view all content ratings including explicit content.
           </p>
         </div>
 
