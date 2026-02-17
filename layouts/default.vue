@@ -197,8 +197,8 @@ onMounted(() => {
   // Initialize time display
   updateTime()
 
-  // Update time every second
-  timer.value = setInterval(updateTime, 1000)
+  // Update time every 30 seconds
+  timer.value = setInterval(updateTime, 30000)
 
   if (import.meta.client) {
     const handleClickOutside = (event) => {
@@ -235,33 +235,15 @@ onUnmounted(() => {
 @reference "tailwindcss";
 
 @font-face {
-  font-family: "Y1Cybassassin";
-  src: url('/assets/fonts/Y1Cybassassin-DoubleLine.otf') format('opentype');
-}
-
-@font-face {
-  font-family: "Y1CosmicIndustry";
-  src: url('/assets/fonts/Y1CosmicIndustry.otf') format('opentype');
-}
-
-@font-face {
-  font-family: "Y1Rivetron";
-  src: url('/assets/fonts/Y1Rivetron.otf') format('opentype');
-}
-
-@font-face {
   font-family: "Y1Vectura";
   src: url('/assets/fonts/Y1Vectura.otf') format('opentype');
-}
-
-@font-face {
-  font-family: "Y1SweetPixel";
-  src: url('/assets/fonts/Y1SweetPixel.otf') format('opentype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Azonix-1VB0";
   src: url('/assets/fonts/Azonix-1VB0.otf') format('opentype');
+  font-display: swap;
 }
 
 .navbar a[class*="router-link-active"] {

@@ -243,10 +243,6 @@ const route = useRoute();
 const router = useRouter();
 
 const searchQuery = ref(route.query.search || '');
-// Use ref instead of useState to prevent server-side memory accumulation
-const midiData = ref(null);
-const isLoading = ref(false);
-const hasError = ref(false);
 const selectedMidi = ref(null);
 const showModal = ref(false);
 
@@ -262,18 +258,12 @@ watch(searchQuery, (newQuery) => {
   router.replace({ query });
 }, { immediate: false });
 
-// Fetch data client-side only to prevent server memory leaks
-onMounted(() => {
-  isLoading.value = true;
-  $fetch('https://samba.seija-kij.in/public/midis/midis.json').then(data => {
-    midiData.value = data;
-    isLoading.value = false;
-  }).catch(() => {
-    midiData.value = { midis: [] };
-    hasError.value = true;
-    isLoading.value = false;
-  })
-})
+const { data: midiData, status: midiStatus } = useFetch('https://samba.seija-kij.in/public/midis/midis.json', {
+  default: () => null,
+  server: false,
+});
+const isLoading = computed(() => midiStatus.value === 'idle' || midiStatus.value === 'pending');
+const hasError = computed(() => midiStatus.value === 'error');
 
 // Computed property for filtered MIDIs
 const filteredMidis = computed(() => {

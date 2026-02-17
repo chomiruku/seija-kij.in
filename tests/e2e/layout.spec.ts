@@ -10,21 +10,16 @@ test.describe('Layout - Time Banner', () => {
     await expect(timeBanner).toBeVisible()
   })
 
-  test('should update time every second', async ({ page }) => {
+  test('should display time in expected format', async ({ page }) => {
     await page.goto('/')
     await page.waitForLoadState('networkidle')
     await page.waitForTimeout(1000)
 
-    // Get the initial time text
     const timeBanner = page.locator('.time-banner-text')
-    const initialTime = await timeBanner.textContent()
-
-    // Wait for update
-    await page.waitForTimeout(2000)
-
-    const updatedTime = await timeBanner.textContent()
-    // Time should have changed (seconds should differ)
-    expect(updatedTime).not.toBe(initialTime)
+    const timeText = await timeBanner.textContent()
+    // Should contain Singapore Standard Time format
+    expect(timeText).toContain('GMT+0800')
+    expect(timeText).toContain('Singapore Standard Time')
   })
 
   test('should show loading fallback before client hydration', async ({ page }) => {
