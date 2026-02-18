@@ -27,60 +27,35 @@
         </div>
         
         <!-- MIDI Grid -->
-        <div class="grid gap-4 sm:gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           <div
             v-for="(midi, index) in filteredMidis"
             :key="index"
-            class="group relative overflow-hidden p-4 sm:p-6 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-200/50 dark:border-gray-700/50 hover:border-purple-300 dark:hover:border-purple-600 animate-fade-in-up cursor-pointer"
-            :style="`animation-delay: ${index * 100}ms`"
+            class="group relative overflow-hidden p-4 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-200/50 dark:border-gray-700/50 hover:border-purple-300 dark:hover:border-purple-600 animate-fade-in-up cursor-pointer"
+            :style="`animation-delay: ${index * 50}ms`"
             @click="openMidiDetails(midi)"
           >
             <div class="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"/>
-            
-            <div class="relative flex items-center">
-              <div class="flex-shrink-0 mr-5">
-                <div class="relative">
-                  <div class="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"/>
-                  <div class="relative w-12 h-12 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900 dark:to-pink-900 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <svg class="w-7 h-7 text-purple-600 dark:text-purple-300" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="flex-1 min-w-0">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300 mb-1">
-                  {{ midi.name }}
-                </h3>
-                <p v-if="midi.alternativeName" class="text-sm text-gray-500 dark:text-gray-400 mb-1 italic">
-                  {{ midi.alternativeName }}
+
+            <div class="relative">
+              <h3 class="text-base font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300 truncate">
+                {{ midi.name }}
+              </h3>
+              <p v-if="midi.alternativeName" class="text-xs text-gray-500 dark:text-gray-400 italic truncate mt-0.5">
+                {{ midi.alternativeName }}
+              </p>
+              <div class="text-xs text-gray-600 dark:text-gray-300 mt-2 space-y-0.5">
+                <p v-if="midi.originalArtist" class="truncate">
+                  <span class="font-medium">Artist:</span> {{ midi.originalArtist }}<span v-if="midi.Circle"> ({{ midi.Circle }})</span>
                 </p>
-                <div class="text-sm text-gray-600 dark:text-gray-300 mb-2">
-                  <p v-if="midi.originalTheme" class="mb-1">
-                    <span class="font-medium">Original:</span> {{ midi.originalTheme }}
-                  </p>
-                  <p v-if="midi.originalArtist" class="mb-1">
-                    <span class="font-medium">Artist:</span> {{ midi.originalArtist }}
-                    <span v-if="midi.Circle"> ({{ midi.Circle }})</span>
-                  </p>
-                  <p v-if="midi.midiArranger">
-                    <span class="font-medium">MIDI by:</span> {{ midi.midiArranger }}<span v-if="midi.midiEditor"> • {{ midi.midiEditor }}</span>
-                  </p>
-                </div>
-                <div v-if="midi.versions?.length" class="flex flex-wrap gap-1 mt-2">
-                  <span v-for="version in midi.versions" :key="version.filename" class="inline-block px-2.5 py-0.5 text-xs font-medium bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full">
-                    {{ version.name }}
-                  </span>
-                </div>
+                <p v-if="midi.midiArranger" class="truncate">
+                  <span class="font-medium">MIDI by:</span> {{ midi.midiArranger }}
+                </p>
               </div>
-              
-              <div class="flex-shrink-0 ml-4">
-                <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center group-hover:scale-110 transition-all duration-300">
-                  <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                  </svg>
-                </div>
+              <div v-if="midi.versions?.length" class="flex flex-wrap gap-1 mt-2">
+                <span v-for="version in midi.versions" :key="version.filename" class="inline-block px-2 py-0.5 text-[10px] font-medium bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full">
+                  {{ version.name }}
+                </span>
               </div>
             </div>
 
@@ -89,26 +64,16 @@
         </div>
 
         <!-- Loading Placeholders -->
-        <div v-if="isLoading" class="grid gap-4 sm:gap-6">
-          <div 
-            v-for="n in 6" 
-            :key="n" 
-            class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl shadow-lg p-4 sm:p-6 animate-pulse"
+        <div v-if="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <div
+            v-for="n in 9"
+            :key="n"
+            class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl shadow-md p-4 animate-pulse"
           >
-            <div class="flex items-center">
-              <div class="flex-shrink-0 mr-5">
-                <div class="w-12 h-12 bg-gray-300/20 rounded-full"/>
-              </div>
-              <div class="flex-1">
-                <div class="h-6 bg-gray-300/20 rounded mb-2 w-3/4"/>
-                <div class="h-4 bg-gray-300/20 rounded mb-1 w-1/2"/>
-                <div class="h-4 bg-gray-300/20 rounded w-2/3"/>
-              </div>
-              <div class="flex-shrink-0 ml-4 flex gap-2">
-                <div class="w-10 h-10 bg-gray-300/20 rounded-full"/>
-                <div class="w-10 h-10 bg-gray-300/20 rounded-full"/>
-              </div>
-            </div>
+            <div class="h-5 bg-gray-300/20 rounded mb-2 w-3/4"/>
+            <div class="h-3 bg-gray-300/20 rounded mb-3 w-1/2"/>
+            <div class="h-3 bg-gray-300/20 rounded mb-1 w-full"/>
+            <div class="h-3 bg-gray-300/20 rounded w-2/3"/>
           </div>
         </div>
 
