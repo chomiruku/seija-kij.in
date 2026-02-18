@@ -60,14 +60,12 @@ interface Props {
   blacklistTags: string
 }
 
-interface Emits {
-  (e: 'update:open', value: boolean): void
-  (e: 'update:allowNsfw', value: boolean): void
-  (e: 'update:blacklistTags', value: string): void
-}
-
 const props = defineProps<Props>()
-const emit = defineEmits<Emits>()
+const emit = defineEmits<{
+  'update:open': [value: boolean]
+  'update:allowNsfw': [value: boolean]
+  'update:blacklistTags': [value: string]
+}>()
 
 const isOpen = computed({
   get: () => props.open,

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { useMilkBooruCache } from '~/composables/useMilkBooruCache'
 import { mockSessionStorage } from '../utils/testHelpers'
 import { createMockPost, createMockPagination, createMockPosts } from '../fixtures/booruData'

@@ -222,7 +222,6 @@ test.describe('MilkBooru Post Detail', () => {
     // Click on the first post link
     const firstPost = page.locator('a[href*="/milkbooru/"]').first()
     if (await firstPost.isVisible().catch(() => false)) {
-      const href = await firstPost.getAttribute('href')
       await firstPost.click()
       await expect(page).toHaveURL(/\/milkbooru\/\d+/)
     }
@@ -317,7 +316,6 @@ test.describe('MilkBooru Post Detail', () => {
       // Tags should be clickable links
       const tagLink = page.locator('a[href*="/milkbooru?tags="]').first()
       if (await tagLink.isVisible().catch(() => false)) {
-        const tagText = await tagLink.textContent()
         await tagLink.click()
         await expect(page).toHaveURL(/\/milkbooru\?tags=/)
       }

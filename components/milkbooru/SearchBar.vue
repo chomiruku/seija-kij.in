@@ -53,19 +53,16 @@ interface Props {
   disabled?: boolean
 }
 
-interface Emits {
-  (e: 'update:modelValue', value: string): void
-  (e: 'search'): void
-  (e: 'focus'): void
-  (e: 'open-preferences'): void
-}
-
 const props = withDefaults(defineProps<Props>(), {
   placeholder: 'Enter tags to search... (e.g., rating:g kijin_seija)',
   disabled: false,
 })
-
-const emit = defineEmits<Emits>()
+const emit = defineEmits<{
+  'update:modelValue': [value: string]
+  'search': []
+  'focus': []
+  'open-preferences': []
+}>()
 
 const searchValue = computed({
   get: () => props.modelValue,

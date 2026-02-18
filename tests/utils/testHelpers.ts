@@ -17,7 +17,8 @@ export class MockStorage implements Storage {
   }
 
   removeItem(key: string): void {
-    delete this.store[key]
+    const { [key]: _, ...rest } = this.store
+    this.store = rest
   }
 
   clear(): void {
@@ -83,7 +84,8 @@ export function mockCookies(initialCookies: Record<string, string> = {}) {
       cookieStore = {}
     },
     remove: (key: string) => {
-      delete cookieStore[key]
+      const { [key]: _, ...rest } = cookieStore
+      cookieStore = rest
     },
   }
 }

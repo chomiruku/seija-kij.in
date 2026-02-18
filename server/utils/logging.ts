@@ -131,7 +131,7 @@ export function formatDetailedLog(
 /**
  * Checks if a request should be filtered from logs
  */
-export function shouldFilterRequest(pathname: string, userAgent: string | undefined): boolean {
+export function shouldFilterRequest(pathname: string, _userAgent: string | undefined): boolean {
   // Filter out asset requests
   const assetPatterns = [
     '/api/_nuxt_icon/',

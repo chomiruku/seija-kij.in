@@ -36,13 +36,11 @@ interface Props {
   open: boolean
 }
 
-interface Emits {
-  (e: 'update:open', value: boolean): void
-  (e: 'confirm', isOver18: boolean): void
-}
-
 const props = defineProps<Props>()
-const emit = defineEmits<Emits>()
+const emit = defineEmits<{
+  'update:open': [value: boolean]
+  'confirm': [isOver18: boolean]
+}>()
 
 const isOpen = computed({
   get: () => props.open,
