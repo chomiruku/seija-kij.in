@@ -1,5 +1,23 @@
 <template>
   <div>
+    <!-- Shared arrow pattern definition -->
+    <svg class="absolute w-0 h-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="midi-arrows" x="0" y="0" width="600" height="200" patternTransform="rotate(-60) scale(0.25)" patternUnits="userSpaceOnUse">
+          <animate attributeName="x" from="0" to="600" dur="30s" repeatCount="indefinite"/>
+          <rect width="600" height="200" :fill="arrowColors.background"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" stroke-linejoin="miter" transform="translate(-150,-100)"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(450,-100)"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(-150,100)"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(450,100)"/>
+          <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" :fill="arrowColors.white" :stroke="arrowColors.white" stroke-width="1.5" stroke-linejoin="miter"/>
+          <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" :fill="arrowColors.red" :stroke="arrowColors.red" stroke-width="1.5" stroke-linejoin="miter" transform="translate(300,0)"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.black" :stroke="arrowColors.black" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,-100)"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.black" :stroke="arrowColors.black" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,100)"/>
+        </pattern>
+      </defs>
+    </svg>
+
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20">
       <div class="max-w-8xl mx-auto">
         <div class="mb-12 text-center">
@@ -35,9 +53,16 @@
             :style="`animation-delay: ${index * 50}ms`"
             @click="openMidiDetails(midi)"
           >
-            <div class="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"/>
+            <!-- Arrow pattern background - reveals from right on hover -->
+            <div class="midi-card-arrows">
+              <svg class="absolute inset-0 w-full h-full" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <rect width="100%" height="100%" fill="url(#midi-arrows)"/>
+              </svg>
+              <!-- Blur + opacity overlay -->
+              <div class="absolute inset-0 backdrop-blur-[2px] bg-white/80 dark:bg-gray-900/80"/>
+            </div>
 
-            <div class="relative">
+            <div class="relative z-10">
               <h3 class="text-base font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300 truncate">
                 {{ midi.name }}
               </h3>
@@ -58,8 +83,6 @@
                 </span>
               </div>
             </div>
-
-            <div class="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out"/>
           </div>
         </div>
 
@@ -201,6 +224,8 @@
 </template>
 
 <script setup>
+const { colors: arrowColors } = useSpecialOccasion()
+
 const title = 'MIDIs';
 const description = 'my midis :)';
 
@@ -314,6 +339,25 @@ useHead({
 .animate-fade-in-up {
   animation: fade-in-up 0.6s ease-out forwards;
   opacity: 0;
+}
+
+.midi-card-arrows {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  mask-image: linear-gradient(to right, transparent 50%, black 80%);
+  -webkit-mask-image: linear-gradient(to right, transparent 50%, black 80%);
+  mask-size: 200% 100%;
+  -webkit-mask-size: 200% 100%;
+  mask-position: 0% 0;
+  -webkit-mask-position: 0% 0;
+  transition: mask-position 0.5s ease-out, -webkit-mask-position 0.5s ease-out;
+}
+
+.group:hover .midi-card-arrows {
+  mask-position: 100% 0;
+  -webkit-mask-position: 100% 0;
 }
 
 ::-webkit-scrollbar {

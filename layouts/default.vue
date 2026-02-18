@@ -6,28 +6,26 @@
         <defs>
           <pattern id="arrows-mobile" x="0" y="0" width="600" height="200" patternTransform="rotate(-60) scale(0.25)" patternUnits="userSpaceOnUse">
             <animate attributeName="x" from="0" to="600" dur="30s" repeatCount="indefinite"/>
-            <rect width="600" height="200" fill="#111111"/>
-            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#424242" stroke="#424242" stroke-width="1.5" stroke-linejoin="miter" transform="translate(-150,-100)"/>
-            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#424242" stroke="#424242" stroke-width="1.5" transform="translate(450,-100)"/>
-            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#424242" stroke="#424242" stroke-width="1.5" transform="translate(-150,100)"/>
-            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#424242" stroke="#424242" stroke-width="1.5" transform="translate(450,100)"/>
-            <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" fill="#ffffff" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="miter"/>
-            <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" fill="#cc0000" stroke="#cc0000" stroke-width="1.5" stroke-linejoin="miter" transform="translate(300,0)"/>
-            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#111111" stroke="#111111" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,-100)"/>
-            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#111111" stroke="#111111" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,100)"/>
+            <rect width="600" height="200" :fill="arrowColors.background"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" stroke-linejoin="miter" transform="translate(-150,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(450,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(-150,100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(450,100)"/>
+            <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" :fill="arrowColors.white" :stroke="arrowColors.white" stroke-width="1.5" stroke-linejoin="miter"/>
+            <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" :fill="arrowColors.red" :stroke="arrowColors.red" stroke-width="1.5" stroke-linejoin="miter" transform="translate(300,0)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.black" :stroke="arrowColors.black" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.black" :stroke="arrowColors.black" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,100)"/>
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#arrows-mobile)"/>
       </svg>
-      <div class="relative z-10 flex items-stretch justify-between h-14 w-full">
-        <div class="navbar-blur-zone navbar-brand-fade">
-          <NuxtLink to="/" class="relative z-10 flex items-center space-x-2 text-lg navbar-brand px-3">
-            <img src="/seijakijin.svg" alt="seija-kij.in" class="w-5 h-5" >
-            <span>{{ brand.toUpperCase() }}</span>
-          </NuxtLink>
-        </div>
+      <div class="navbar-mobile-blur relative z-10 flex items-stretch justify-between h-14 w-full">
+        <NuxtLink to="/" class="relative z-10 flex items-center space-x-2 text-lg navbar-brand px-3">
+          <img src="/seijakijin.svg" alt="seija-kij.in" class="w-5 h-5" >
+          <span>{{ brand.toUpperCase() }}</span>
+        </NuxtLink>
 
-        <div class="navbar-blur-zone navbar-links-fade flex items-center px-2">
+        <div class="relative z-10 flex items-center px-2">
           <UTooltip text="Toggle menu">
             <UButton
                 icon="i-lucide-menu"
@@ -43,7 +41,7 @@
       <!-- Mobile Menu Overlay -->
       <div
           v-if="isMobileMenuOpen"
-          class="absolute top-14 left-0 right-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700"
+          class="fixed top-14 left-0 right-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 z-50"
       >
         <div class="container mx-auto px-4 py-2">
           <NuxtLink
@@ -65,15 +63,15 @@
         <defs>
           <pattern id="arrows-desktop" x="0" y="0" width="600" height="200" patternTransform="rotate(-60) scale(0.25)" patternUnits="userSpaceOnUse">
             <animate attributeName="x" from="0" to="600" dur="30s" repeatCount="indefinite"/>
-            <rect width="600" height="200" fill="#111111"/>
-            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#424242" stroke="#424242" stroke-width="1.5" stroke-linejoin="miter" transform="translate(-150,-100)"/>
-            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#424242" stroke="#424242" stroke-width="1.5" transform="translate(450,-100)"/>
-            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#424242" stroke="#424242" stroke-width="1.5" transform="translate(-150,100)"/>
-            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#424242" stroke="#424242" stroke-width="1.5" transform="translate(450,100)"/>
-            <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" fill="#ffffff" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="miter"/>
-            <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" fill="#cc0000" stroke="#cc0000" stroke-width="1.5" stroke-linejoin="miter" transform="translate(300,0)"/>
-            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#111111" stroke="#111111" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,-100)"/>
-            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="#111111" stroke="#111111" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,100)"/>
+            <rect width="600" height="200" :fill="arrowColors.background"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" stroke-linejoin="miter" transform="translate(-150,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(450,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(-150,100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(450,100)"/>
+            <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" :fill="arrowColors.white" :stroke="arrowColors.white" stroke-width="1.5" stroke-linejoin="miter"/>
+            <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" :fill="arrowColors.red" :stroke="arrowColors.red" stroke-width="1.5" stroke-linejoin="miter" transform="translate(300,0)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.black" :stroke="arrowColors.black" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.black" :stroke="arrowColors.black" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,100)"/>
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#arrows-desktop)"/>
@@ -106,7 +104,8 @@
     <div class="bg-black text-white py-1 border-b border-red-500">
       <div class="container mx-auto px-4 text-center">
         <ClientOnly>
-          <small class="time-banner-text">{{ time }}</small>
+          <small class="time-banner-text hidden lg:inline">{{ time }}<span v-if="occasionName"> &mdash; {{ occasionName }}</span></small>
+          <small class="time-banner-text lg:hidden">{{ timeMobile }}<span v-if="occasionName"> &mdash; {{ occasionName }}</span></small>
           <template #fallback>
             <small class="time-banner-text">Loading time...</small>
           </template>
@@ -175,11 +174,13 @@
 
 <script setup>
 const colorMode = useColorMode()
+const { colors: arrowColors, occasionName } = useSpecialOccasion()
 
 const brand = 'seija-kij.in'
 const isMobileMenuOpen = ref(false)
 const audioRef = ref(null)
 const time = ref('')
+const timeMobile = ref('')
 const timer = ref(null)
 
 const routes = [
@@ -220,8 +221,17 @@ const updateTime = () => {
     hour12: false
   })
 
+  const shortTimeString = date.toLocaleString('en-SG', {
+    timeZone: 'Asia/Singapore',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  }) + ' SGT'
+
   const gmt8 = '+0800'
   time.value = `${timeString} GMT${gmt8} (Singapore Standard Time)`
+  timeMobile.value = shortTimeString
 }
 
 // Close mobile menu on route change
@@ -354,5 +364,15 @@ onUnmounted(() => {
   right: 0;
   mask-image: linear-gradient(to left, black 85%, transparent);
   -webkit-mask-image: linear-gradient(to left, black 85%, transparent);
+}
+
+/* Mobile: uniform blur across entire navbar */
+.navbar-mobile-blur {
+  backdrop-filter: blur(4px);
+  background: rgb(255 255 255 / 0.9);
+}
+
+.dark .navbar-mobile-blur {
+  background: rgb(17 24 39 / 0.9);
 }
 </style>
