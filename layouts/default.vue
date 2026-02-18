@@ -1,8 +1,16 @@
 <template>
   <div class="min-h-screen flex flex-col bg-gradient-to-br from-white dark:from-blue-200/10 via-orange-200 dark:via-red-600/10 to-purple-400 dark:to-red-900/10 w-full">
     <!-- Mobile Navbar -->
-    <nav class="navbar navbar-arrows fixed top-0 left-0 right-0 z-50 border-b border-gray-200 dark:border-gray-700 lg:hidden">
-      <svg class="navbar-arrows-bg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <nav
+      class="navbar navbar-arrows fixed top-0 left-0 right-0 z-50 border-b border-gray-200 dark:border-gray-700 lg:hidden"
+    >
+      <svg
+        class="navbar-arrows-bg"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+        :style="arrowParallaxStyle"
+      >
         <defs>
           <pattern id="arrows-mobile" x="0" y="0" width="600" height="200" patternTransform="rotate(-60) scale(0.25)" patternUnits="userSpaceOnUse">
             <animate attributeName="x" from="0" to="600" dur="30s" repeatCount="indefinite"/>
@@ -58,8 +66,16 @@
     </nav>
 
     <!-- Desktop Navbar -->
-    <nav class="navbar navbar-arrows fixed top-0 left-0 right-0 z-50 h-16 border-b border-gray-200 dark:border-gray-700 hidden lg:block">
-      <svg class="navbar-arrows-bg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <nav
+      class="navbar navbar-arrows fixed top-0 left-0 right-0 z-50 h-16 border-b border-gray-200 dark:border-gray-700 hidden lg:block"
+    >
+      <svg
+        class="navbar-arrows-bg"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+        :style="arrowParallaxStyle"
+      >
         <defs>
           <pattern id="arrows-desktop" x="0" y="0" width="600" height="200" patternTransform="rotate(-60) scale(0.25)" patternUnits="userSpaceOnUse">
             <animate attributeName="x" from="0" to="600" dur="30s" repeatCount="indefinite"/>
@@ -193,6 +209,8 @@ const routes = [
 
 const isDark = computed(() => colorMode.value === 'dark')
 
+const { arrowParallaxStyle } = useArrowParallax()
+
 const switchTheme = () => {
   colorMode.preference = isDark.value ? 'light' : 'dark'
 }
@@ -260,7 +278,7 @@ onMounted(() => {
     nextTick(() => {
       if (typeof document !== 'undefined') {
         document.addEventListener('click', handleClickOutside)
-        
+
         cleanupFunction = () => {
           document.removeEventListener('click', handleClickOutside)
         }
@@ -319,10 +337,10 @@ onUnmounted(() => {
 
 .navbar-arrows-bg {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: -10px;
+  left: -14px;
+  width: calc(100% + 28px);
+  height: calc(100% + 20px);
   z-index: 0;
   display: block;
   pointer-events: none;

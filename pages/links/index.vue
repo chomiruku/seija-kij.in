@@ -42,7 +42,7 @@
 
             <!-- Arrow pattern background - reveals from right on hover -->
             <div class="link-card-arrows">
-              <svg class="absolute inset-0 w-full h-full" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+              <svg class="arrow-parallax-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" :style="arrowParallaxStyle">
                 <rect width="100%" height="100%" fill="url(#links-arrows)"/>
               </svg>
               <!-- Blur + opacity overlay -->
@@ -83,6 +83,7 @@
 
 <script setup>
 const { colors: arrowColors } = useSpecialOccasion()
+const { arrowParallaxStyle } = useArrowParallax()
 
 const title = 'Links';
 const description = 'my links :)';
@@ -164,6 +165,14 @@ useHead({
   opacity: 0;
 }
 
+.arrow-parallax-svg {
+  position: absolute;
+  top: -10px;
+  left: -14px;
+  width: calc(100% + 28px);
+  height: calc(100% + 20px);
+}
+
 .link-card-arrows {
   position: absolute;
   inset: 0;
@@ -175,7 +184,7 @@ useHead({
   -webkit-mask-size: 200% 100%;
   mask-position: 0% 0;
   -webkit-mask-position: 0% 0;
-  transition: mask-position 0.5s ease-out, -webkit-mask-position 0.5s ease-out;
+  transition: mask-position 0.25s ease-out, -webkit-mask-position 0.25s ease-out;
 }
 
 .group:hover .link-card-arrows {
