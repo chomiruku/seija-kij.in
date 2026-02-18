@@ -42,7 +42,7 @@ jobs:
       - name: Try to download build artifact from PR
         id: download-artifact
         continue-on-error: true
-        uses: dawidd6/action-download-artifact@v12
+        uses: dawidd6/action-download-artifact@v14
         with:
           name: build-output
           path: ${{ runner.temp }}/artifacts
@@ -73,7 +73,10 @@ jobs:
 
       - name: Install dependencies
         if: steps.check-artifact.outputs.found != 'true'
-        run: npm ci
+        run: |
+          rm package-lock.json
+          npm install
+
 
       - name: Build project
         if: steps.check-artifact.outputs.found != 'true'
@@ -99,7 +102,7 @@ jobs:
           target: "/tmp/"
 
       - name: Execute deployment on server
-        uses: appleboy/ssh-action@v1.2.4
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
