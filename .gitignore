@@ -161,3 +161,25 @@ Caddyfile
 /.github/DEPLOYMENT_SECRETS.md
 /.github/README.md
 /SERVER.md
+
+# SSH/GPG keys
+*.pem
+*.key
+*.pub
+id_rsa
+id_ed25519
+*.gpg
+
+# Credentials and secrets
+credentials.json
+token.json
+*.secret
+*.credential
+.htpasswd
+.netrc
+
+# Windows credentials
+*.rdp
+
+# Claude temp files
+tmpclaude-*

@@ -120,9 +120,13 @@
                   <div class="aspect-square overflow-hidden rounded-lg">
                     <nuxt-img
                         :src="`https://samba.seija-kij.in/public/vrchat/gallery/images/${image.href}?th=300`"
-                        :alt="`VRChat Screenshot ${image.href}`"
+                        :alt="`VRChat screenshot taken on ${formatDate(image.ts * 1000)}`"
                         class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                         loading="lazy"
+                        format="webp"
+                        :width="300"
+                        :height="300"
+                        fit="cover"
                     />
                   </div>
 
@@ -282,8 +286,10 @@
             <nuxt-img
                 v-if="selectedImageIndex !== null && allImages[selectedImageIndex]"
                 :src="`https://samba.seija-kij.in/public/vrchat/gallery/images/${allImages[selectedImageIndex].href}`"
-                :alt="`VRChat Screenshot ${allImages[selectedImageIndex].href}`"
+                :alt="`VRChat screenshot - ${allImages[selectedImageIndex].tags?.res || 'Unknown resolution'} - taken on ${formatDate(allImages[selectedImageIndex].ts * 1000)}`"
                 class="max-w-full max-h-full object-contain"
+                format="webp"
+                quality="90"
                 @click.stop
             />
           </div>
@@ -298,9 +304,6 @@ const title = 'VRChat Gallery'
 const description = 'my vrc gallery :)'
 
 // State
-const galleryData = useState('vrchat-gallery', () => null)
-const isLoading = ref(false)
-const hasError = ref(false)
 const activeView = ref('images')
 const expandedMonths = ref({
   images: {},
@@ -309,27 +312,29 @@ const expandedMonths = ref({
 const showImageModal = ref(false)
 const selectedImageIndex = ref(null)
 
-// Non-blocking API calls
-if (!galleryData.value) {
-  isLoading.value = true
-  hasError.value = false
+// Fetch gallery data with useFetch (client-side)
+const { data: imagesResponse, status: imagesStatus, refresh: refreshImages } = useFetch('https://samba.seija-kij.in/public/vrchat/gallery/images/?ls=raw', {
+  default: () => null,
+  server: false,
+})
+const { data: videosResponse, status: videosStatus, refresh: refreshVideos } = useFetch('https://samba.seija-kij.in/public/vrchat/gallery/videos/?ls=raw', {
+  default: () => null,
+  server: false,
+})
 
-  Promise.all([
-    $fetch('https://samba.seija-kij.in/public/vrchat/gallery/images/?ls=raw'),
-    $fetch('https://samba.seija-kij.in/public/vrchat/gallery/videos/?ls=raw')
-  ]).then(([imagesResponse, videosResponse]) => {
-    galleryData.value = {
-      images: imagesResponse.files || [],
-      videos: videosResponse.files || []
-    }
-    isLoading.value = false
-  }).catch((error) => {
-    console.error('Failed to fetch gallery data:', error)
-    hasError.value = true
-    galleryData.value = { images: [], videos: [] }
-    isLoading.value = false
-  })
-}
+const galleryData = computed(() => {
+  if (!imagesResponse.value && !videosResponse.value) return null
+  return {
+    images: imagesResponse.value?.files || [],
+    videos: videosResponse.value?.files || [],
+  }
+})
+const isLoading = computed(() => imagesStatus.value === 'idle' || imagesStatus.value === 'pending' || videosStatus.value === 'idle' || videosStatus.value === 'pending')
+const hasError = computed(() => imagesStatus.value === 'error' || videosStatus.value === 'error')
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeydown)
+})
 
 // Tab items with counts
 const tabItems = computed(() => [
@@ -346,25 +351,8 @@ const tabItems = computed(() => [
 ])
 
 const retryFetch = () => {
-  galleryData.value = null
-  isLoading.value = true
-  hasError.value = false
-
-  Promise.all([
-    $fetch('https://samba.seija-kij.in/public/vrchat/gallery/images/?ls=raw'),
-    $fetch('https://samba.seija-kij.in/public/vrchat/gallery/videos/?ls=raw')
-  ]).then(([imagesResponse, videosResponse]) => {
-    galleryData.value = {
-      images: imagesResponse.files || [],
-      videos: videosResponse.files || []
-    }
-    isLoading.value = false
-  }).catch((error) => {
-    console.error('Failed to fetch gallery data:', error)
-    hasError.value = true
-    galleryData.value = { images: [], videos: [] }
-    isLoading.value = false
-  })
+  refreshImages()
+  refreshVideos()
 }
 
 // Utility functions
@@ -503,11 +491,8 @@ const getGlobalImageIndex = (year, month, imageIndex) => {
 }
 
 const openImageModal = (globalIndex) => {
-  console.log('Opening modal with index:', globalIndex)
-  console.log('Total images:', allImages.value.length)
   selectedImageIndex.value = globalIndex
   showImageModal.value = true
-  console.log('Modal state:', showImageModal.value, 'Selected index:', selectedImageIndex.value)
 }
 
 const navigateImage = (direction) => {
@@ -549,10 +534,7 @@ const handleKeydown = (event) => {
   }
 }
 
-// Keyboard navigation - Let UModal handle Escape key
-onMounted(() => {
-  document.addEventListener('keydown', handleKeydown)
-})
+// Keyboard navigation - added to the main onMounted above
 
 onUnmounted(() => {
   document.removeEventListener('keydown', handleKeydown)

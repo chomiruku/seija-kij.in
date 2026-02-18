@@ -1,27 +1,47 @@
 <template>
   <div class="min-h-screen flex flex-col bg-gradient-to-br from-white dark:from-blue-200/10 via-orange-200 dark:via-red-600/10 to-purple-400 dark:to-red-900/10 w-full">
     <!-- Mobile Navbar -->
-    <nav class="navbar fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 lg:hidden">
-      <div class="px-4 flex items-center justify-between h-14">
-        <NuxtLink to="/" class="flex items-center space-x-2 text-lg navbar-brand">
+    <nav class="navbar navbar-arrows fixed top-0 left-0 right-0 z-50 border-b border-gray-200 dark:border-gray-700 lg:hidden">
+      <svg class="navbar-arrows-bg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <defs>
+          <pattern id="arrows-mobile" x="0" y="0" width="600" height="200" patternTransform="rotate(-60) scale(0.25)" patternUnits="userSpaceOnUse">
+            <animate attributeName="x" from="0" to="600" dur="30s" repeatCount="indefinite"/>
+            <rect width="600" height="200" :fill="arrowColors.background"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" stroke-linejoin="miter" transform="translate(-150,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(450,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(-150,100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(450,100)"/>
+            <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" :fill="arrowColors.white" :stroke="arrowColors.white" stroke-width="1.5" stroke-linejoin="miter"/>
+            <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" :fill="arrowColors.red" :stroke="arrowColors.red" stroke-width="1.5" stroke-linejoin="miter" transform="translate(300,0)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.black" :stroke="arrowColors.black" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.black" :stroke="arrowColors.black" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,100)"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#arrows-mobile)"/>
+      </svg>
+      <div class="navbar-mobile-blur relative z-10 flex items-stretch justify-between h-14 w-full">
+        <NuxtLink to="/" class="relative z-10 flex items-center space-x-2 text-lg navbar-brand px-3">
           <img src="/seijakijin.svg" alt="seija-kij.in" class="w-5 h-5" >
           <span>{{ brand.toUpperCase() }}</span>
         </NuxtLink>
 
-        <UTooltip text="Toggle menu">
-          <UButton
-              icon="i-lucide-menu"
-              variant="ghost"
-              color="neutral"
-              @click="isMobileMenuOpen = !isMobileMenuOpen"
-          />
-        </UTooltip>
+        <div class="relative z-10 flex items-center px-2">
+          <UTooltip text="Toggle menu">
+            <UButton
+                icon="i-lucide-menu"
+                variant="ghost"
+                color="neutral"
+                aria-label="Toggle mobile navigation menu"
+                @click="isMobileMenuOpen = !isMobileMenuOpen"
+            />
+          </UTooltip>
+        </div>
       </div>
 
       <!-- Mobile Menu Overlay -->
       <div
           v-if="isMobileMenuOpen"
-          class="absolute top-14 left-0 right-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700"
+          class="fixed top-14 left-0 right-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 z-50"
       >
         <div class="container mx-auto px-4 py-2">
           <NuxtLink
@@ -38,19 +58,38 @@
     </nav>
 
     <!-- Desktop Navbar -->
-    <nav class="navbar fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 hidden lg:block">
-      <div class="px-4 flex items-center justify-between h-16">
-        <NuxtLink to="/" class="flex items-center space-x-2 text-xl navbar-brand pb-4 pt-4">
-          <img src="/seijakijin.svg" alt="seija-kij.in" class="w-6 h-6" >
-          <span>{{ brand }}</span>
-        </NuxtLink>
+    <nav class="navbar navbar-arrows fixed top-0 left-0 right-0 z-50 h-16 border-b border-gray-200 dark:border-gray-700 hidden lg:block">
+      <svg class="navbar-arrows-bg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <defs>
+          <pattern id="arrows-desktop" x="0" y="0" width="600" height="200" patternTransform="rotate(-60) scale(0.25)" patternUnits="userSpaceOnUse">
+            <animate attributeName="x" from="0" to="600" dur="30s" repeatCount="indefinite"/>
+            <rect width="600" height="200" :fill="arrowColors.background"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" stroke-linejoin="miter" transform="translate(-150,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(450,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(-150,100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(450,100)"/>
+            <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" :fill="arrowColors.white" :stroke="arrowColors.white" stroke-width="1.5" stroke-linejoin="miter"/>
+            <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" :fill="arrowColors.red" :stroke="arrowColors.red" stroke-width="1.5" stroke-linejoin="miter" transform="translate(300,0)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.black" :stroke="arrowColors.black" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,-100)"/>
+            <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.black" :stroke="arrowColors.black" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,100)"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#arrows-desktop)"/>
+      </svg>
+      <div class="relative z-10 flex items-stretch h-full w-full">
+        <div class="navbar-blur-zone navbar-brand-fade">
+          <NuxtLink to="/" class="relative z-10 flex items-center space-x-2 text-xl navbar-brand px-4">
+            <img src="/seijakijin.svg" alt="seija-kij.in" class="w-6 h-6" >
+            <span>{{ brand }}</span>
+          </NuxtLink>
+        </div>
 
-        <div class="flex items-center space-x-5">
+        <div class="navbar-blur-zone navbar-links-fade flex items-stretch ml-auto">
           <NuxtLink
               v-for="item in routes"
               :key="item.route"
               :to="item.route"
-              class="font-medium transition-colors pb-4 pt-4"
+              class="relative z-10 font-medium transition-colors px-3 flex items-center"
           >
             {{ item.name }}
           </NuxtLink>
@@ -65,7 +104,8 @@
     <div class="bg-black text-white py-1 border-b border-red-500">
       <div class="container mx-auto px-4 text-center">
         <ClientOnly>
-          <small class="time-banner-text">{{ time }}</small>
+          <small class="time-banner-text hidden lg:inline">{{ time }}<span v-if="occasionName"> &mdash; {{ occasionName }}</span></small>
+          <small class="time-banner-text lg:hidden">{{ timeMobile }}<span v-if="occasionName"> &mdash; {{ occasionName }}</span></small>
           <template #fallback>
             <small class="time-banner-text">Loading time...</small>
           </template>
@@ -86,17 +126,33 @@
           <div class="text-center md:text-left">
             <ClientOnly>
               <UTooltip :text="`Switch to ${isDark ? 'light' : 'dark'} mode`">
-                <UButton color="deeppink" class="cursor-pointer text-white" size="xl" :icon="isDark ? 'i-heroicons-sun' : 'i-heroicons-moon'" variant="solid" @click="switchTheme"/>
+                <UButton
+                  color="deeppink"
+                  class="cursor-pointer text-white"
+                  size="xl"
+                  :icon="isDark ? 'i-heroicons-sun' : 'i-heroicons-moon'"
+                  variant="solid"
+                  :aria-label="`Switch to ${isDark ? 'light' : 'dark'} mode`"
+                  @click="switchTheme"
+                />
               </UTooltip>
             </ClientOnly>
           </div>
 
           <!-- Quote -->
           <div class="text-center">
-            <figure class="cursor-pointer hover:opacity-80 transition-opacity" @click="playAudio">
+            <figure
+              class="cursor-pointer hover:opacity-80 transition-opacity"
+              role="button"
+              tabindex="0"
+              aria-label="Play audio: We are japanese goblin"
+              @click="playAudio"
+              @keydown.enter="playAudio"
+              @keydown.space.prevent="playAudio"
+            >
               <blockquote class="text-sm italic">
                 <p>"we are japanese goblin"</p>
-                <audio ref="audioRef" preload="none">
+                <audio ref="audioRef" preload="none" aria-label="Audio quote">
                   <source src="/liltihjapanesegoblin_01.ogg" type="audio/ogg">
                 </audio>
               </blockquote>
@@ -118,11 +174,13 @@
 
 <script setup>
 const colorMode = useColorMode()
+const { colors: arrowColors, occasionName } = useSpecialOccasion()
 
 const brand = 'seija-kij.in'
 const isMobileMenuOpen = ref(false)
 const audioRef = ref(null)
 const time = ref('')
+const timeMobile = ref('')
 const timer = ref(null)
 
 const routes = [
@@ -163,8 +221,17 @@ const updateTime = () => {
     hour12: false
   })
 
+  const shortTimeString = date.toLocaleString('en-SG', {
+    timeZone: 'Asia/Singapore',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  }) + ' SGT'
+
   const gmt8 = '+0800'
   time.value = `${timeString} GMT${gmt8} (Singapore Standard Time)`
+  timeMobile.value = shortTimeString
 }
 
 // Close mobile menu on route change
@@ -180,8 +247,8 @@ onMounted(() => {
   // Initialize time display
   updateTime()
 
-  // Update time every second
-  timer.value = setInterval(updateTime, 1000)
+  // Update time every 30 seconds
+  timer.value = setInterval(updateTime, 30000)
 
   if (import.meta.client) {
     const handleClickOutside = (event) => {
@@ -218,33 +285,15 @@ onUnmounted(() => {
 @reference "tailwindcss";
 
 @font-face {
-  font-family: "Y1Cybassassin";
-  src: url('/assets/fonts/Y1Cybassassin-DoubleLine.otf') format('opentype');
-}
-
-@font-face {
-  font-family: "Y1CosmicIndustry";
-  src: url('/assets/fonts/Y1CosmicIndustry.otf') format('opentype');
-}
-
-@font-face {
-  font-family: "Y1Rivetron";
-  src: url('/assets/fonts/Y1Rivetron.otf') format('opentype');
-}
-
-@font-face {
   font-family: "Y1Vectura";
   src: url('/assets/fonts/Y1Vectura.otf') format('opentype');
-}
-
-@font-face {
-  font-family: "Y1SweetPixel";
-  src: url('/assets/fonts/Y1SweetPixel.otf') format('opentype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Azonix-1VB0";
   src: url('/assets/fonts/Azonix-1VB0.otf') format('opentype');
+  font-display: swap;
 }
 
 .navbar a[class*="router-link-active"] {
@@ -262,5 +311,68 @@ onUnmounted(() => {
 
 .time-banner-text {
   font-family: "Azonix-1VB0", cursive;
+}
+
+.navbar-arrows {
+  overflow: hidden;
+}
+
+.navbar-arrows-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+}
+
+/* Navbar blur zones - single blur per group, no seams between links */
+.navbar-blur-zone {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  overflow: visible;
+}
+
+.navbar-blur-zone::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  backdrop-filter: blur(4px);
+  background: rgb(255 255 255 / 0.9);
+  z-index: 0;
+}
+
+.dark .navbar-blur-zone::before {
+  background: rgb(17 24 39 / 0.9);
+}
+
+/* Brand: opaque over text, fade out past the right edge */
+.navbar-brand-fade::before {
+  left: 0;
+  right: -3rem;
+  mask-image: linear-gradient(to right, black 70%, transparent);
+  -webkit-mask-image: linear-gradient(to right, black 70%, transparent);
+}
+
+/* Links: opaque over text, fade out past the left edge */
+.navbar-links-fade::before {
+  left: -3rem;
+  right: 0;
+  mask-image: linear-gradient(to left, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to left, black 85%, transparent);
+}
+
+/* Mobile: uniform blur across entire navbar */
+.navbar-mobile-blur {
+  backdrop-filter: blur(4px);
+  background: rgb(255 255 255 / 0.9);
+}
+
+.dark .navbar-mobile-blur {
+  background: rgb(17 24 39 / 0.9);
 }
 </style>

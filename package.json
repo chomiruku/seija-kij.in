@@ -8,10 +8,16 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "start": "node .output/server/index.mjs --host 0.0.0.0",
-    "buildstart": "node --no-deprecation node_modules/nuxt/bin/nuxt.mjs build && node .output/server/index.mjs --host 0.0.0.0",
+    "build:start": "node --no-deprecation node_modules/nuxt/bin/nuxt.mjs build && node .output/server/index.mjs --host 0.0.0.0",
     "clean": "nuxt cleanup && rimraf .output dist",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
@@ -21,14 +27,20 @@
     "@nuxt/ui": "latest",
     "chalk": "latest",
     "eslint": "latest",
-    "nuxt": "latest",
+    "nuxt": "^4.3.1",
     "sharp": "latest",
     "tailwind-scrollbar": "latest",
     "vue": "latest",
     "vue-router": "latest"
   },
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
     "@types/chalk": "^2.2.4",
-    "rimraf": "^6.1.0"
+    "@vitest/coverage-v8": "^4.0.17",
+    "@vitest/ui": "^4.0.17",
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^20.1.0",
+    "rimraf": "^6.1.0",
+    "vitest": "^4.0.17"
   }
 }

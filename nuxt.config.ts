@@ -92,7 +92,13 @@ export default defineNuxtConfig({
             link: [
                 // Favicon links
                 {rel: 'icon', type: 'image/x-icon', href: '/seijakijin.ico'},
-                {rel: 'alternate icon', type: 'image/svg+xml', href: '/seijakijin.svg'}
+                {rel: 'alternate icon', type: 'image/svg+xml', href: '/seijakijin.svg'},
+                // Preconnect to external APIs for faster first requests
+                {rel: 'preconnect', href: 'https://booru.seija-kij.in'},
+                {rel: 'preconnect', href: 'https://samba.seija-kij.in'},
+                {rel: 'preconnect', href: 'https://mood.seija-kij.in'},
+                {rel: 'dns-prefetch', href: 'https://cdn.donmai.us'},
+                {rel: 'dns-prefetch', href: 'https://danbooru.donmai.us'}
             ]
         }
     },

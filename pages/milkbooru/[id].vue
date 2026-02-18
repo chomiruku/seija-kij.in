@@ -412,7 +412,16 @@ const hasError = ref(false)
 const videoRef = ref(null)
 const selectedVariantIndex = ref(2) // Default to middle quality
 const commentsExpanded = ref(false) // Comments collapsed by default
+const commentsFetched = ref(false) // Track if comments have been loaded
 const qualityToastShown = ref(false)
+
+// Lazy-load comments when section is first expanded
+watch(commentsExpanded, (expanded) => {
+  if (expanded && !commentsFetched.value) {
+    commentsFetched.value = true
+    fetchComments()
+  }
+})
 const isMounted = ref(false)
 
 // Computed properties
@@ -511,22 +520,6 @@ const checkAndShowQualityToast = () => {
   }
 }
 
-const _upgradeToHighestQuality = () => {
-  if (!post.value?.media_asset?.variants?.length) return
-  selectedVariantIndex.value = post.value.media_asset.variants.length - 1
-  onVariantChange()
-}
-
-// Methods
-const _getImageUrl = (post) => {
-  if (post.is_banned) return '/banned.jpg'
-  if (!post.media_asset?.variants?.length) return '/placeholder.jpg'
-  
-  // Use the largest available variant for the detail view (last variant is typically highest quality)
-  const variant = post.media_asset.variants[post.media_asset.variants.length - 1] || post.media_asset.variants[0]
-  return variant?.url || '/placeholder.jpg'
-}
-
 const getVideoUrl = (post) => {
   if (post.is_banned) return '/banned.jpg'
   return post.large_file_url || post.file_url || '/placeholder.jpg'
@@ -589,8 +582,8 @@ const initializeVideo = (event) => {
 }
 
 const retryFetch = () => {
+  commentsFetched.value = false
   fetchPost()
-  fetchComments()
 }
 
 // Quality slider methods
@@ -635,12 +628,6 @@ const initializeQualityPreference = () => {
     const variantCount = post.value.media_asset.variants.length
     selectedVariantIndex.value = Math.min(2, variantCount - 1)
   }
-}
-
-// Comment parsing and styling methods
-const _getInitials = (name) => {
-  if (!name || name === 'Anonymous') return '?'
-  return name.charAt(0).toUpperCase()
 }
 
 const parseCommentBody = (body) => {
@@ -700,7 +687,7 @@ const getCookie = (name) => {
 // Initial fetch
 onMounted(async () => {
   isMounted.value = true
-  await Promise.all([fetchPost(), fetchComments()])
+  await fetchPost()
   
   // Set up quality toast timer
   setTimeout(() => {

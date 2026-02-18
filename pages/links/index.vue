@@ -1,5 +1,23 @@
 <template>
   <div class="">
+    <!-- Shared arrow pattern definition -->
+    <svg class="absolute w-0 h-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="links-arrows" x="0" y="0" width="600" height="200" patternTransform="rotate(-60) scale(0.25)" patternUnits="userSpaceOnUse">
+          <animate attributeName="x" from="0" to="600" dur="30s" repeatCount="indefinite"/>
+          <rect width="600" height="200" :fill="arrowColors.background"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" stroke-linejoin="miter" transform="translate(-150,-100)"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(450,-100)"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(-150,100)"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(450,100)"/>
+          <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" :fill="arrowColors.white" :stroke="arrowColors.white" stroke-width="1.5" stroke-linejoin="miter"/>
+          <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" :fill="arrowColors.red" :stroke="arrowColors.red" stroke-width="1.5" stroke-linejoin="miter" transform="translate(300,0)"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.black" :stroke="arrowColors.black" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,-100)"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.black" :stroke="arrowColors.black" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,100)"/>
+        </pattern>
+      </defs>
+    </svg>
+
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20">
       <div class="max-w-6xl mx-auto">
         <div class="mb-12 text-center">
@@ -11,20 +29,27 @@
           </p>
         </div>
         
-        <div class="grid gap-4 sm:gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           <a
             v-for="(link, index) in links"
             :key="link.url"
             :href="link.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="group relative overflow-hidden p-4 sm:p-6 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-200/50 dark:border-gray-700/50 hover:border-blue-300 dark:hover:border-blue-600 animate-fade-in-up"
+            class="group relative overflow-hidden p-4 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-gray-200/50 dark:border-gray-700/50 hover:border-blue-300 dark:hover:border-blue-600 animate-fade-in-up"
             :style="`animation-delay: ${index * 100}ms`"
           >
 
-            <div class="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"/>
-            
-            <div class="relative flex items-center">
+            <!-- Arrow pattern background - reveals from right on hover -->
+            <div class="link-card-arrows">
+              <svg class="absolute inset-0 w-full h-full" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <rect width="100%" height="100%" fill="url(#links-arrows)"/>
+              </svg>
+              <!-- Blur + opacity overlay -->
+              <div class="absolute inset-0 backdrop-blur-[2px] bg-white/80 dark:bg-gray-900/80"/>
+            </div>
+
+            <div class="relative z-10 flex items-center">
               <div class="flex-shrink-0 mr-5">
                 <div class="relative">
                   <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"/>
@@ -38,7 +63,7 @@
                   </div>
                 </div>
               </div>
-              
+
               <div class="flex-1 min-w-0">
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 mb-1">
                   {{ link.name }}
@@ -47,17 +72,8 @@
                   {{ link.description }}
                 </p>
               </div>
-              
-              <div class="flex-shrink-0 ml-4">
-                <div class="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center group-hover:bg-blue-100 dark:group-hover:bg-blue-900 group-hover:scale-110 transition-all duration-300">
-                  <svg class="w-5 h-5 text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                  </svg>
-                </div>
-              </div>
-            </div>
 
-            <div class="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out"/>
+            </div>
           </a>
         </div>
       </div>
@@ -66,6 +82,8 @@
 </template>
 
 <script setup>
+const { colors: arrowColors } = useSpecialOccasion()
+
 const title = 'Links';
 const description = 'my links :)';
 
@@ -144,6 +162,25 @@ useHead({
 .animate-fade-in-up {
   animation: fade-in-up 0.6s ease-out forwards;
   opacity: 0;
+}
+
+.link-card-arrows {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  mask-image: linear-gradient(to right, transparent 50%, black 80%);
+  -webkit-mask-image: linear-gradient(to right, transparent 50%, black 80%);
+  mask-size: 200% 100%;
+  -webkit-mask-size: 200% 100%;
+  mask-position: 0% 0;
+  -webkit-mask-position: 0% 0;
+  transition: mask-position 0.5s ease-out, -webkit-mask-position 0.5s ease-out;
+}
+
+.group:hover .link-card-arrows {
+  mask-position: 100% 0;
+  -webkit-mask-position: 100% 0;
 }
 
 @keyframes float {
