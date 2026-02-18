@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-8">
       <!-- Hero Quote Section -->
       <div class="text-center mb-12">
         <div class="backdrop-blur-sm border border-white/20 rounded-2xl p-6 sm:p-8 mx-auto shadow-lg bg-gradient-to-br from-red-300 dark:from-pink-900/30 to-orange-200 dark:to-pink-500/10">
@@ -62,14 +62,41 @@
 
           <!-- Seija Mood Index -->
           <div class="text-center">
-            <div class="inline-block bg-white/20 rounded-xl w-auto h-100 sm:h-150">
-              <nuxt-img
-                  v-if="mood"
-                  :src="`https://mood.seija-kij.in${mood.imageUrl}`"
-                  :alt="`Kijin Seija feeling ${mood.mood}`"
-                  class="w-auto h-100 sm:h-150 rounded-lg mx-auto transition-transform duration-900 hover:scale-105 hover:rotate-180"
-              />
-              <div v-else class="w-80 h-100 sm:h-150 bg-gray-300/20 rounded-lg animate-pulse mx-auto"/>
+            <div class="mood-image-wrapper inline-block rounded-xl w-auto h-100 sm:h-150" :style="arrowColorVars">
+              <div class="mood-arrows-clip absolute inset-0 rounded-xl overflow-hidden">
+                <div class="absolute inset-0 z-1 rounded-xl shadow-[inset_0_4px_12px_rgba(0,0,0,0.5),inset_0_-4px_12px_rgba(0,0,0,0.3)] pointer-events-none"/>
+                <svg
+                  class="mood-arrows-bg"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  preserveAspectRatio="none"
+                  :style="arrowParallaxStyle"
+                >
+                  <defs>
+                    <pattern id="arrows-mood" x="0" y="0" width="600" height="200" patternTransform="rotate(-60) scale(0.25)" patternUnits="userSpaceOnUse">
+                      <animate attributeName="x" from="0" to="600" dur="30s" repeatCount="indefinite"/>
+                      <rect width="600" height="200" fill="var(--arrow-bg)"/>
+                      <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="var(--arrow-grey)" stroke="var(--arrow-grey)" stroke-width="1.5" stroke-linejoin="miter" transform="translate(-150,-100)"/>
+                      <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="var(--arrow-grey)" stroke="var(--arrow-grey)" stroke-width="1.5" transform="translate(450,-100)"/>
+                      <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="var(--arrow-grey)" stroke="var(--arrow-grey)" stroke-width="1.5" transform="translate(-150,100)"/>
+                      <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="var(--arrow-grey)" stroke="var(--arrow-grey)" stroke-width="1.5" transform="translate(450,100)"/>
+                      <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" fill="var(--arrow-white)" stroke="var(--arrow-white)" stroke-width="1.5" stroke-linejoin="miter"/>
+                      <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" fill="var(--arrow-red)" stroke="var(--arrow-red)" stroke-width="1.5" stroke-linejoin="miter" transform="translate(300,0)"/>
+                      <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="var(--arrow-black)" stroke="var(--arrow-black)" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,-100)"/>
+                      <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="var(--arrow-black)" stroke="var(--arrow-black)" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,100)"/>
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#arrows-mood)"/>
+                </svg>
+              </div>
+              <div v-if="mood" class="mood-image-shadow relative z-10">
+                <nuxt-img
+                    :src="`https://mood.seija-kij.in${mood.imageUrl}`"
+                    :alt="`Kijin Seija feeling ${mood.mood}`"
+                    class="w-auto h-100 sm:h-150 rounded-lg mx-auto transition-transform duration-900 hover:scale-105 hover:rotate-180"
+                />
+              </div>
+              <div v-else class="relative z-10 w-80 h-100 sm:h-150 bg-gray-300/20 rounded-lg animate-pulse mx-auto"/>
             </div>
             <p class="mt-4 italic">
               Seija is feeling
@@ -95,7 +122,7 @@
       </div>
 
       <!-- Abilities & Spell Cards -->
-      <div class="bg-linear-to-br from-purple-500/50 dark:from-pink-600/50 to-purple-800/20 dark:to-red-500/20 backdrop-blur-sm border border-white/10 rounded-2xl p-6 sm:p-8 shadow-lg">
+      <div class="bg-linear-to-br from-purple-500/50 dark:from-pink-600/50 to-purple-800/20 dark:to-red-500/20 backdrop-blur-sm border border-white/10 rounded-2xl p-6 sm:p-8 shadow-lg mb-5">
         <h3 class="text-3xl font-bold text-center mb-8">Abilities & Spell Cards</h3>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -121,7 +148,7 @@
 
           <!-- Spell Cards -->
           <div>
-            <h4 class="text-xl font-bold mb-4">
+            <h4 class="text-xl font-bold">
               Spell Cards
             </h4>
             <div class="space-y-2 text-sm">
@@ -170,6 +197,9 @@
 </template>
 
 <script setup>
+const { colorVars: arrowColorVars } = useSpecialOccasion()
+const { arrowParallaxStyle } = useArrowParallax()
+
 const { data: quote } = useFetch('https://mood.seija-kij.in/quote', {
   default: () => null,
   server: false,
@@ -191,6 +221,31 @@ useHead({
 </script>
 
 <style scoped>
+.mood-image-wrapper {
+  position: relative;
+  transition:
+    --arrow-bg 2s ease,
+    --arrow-grey 2s ease,
+    --arrow-white 2s ease,
+    --arrow-red 2s ease,
+    --arrow-black 2s ease;
+}
+
+.mood-arrows-bg {
+  position: absolute;
+  top: -10px;
+  left: -14px;
+  width: calc(100% + 28px);
+  height: calc(100% + 20px);
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+}
+
+.mood-image-shadow {
+  filter: drop-shadow(6px 6px 12px rgba(0, 0, 0, 1));
+}
+
 .dreamy-container {
   @apply inline-block;
 }

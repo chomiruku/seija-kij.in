@@ -166,5 +166,16 @@ export function useSpecialOccasion() {
   const colors = computed(() => occasion.value?.colors ?? defaultColors)
   const occasionName = computed(() => occasion.value?.name ?? null)
 
-  return { occasion, colors, occasionName }
+  const colorVars = computed(() => {
+    const c = colors.value
+    return {
+      '--arrow-bg': c.background,
+      '--arrow-grey': c.grey,
+      '--arrow-white': c.white,
+      '--arrow-red': c.red,
+      '--arrow-black': c.black,
+    } as Record<string, string>
+  })
+
+  return { occasion, colors, colorVars, occasionName }
 }

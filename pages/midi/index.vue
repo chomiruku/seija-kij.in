@@ -1,19 +1,19 @@
 <template>
-  <div>
+  <div class="arrow-color-transition" :style="arrowColorVars">
     <!-- Shared arrow pattern definition -->
     <svg class="absolute w-0 h-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <pattern id="midi-arrows" x="0" y="0" width="600" height="200" patternTransform="rotate(-60) scale(0.25)" patternUnits="userSpaceOnUse">
           <animate attributeName="x" from="0" to="600" dur="30s" repeatCount="indefinite"/>
-          <rect width="600" height="200" :fill="arrowColors.background"/>
-          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" stroke-linejoin="miter" transform="translate(-150,-100)"/>
-          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(450,-100)"/>
-          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(-150,100)"/>
-          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.grey" :stroke="arrowColors.grey" stroke-width="1.5" transform="translate(450,100)"/>
-          <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" :fill="arrowColors.white" :stroke="arrowColors.white" stroke-width="1.5" stroke-linejoin="miter"/>
-          <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" :fill="arrowColors.red" :stroke="arrowColors.red" stroke-width="1.5" stroke-linejoin="miter" transform="translate(300,0)"/>
-          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.black" :stroke="arrowColors.black" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,-100)"/>
-          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" :fill="arrowColors.black" :stroke="arrowColors.black" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,100)"/>
+          <rect width="600" height="200" fill="var(--arrow-bg)"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="var(--arrow-grey)" stroke="var(--arrow-grey)" stroke-width="1.5" stroke-linejoin="miter" transform="translate(-150,-100)"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="var(--arrow-grey)" stroke="var(--arrow-grey)" stroke-width="1.5" transform="translate(450,-100)"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="var(--arrow-grey)" stroke="var(--arrow-grey)" stroke-width="1.5" transform="translate(-150,100)"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="var(--arrow-grey)" stroke="var(--arrow-grey)" stroke-width="1.5" transform="translate(450,100)"/>
+          <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" fill="var(--arrow-white)" stroke="var(--arrow-white)" stroke-width="1.5" stroke-linejoin="miter"/>
+          <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150" fill="var(--arrow-red)" stroke="var(--arrow-red)" stroke-width="1.5" stroke-linejoin="miter" transform="translate(300,0)"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="var(--arrow-black)" stroke="var(--arrow-black)" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,-100)"/>
+          <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150" fill="var(--arrow-black)" stroke="var(--arrow-black)" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,100)"/>
         </pattern>
       </defs>
     </svg>
@@ -55,7 +55,7 @@
           >
             <!-- Arrow pattern background - reveals from right on hover -->
             <div class="midi-card-arrows">
-              <svg class="absolute inset-0 w-full h-full" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+              <svg class="arrow-parallax-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" :style="arrowParallaxStyle">
                 <rect width="100%" height="100%" fill="url(#midi-arrows)"/>
               </svg>
               <!-- Blur + opacity overlay -->
@@ -123,14 +123,37 @@
     </div>
 
     <!-- MIDI Details Modal -->
-    <UModal 
-      v-model:open="showModal" 
-      :title="selectedMidi?.name"
-      :description="selectedMidi?.alternativeName"
+    <UModal
+      v-model:open="showModal"
       :ui="{
-        content: 'max-w-7xl'
+        content: 'max-w-7xl',
+        header: 'relative overflow-hidden'
       }"
     >
+        <template #header>
+          <div class="modal-header-arrows">
+            <svg class="modal-header-arrows-bg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" :style="arrowParallaxStyle">
+              <rect width="100%" height="100%" fill="url(#midi-arrows)"/>
+            </svg>
+            <div class="absolute inset-0 backdrop-blur-xs bg-white/90 dark:bg-gray-900/90 z-1"/>
+          </div>
+          <div class="relative z-10 flex items-center justify-between w-full">
+            <div class="min-w-0 flex-1 mr-3">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white truncate">{{ selectedMidi?.name }}</h2>
+              <p v-if="selectedMidi?.alternativeName" class="text-sm text-gray-500 dark:text-gray-400 truncate">{{ selectedMidi.alternativeName }}</p>
+            </div>
+            <UButton
+              icon="i-heroicons-x-mark"
+              variant="ghost"
+              color="neutral"
+              size="sm"
+              aria-label="Close modal"
+              class="shrink-0"
+              @click="showModal = false"
+            />
+          </div>
+        </template>
+
         <template #body>
           <div class="space-y-8">
             <!-- YouTube Embed -->
@@ -224,7 +247,8 @@
 </template>
 
 <script setup>
-const { colors: arrowColors } = useSpecialOccasion()
+const { colorVars: arrowColorVars } = useSpecialOccasion()
+const { arrowParallaxStyle } = useArrowParallax()
 
 const title = 'MIDIs';
 const description = 'my midis :)';
@@ -325,6 +349,15 @@ useHead({
 </script>
 
 <style scoped>
+.arrow-color-transition {
+  transition:
+    --arrow-bg 2s ease,
+    --arrow-grey 2s ease,
+    --arrow-white 2s ease,
+    --arrow-red 2s ease,
+    --arrow-black 2s ease;
+}
+
 @keyframes fade-in-up {
   from {
     opacity: 0;
@@ -341,6 +374,14 @@ useHead({
   opacity: 0;
 }
 
+.arrow-parallax-svg {
+  position: absolute;
+  top: -10px;
+  left: -14px;
+  width: calc(100% + 28px);
+  height: calc(100% + 20px);
+}
+
 .midi-card-arrows {
   position: absolute;
   inset: 0;
@@ -352,13 +393,31 @@ useHead({
   -webkit-mask-size: 200% 100%;
   mask-position: 0% 0;
   -webkit-mask-position: 0% 0;
-  transition: mask-position 0.5s ease-out, -webkit-mask-position 0.5s ease-out;
+  transition: mask-position 0.25s ease-out, -webkit-mask-position 0.25s ease-out;
 }
 
 .group:hover .midi-card-arrows {
   mask-position: 100% 0;
   -webkit-mask-position: 100% 0;
 }
+
+.modal-header-arrows {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.modal-header-arrows-bg {
+  position: absolute;
+  top: -10px;
+  left: -14px;
+  width: calc(100% + 28px);
+  height: calc(100% + 20px);
+  z-index: 0;
+  display: block;
+}
+
 
 ::-webkit-scrollbar {
   width: 8px;
