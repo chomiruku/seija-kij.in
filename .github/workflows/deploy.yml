@@ -73,7 +73,10 @@ jobs:
 
       - name: Install dependencies
         if: steps.check-artifact.outputs.found != 'true'
-        run: npm ci --ignore-scripts && npx nuxt prepare
+        run: |
+          rm package-lock.json
+          npm install
+
 
       - name: Build project
         if: steps.check-artifact.outputs.found != 'true'
