@@ -9,6 +9,9 @@ describe('useMilkBooruCache', () => {
   beforeEach(() => {
     storage = mockSessionStorage()
     vi.clearAllMocks()
+    // Clear the singleton cache between tests
+    const { clearCache } = useMilkBooruCache()
+    clearCache()
   })
 
   describe('getCachedResult', () => {

@@ -4,8 +4,9 @@ import type { CachedSearchResult, Post, Pagination } from '~/types/booru'
 const CACHE_KEY = 'milkbooru_search_cache'
 const MAX_CACHE_SIZE = 50
 
+const searchCache = ref<Map<string, CachedSearchResult>>(new Map())
+
 export function useMilkBooruCache() {
-  const searchCache = ref<Map<string, CachedSearchResult>>(new Map())
 
   /**
    * Generates a cache key from search tags and page number
