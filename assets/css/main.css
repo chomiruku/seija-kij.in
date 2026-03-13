@@ -99,6 +99,33 @@ Make sure disabled buttons don't get the pointer cursor.
     cursor: default;
 }
 
+/* Shared animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+/* Arrow color transition for pages using arrow patterns */
+.arrow-color-transition {
+  transition:
+    --arrow-bg 2s ease,
+    --arrow-grey 2s ease,
+    --arrow-white 2s ease,
+    --arrow-red 2s ease,
+    --arrow-black 2s ease;
+}
+
 /* Custom scrollbar styles using Tailwind utilities */
 @layer utilities {
   .scrollbar-thin {
