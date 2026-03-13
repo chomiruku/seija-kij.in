@@ -31,7 +31,7 @@
     "sharp": "latest",
     "tailwind-scrollbar": "latest",
     "vue": "^3.5.30",
-    "vue-router": "latest"
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.97",
