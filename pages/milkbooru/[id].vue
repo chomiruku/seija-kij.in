@@ -221,7 +221,7 @@
                     v-for="tag in tagsByCategory.copyright"
                     :key="tag"
                     :to="`/milkbooru?tags=${encodeURIComponent(tag)}`"
-                    class="inline-block px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white text-xs rounded transition-colors cursor-pointer"
+                    class="inline-block px-2 py-1 bg-blueviolet-500 hover:bg-blueviolet-600 text-white text-xs rounded transition-colors cursor-pointer"
                   >
                     {{ tag }}
                   </NuxtLink>

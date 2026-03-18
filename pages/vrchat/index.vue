@@ -4,7 +4,7 @@
       <div class="max-w-8xl mx-auto">
         <!-- Header -->
         <div class="mb-8 text-center">
-          <h1 class="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-gray-300 via-purple-500 to-pink-600 dark:from-white dark:via-purple-300 dark:to-pink-300 bg-clip-text text-transparent pb-3 mb-1">
+          <h1 class="text-4xl sm:text-5xl font-bold text-deeppink-500 dark:text-deeppink-400 mb-1">
             gallery
           </h1>
           <p class="text-lg text-gray-600 dark:text-gray-300">
@@ -15,13 +15,9 @@
         <!-- Loading State -->
         <div v-if="isLoading">
           <!-- Toggle Buttons Skeleton -->
-          <div class="flex justify-start mb-8">
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-2">
-              <div class="flex gap-2">
-                <div class="px-6 py-3 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse w-32 h-12"/>
-                <div class="px-6 py-3 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse w-32 h-12"/>
-              </div>
-            </div>
+          <div class="flex justify-start mb-8 gap-2">
+            <div class="px-6 py-3 rounded-lg bg-gray-200 dark:bg-gray-800 animate-pulse w-32 h-12"/>
+            <div class="px-6 py-3 rounded-lg bg-gray-200 dark:bg-gray-800 animate-pulse w-32 h-12"/>
           </div>
 
           <!-- Skeleton Month Headers and Grid -->
@@ -37,16 +33,7 @@
 
             <!-- Images Grid Skeleton -->
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-4">
-              <div v-for="j in 10" :key="`skeleton-image-${i}-${j}`" class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 animate-pulse">
-                <div class="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg mb-3"/>
-                <div class="p-3">
-                  <div class="flex justify-between items-center mb-2">
-                    <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-16"/>
-                    <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-12"/>
-                  </div>
-                  <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-20"/>
-                </div>
-              </div>
+              <div v-for="j in 10" :key="`skeleton-image-${i}-${j}`" class="aspect-square bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse"/>
             </div>
           </div>
         </div>
@@ -114,41 +101,30 @@
                 <div
                     v-for="(image, imageIndex) in monthGroup.items"
                     :key="image.href"
-                    class="group relative overflow-hidden rounded-xl bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                    class="group relative aspect-square overflow-hidden rounded-lg cursor-pointer"
                     @click="openImageModal(getGlobalImageIndex(yearGroup.year, monthGroup.month, imageIndex))"
                 >
-                  <div class="aspect-square overflow-hidden rounded-lg">
-                    <nuxt-img
-                        :src="`https://samba.seija-kij.in/public/vrchat/gallery/images/${image.href}?th=300`"
-                        :alt="`VRChat screenshot taken on ${formatDate(image.ts * 1000)}`"
-                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                        loading="lazy"
-                        format="webp"
-                        :width="300"
-                        :height="300"
-                        fit="cover"
-                    />
-                  </div>
+                  <nuxt-img
+                      :src="`https://samba.seija-kij.in/public/vrchat/gallery/images/${image.href}?th=300`"
+                      :alt="`VRChat screenshot taken on ${formatDate(image.ts * 1000)}`"
+                      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                      format="webp"
+                      :width="300"
+                      :height="300"
+                      fit="cover"
+                  />
 
-                  <!-- Overlay -->
-                  <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-                    <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
-                    </svg>
-                  </div>
-
-                  <!-- Image Info -->
-                  <div class="p-2 sm:p-3">
-                    <div class="flex justify-between items-center text-xs">
-                      <span class="text-gray-500 dark:text-gray-400">
-                        {{ formatDate(image.ts * 1000) }}
-                      </span>
-                      <span class="text-gray-500 dark:text-gray-400">
-                        {{ formatFileSize(image.sz) }}
-                      </span>
-                    </div>
-                    <div class="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                      {{ image.tags?.res || 'Unknown resolution' }}
+                  <!-- Metadata overlay on hover -->
+                  <div class="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-200 flex flex-col justify-end p-2">
+                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <div class="flex justify-between items-center text-xs text-white">
+                        <span>{{ formatDate(image.ts * 1000) }}</span>
+                        <span>{{ formatFileSize(image.sz) }}</span>
+                      </div>
+                      <div class="text-xs text-white/70 mt-0.5">
+                        {{ image.tags?.res || '' }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -193,7 +169,7 @@
                 <div
                     v-for="video in monthGroup.items"
                     :key="video.href"
-                    class="group bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden hover:shadow-xl transition-all duration-300"
+                    class="group bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-150 hover:border-deeppink-400 dark:hover:border-deeppink-500"
                 >
                   <div class="aspect-video bg-black rounded-t-xl overflow-hidden">
                     <video
@@ -432,6 +408,21 @@ const allImages = computed(() => {
 const hasContent = computed(() => {
   return (galleryData.value?.images?.length > 0) || (galleryData.value?.videos?.length > 0)
 })
+
+// Auto-expand the most recent month when data loads
+watch(groupedImagesByYear, (groups) => {
+  if (groups.length && !Object.keys(expandedMonths.value.images).length) {
+    const firstMonthKey = `${groups[0].year}-${groups[0].months[0].month}`
+    expandedMonths.value.images[firstMonthKey] = true
+  }
+}, { immediate: true })
+
+watch(groupedVideosByYear, (groups) => {
+  if (groups.length && !Object.keys(expandedMonths.value.videos).length) {
+    const firstMonthKey = `${groups[0].year}-${groups[0].months[0].month}`
+    expandedMonths.value.videos[firstMonthKey] = true
+  }
+}, { immediate: true })
 
 // Month expansion functions
 const toggleMonth = (type, monthKey) => {

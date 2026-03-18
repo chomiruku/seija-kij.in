@@ -6,11 +6,11 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20">
       <div class="max-w-6xl mx-auto">
         <div class="mb-12 text-center">
-          <h1 class="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-gray-300 via-orange-500 to-purple-800 dark:from-white dark:via-blue-200 dark:to-purple-200 bg-clip-text text-transparent mb-4">
+          <h1 class="text-4xl sm:text-5xl font-bold text-crimson-500 dark:text-crimson-400 mb-4">
             links
           </h1>
           <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">
-            hi
+            places chomilk can be found on the internet
           </p>
         </div>
         
@@ -21,7 +21,7 @@
             :href="link.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="group relative overflow-hidden p-4 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-gray-200/50 dark:border-gray-700/50 hover:border-blue-300 dark:hover:border-blue-600 animate-fade-in-up"
+            class="group relative overflow-hidden p-4 bg-white dark:bg-gray-900 rounded-xl border-l-4 border-l-crimson-500 dark:border-l-crimson-400 border border-gray-200 dark:border-gray-700 hover:border-l-crimson-400 dark:hover:border-l-crimson-300 transition-all duration-200 hover:-translate-y-0.5 animate-fade-in-up"
             :style="`animation-delay: ${index * 100}ms`"
           >
 
@@ -37,8 +37,8 @@
             <div class="relative z-10 flex items-center">
               <div class="flex-shrink-0 mr-5">
                 <div class="relative">
-                  <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"/>
-                  <div class="relative w-12 h-12 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <div class="absolute inset-0 bg-gradient-to-r from-crimson-400 to-deeppink-500 rounded-full blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"/>
+                  <div class="relative w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <img
                       v-if="link.image"
                       :src="link.image"
@@ -50,7 +50,7 @@
               </div>
 
               <div class="flex-1 min-w-0">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 mb-1">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-crimson-600 dark:group-hover:text-crimson-400 transition-colors duration-300 mb-1">
                   {{ link.name }}
                 </h3>
                 <p class="text-base text-gray-600 dark:text-gray-300 group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors duration-300">

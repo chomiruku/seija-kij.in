@@ -6,7 +6,7 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20">
       <div class="max-w-8xl mx-auto">
         <div class="mb-12 text-center">
-          <h1 class="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 dark:from-purple-200 dark:via-pink-200 dark:to-red-200 bg-clip-text text-transparent mb-4">
+          <h1 class="text-4xl sm:text-5xl font-bold text-blueviolet-500 dark:text-plum-400 mb-4">
             midis
           </h1>
           <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">
@@ -34,7 +34,7 @@
           <div
             v-for="(midi, index) in filteredMidis"
             :key="index"
-            class="group relative overflow-hidden p-4 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-200/50 dark:border-gray-700/50 hover:border-purple-300 dark:hover:border-purple-600 animate-fade-in-up cursor-pointer"
+            class="group relative overflow-hidden p-3 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-blueviolet-400 dark:hover:border-blueviolet-500 transition-colors duration-150 animate-fade-in-up cursor-pointer"
             :style="`animation-delay: ${index * 50}ms`"
             @click="openMidiDetails(midi)"
           >
@@ -76,7 +76,7 @@
           <div
             v-for="n in 9"
             :key="n"
-            class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl shadow-md p-4 animate-pulse"
+            class="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-3 animate-pulse"
           >
             <div class="h-5 bg-gray-300/20 rounded mb-2 w-3/4"/>
             <div class="h-3 bg-gray-300/20 rounded mb-3 w-1/2"/>

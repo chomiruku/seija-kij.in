@@ -3,12 +3,12 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-8">
       <!-- Hero Quote Section -->
       <div class="text-center mb-12">
-        <div class="backdrop-blur-sm border border-white/20 rounded-2xl p-6 sm:p-8 mx-auto shadow-lg bg-gradient-to-br from-red-300 dark:from-pink-900/30 to-orange-200 dark:to-pink-500/10">
+        <div class="border-l-4 border-crimson-500 dark:border-crimson-400 pl-6 sm:pl-8 py-4 text-left max-w-2xl mx-auto">
           <figure v-if="quote">
             <blockquote class="text-lg sm:text-xl mb-4 italic">
               <p>"{{ quote.text }}"</p>
             </blockquote>
-            <figcaption class="">
+            <figcaption>
               Kijin Seija in <cite class="font-semibold">{{ quote.source }}</cite>
             </figcaption>
           </figure>
@@ -20,11 +20,11 @@
       </div>
 
       <!-- Main Character Card -->
-      <div class="bg-linear-to-br from-white/50 dark:from-red-900/50 to-white/50 dark:to-pink-500/20 backdrop-blur-sm border border-white/20 rounded-2xl p-6 sm:p-8 shadow-lg mb-12">
+      <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 sm:p-8 mb-12">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <!-- Character Info -->
           <div>
-            <h2 class="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-linear-to-r from-pink-400 via-red-600 to-purple-400 mb-6">
+            <h2 class="text-3xl sm:text-4xl font-bold text-crimson-500 dark:text-crimson-400 mb-6">
               鬼人 正邪
             </h2>
 
@@ -46,7 +46,7 @@
                 <span class="font-semibold">First Appearance:</span> <span class="ml-2">Double Dealing Character</span>
               </li>
               <li class="flex items-center">
-                <span class="w-2 h-2 bg-blue-400 rounded-full mr-3"/>
+                <span class="w-2 h-2 bg-plum-400 rounded-full mr-3"/>
                 <span class="font-semibold">Location:</span> <span class="ml-2">Unknown</span>
               </li>
             </ul>
@@ -100,7 +100,7 @@
       </div>
 
       <!-- Abilities & Spell Cards -->
-      <div class="bg-linear-to-br from-purple-500/50 dark:from-pink-600/50 to-purple-800/20 dark:to-red-500/20 backdrop-blur-sm border border-white/10 rounded-2xl p-6 sm:p-8 shadow-lg mb-5">
+      <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 sm:p-8 mb-5">
         <h3 class="text-3xl font-bold text-center mb-8">Abilities & Spell Cards</h3>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -110,15 +110,15 @@
             <p class="mb-4">Can flip anything upside down, including:</p>
             <ul class="space-y-2">
               <li class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"/>
+                <span class="w-1.5 h-1.5 bg-deeppink-400 rounded-full mr-3"/>
                 Physical objects
               </li>
               <li class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"/>
+                <span class="w-1.5 h-1.5 bg-deeppink-400 rounded-full mr-3"/>
                 Directions
               </li>
               <li class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"/>
+                <span class="w-1.5 h-1.5 bg-deeppink-400 rounded-full mr-3"/>
                 Abstract concepts
               </li>
             </ul>
