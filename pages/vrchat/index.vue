@@ -105,7 +105,7 @@
                     @click="openImageModal(getGlobalImageIndex(yearGroup.year, monthGroup.month, imageIndex))"
                 >
                   <nuxt-img
-                      :src="`https://samba.seija-kij.in/public/vrchat/gallery/images/${image.href}?th=300`"
+                      :src="`https://samba.seija-kij.in/public/vrchat/gallery/images/${image.href}?th=w`"
                       :alt="`VRChat screenshot taken on ${formatDate(image.ts * 1000)}`"
                       class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                       loading="lazy"
