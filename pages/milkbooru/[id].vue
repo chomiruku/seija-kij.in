@@ -3,7 +3,7 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-20">
       <!-- Loading State -->
       <div v-if="isLoading" class="text-center py-12">
-        <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm p-8 max-w-md mx-auto border border-gray-200/50 dark:border-gray-700/50">
+        <div class="bg-white dark:bg-gray-900 p-8 max-w-md mx-auto border border-gray-200 dark:border-gray-800">
           <div class="w-8 h-8 mx-auto mb-4">
             <svg class="animate-spin w-8 h-8 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
@@ -45,31 +45,29 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <!-- Media Column -->
           <div class="lg:col-span-2">
+            <!-- Variant Buttons -->
+            <div v-if="!isVideo && post.media_asset?.variants?.length > 1" class="flex mb-2">
+              <div
+                v-for="(variant, idx) in post.media_asset.variants"
+                :key="idx"
+                class="relative flex-1 border -ml-px first:ml-0 transition-colors"
+                :class="selectedVariantIndex === idx ? 'bg-crimson-500/20 border-crimson-500/30' : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800'"
+              >
+                <UiCornerBrackets size="sm" :color="selectedVariantIndex === idx ? 'crimson' : 'pink'" />
+                <button
+                  class="variant-btn w-full px-3 py-2 text-xs font-mono transition-colors"
+                  :class="selectedVariantIndex === idx ? 'text-crimson-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'"
+                  @click="selectedVariantIndex = idx; onVariantChange()"
+                >
+                  {{ variant.width }}×{{ variant.height }}
+                </button>
+              </div>
+            </div>
+
             <!-- Main Media -->
-            <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 overflow-hidden mb-6">
+            <div class="relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 overflow-hidden mb-4">
               <div class="absolute inset-0 pointer-events-none z-10">
                 <UiCornerBrackets />
-              </div>
-              <!-- Quality Slider for Images -->
-              <div v-if="!isVideo && post.media_asset?.variants?.length > 1" class="p-4 border-b border-gray-200/50 dark:border-gray-700/50">
-                <div class="flex items-center justify-between mb-2">
-                  <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Image Quality</span>
-                  <span class="text-xs text-gray-500 dark:text-gray-400">
-                    {{ getCurrentVariantInfo() }}
-                  </span>
-                </div>
-                <div class="flex items-center gap-3">
-                  <span class="text-xs text-gray-500">Low</span>
-                  <input
-                    v-model.number="selectedVariantIndex"
-                    type="range"
-                    :min="0"
-                    :max="post.media_asset.variants.length - 1"
-                    class="flex-1 h-2 bg-gray-200 dark:bg-gray-700 appearance-none slider"
-                    @input="onVariantChange"
-                  >
-                  <span class="text-xs text-gray-500">High</span>
-                </div>
               </div>
 
               <!-- Video -->
@@ -99,7 +97,7 @@
             </div>
 
             <!-- Comments Section -->
-            <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
+            <div class="relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-5">
               <UiCornerBrackets size="sm" />
               <!-- Clickable Header -->
               <div 
@@ -132,10 +130,8 @@
               <!-- Collapsible Content -->
               <div v-show="commentsExpanded" class="mt-6">
                 <!-- No Comments State -->
-                <div v-if="comments.length === 0" class="text-center py-8">
-                  <UIcon name="i-heroicons-chat-bubble-left-ellipsis" class="w-12 h-12 mx-auto text-gray-400 mb-4" />
-                  <p class="text-gray-500 dark:text-gray-400">No comments yet.</p>
-                  <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">Be the first to share your thoughts!</p>
+                <div v-if="comments.length === 0" class="py-6">
+                  <p class="text-gray-500 dark:text-gray-400 font-mono text-sm">no comments on danbooru yet</p>
                 </div>
 
                 <!-- Comments List -->
@@ -143,7 +139,7 @@
                   <div 
                     v-for="comment in comments" 
                     :key="comment.id" 
-                    class="bg-gray-50/80 dark:bg-gray-700/30 p-4 border border-gray-200/50 dark:border-gray-600/30"
+                    class="bg-gray-50 dark:bg-gray-800 p-4 border border-gray-200 dark:border-gray-700"
                   >
                     <!-- Comment Header -->
                     <div class="flex justify-between items-start mb-3">
@@ -182,15 +178,14 @@
           </div>
 
           <!-- Details Sidebar -->
-          <div class="space-y-6">
+          <div class="space-y-4">
             <!-- Tags -->
-            <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
+            <div class="relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-5">
               <UiCornerBrackets size="sm" />
-              <h3 class="text-lg font-bold mb-4">Tags</h3>
-              
-              <!-- Artists -->
+              <h3 class="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">Tags</h3>
+
               <div v-if="tagsByCategory.artist.length" class="mb-4">
-                <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">Artists</h4>
+                <h4 class="text-xs uppercase tracking-widest text-deeppink-400 dark:text-deeppink-500 mb-2 font-mono">artist</h4>
                 <div class="flex flex-wrap gap-1">
                   <NuxtLink
                     v-for="tag in tagsByCategory.artist"
@@ -202,9 +197,8 @@
                 </div>
               </div>
 
-              <!-- Characters -->
               <div v-if="tagsByCategory.character.length" class="mb-4">
-                <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">Characters</h4>
+                <h4 class="text-xs uppercase tracking-widest text-crimson-400 dark:text-crimson-500 mb-2 font-mono">character</h4>
                 <div class="flex flex-wrap gap-1">
                   <NuxtLink v-for="tag in tagsByCategory.character" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
                     <UiAngularTag :label="tag" variant="crimson" />
@@ -212,9 +206,8 @@
                 </div>
               </div>
 
-              <!-- Copyrights -->
               <div v-if="tagsByCategory.copyright.length" class="mb-4">
-                <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">Copyrights</h4>
+                <h4 class="text-xs uppercase tracking-widest text-royalblue-400 dark:text-royalblue-500 mb-2 font-mono">copyright</h4>
                 <div class="flex flex-wrap gap-1">
                   <NuxtLink v-for="tag in tagsByCategory.copyright" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
                     <UiAngularTag :label="tag" variant="blue" />
@@ -222,9 +215,8 @@
                 </div>
               </div>
 
-              <!-- General -->
               <div v-if="tagsByCategory.general.length" class="mb-4">
-                <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">General</h4>
+                <h4 class="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2 font-mono">general</h4>
                 <div class="flex flex-wrap gap-1">
                   <NuxtLink v-for="tag in tagsByCategory.general" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
                     <UiAngularTag :label="tag" variant="gray" />
@@ -232,9 +224,8 @@
                 </div>
               </div>
 
-              <!-- Meta -->
               <div v-if="tagsByCategory.meta.length">
-                <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">Meta</h4>
+                <h4 class="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2 font-mono">meta</h4>
                 <div class="flex flex-wrap gap-1">
                   <NuxtLink v-for="tag in tagsByCategory.meta" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
                     <UiAngularTag :label="tag" variant="gray" />
@@ -243,128 +234,107 @@
               </div>
             </div>
 
-            <!-- Post Information -->
-            <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
+            <!-- Unified Details Panel -->
+            <div class="relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-5">
               <UiCornerBrackets size="sm" />
-              <h3 class="text-lg font-bold mb-4">Post Information</h3>
-              
-              <div class="space-y-3 text-sm">
+
+              <!-- Post Info -->
+              <h3 class="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">post</h3>
+              <div class="space-y-2 text-sm mb-4">
                 <div class="flex justify-between items-center">
-                  <span class="text-gray-600 dark:text-gray-300">ID:</span>
-                  <span class="font-mono">#{{ post.id }}</span>
+                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs">id</span>
+                  <span class="font-mono text-xs">#{{ post.id }}</span>
                 </div>
-                
                 <div class="flex justify-between items-center">
-                  <span class="text-gray-600 dark:text-gray-300">Rating:</span>
-                  <span 
-                    class="px-2 py-1 text-xs font-medium"
+                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs">rating</span>
+                  <span
+                    class="px-2 py-0.5 text-xs font-mono"
                     :class="{
                       'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300': rating === 'General',
                       'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300': rating === 'Sensitive',
                       'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300': rating === 'Questionable',
                       'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300': rating === 'Explicit'
                     }"
-                  >
-                    {{ rating }}
-                  </span>
+                  >{{ rating }}</span>
                 </div>
-                
                 <div class="flex justify-between items-center">
-                  <span class="text-gray-600 dark:text-gray-300">Score:</span>
-                  <div class="flex items-center gap-2">
-                    <span class="text-green-600">↑{{ formattedScore.up }}</span>
-                    <span class="text-gray-400">/</span>
-                    <span class="text-red-600">↓{{ formattedScore.down }}</span>
-                    <span class="ml-2 font-medium">({{ formattedScore.total }})</span>
+                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs">score</span>
+                  <div class="flex items-center gap-2 font-mono text-xs">
+                    <span class="text-green-500">↑{{ formattedScore.up }}</span>
+                    <span class="text-red-500">↓{{ formattedScore.down }}</span>
                   </div>
                 </div>
-                
                 <div class="flex justify-between items-center">
-                  <span class="text-gray-600 dark:text-gray-300">Status:</span>
-                  <span 
-                    class="px-2 py-1 text-xs font-medium"
+                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs">status</span>
+                  <span
+                    class="px-2 py-0.5 text-xs font-mono"
                     :class="{
                       'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300': status === 'Pending',
                       'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300': status === 'Active',
                       'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300': status === 'Deleted',
                       'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300': status === 'Banned'
                     }"
-                  >
-                    {{ status }}
-                  </span>
+                  >{{ status }}</span>
                 </div>
               </div>
-            </div>
 
-            <!-- File Details -->
-            <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
-              <UiCornerBrackets size="sm" />
-              <h3 class="text-lg font-bold mb-4">File Details</h3>
-              
-              <div class="space-y-3 text-sm">
+              <hr class="border-gray-200 dark:border-gray-800 mb-4">
+
+              <!-- File Info -->
+              <h3 class="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">file</h3>
+              <div class="space-y-2 text-sm mb-4">
                 <div class="flex justify-between items-center">
-                  <span class="text-gray-600 dark:text-gray-300">Format:</span>
-                  <span class="font-mono uppercase">{{ post.file_ext }}</span>
+                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs">format</span>
+                  <span class="font-mono text-xs uppercase">{{ post.file_ext }}</span>
                 </div>
-                
                 <div class="flex justify-between items-center">
-                  <span class="text-gray-600 dark:text-gray-300">Size:</span>
-                  <span>{{ formattedFileSize }}</span>
+                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs">size</span>
+                  <span class="font-mono text-xs">{{ formattedFileSize }}</span>
                 </div>
-                
                 <div class="flex justify-between items-center">
-                  <span class="text-gray-600 dark:text-gray-300">Dimensions:</span>
-                  <span class="font-mono">{{ dimensions }}</span>
+                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs">dimensions</span>
+                  <span class="font-mono text-xs">{{ dimensions }}</span>
                 </div>
               </div>
-            </div>
 
-            <!-- Links -->
-            <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
-              <UiCornerBrackets size="sm" />
-              <h3 class="text-lg font-bold mb-4">Links</h3>
-              
-              <div class="space-y-3 text-sm">
-                <div v-if="post.source">
-                  <span class="text-gray-600 dark:text-gray-300 block mb-1">Source:</span>
+              <hr class="border-gray-200 dark:border-gray-800 mb-4">
+
+              <!-- Dates -->
+              <h3 class="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">dates</h3>
+              <div class="space-y-2 text-sm mb-4">
+                <div class="flex justify-between items-start gap-4">
+                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs shrink-0">uploaded</span>
+                  <span class="font-mono text-xs text-right">{{ formatDate(post.created_at) }}</span>
+                </div>
+                <div v-if="post.updated_at !== post.created_at" class="flex justify-between items-start gap-4">
+                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs shrink-0">updated</span>
+                  <span class="font-mono text-xs text-right">{{ formatDate(post.updated_at) }}</span>
+                </div>
+              </div>
+
+              <hr class="border-gray-200 dark:border-gray-800 mb-4">
+
+              <!-- Links -->
+              <h3 class="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">links</h3>
+              <div class="space-y-2 text-sm">
+                <div v-if="post.source" class="flex justify-between items-center gap-4">
+                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs shrink-0">source</span>
                   <a
                     :href="post.source"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="text-pink-600 hover:text-pink-700 transition-colors break-all"
-                  >
-                    {{ post.source }}
-                  </a>
+                    class="text-deeppink-500 hover:text-deeppink-400 transition-colors font-mono text-xs truncate"
+                    :title="post.source"
+                  >{{ sourceHostname }}</a>
                 </div>
-                
-                <div>
-                  <span class="text-gray-600 dark:text-gray-300 block mb-1">Danbooru:</span>
+                <div class="flex justify-between items-center gap-4">
+                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs shrink-0">danbooru</span>
                   <a
                     :href="`https://danbooru.donmai.us/posts/${post.id}`"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="text-pink-600 hover:text-pink-700 transition-colors"
-                  >
-                    danbooru.donmai.us/posts/{{ post.id }}
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Upload Info -->
-            <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
-              <UiCornerBrackets size="sm" />
-              <h3 class="text-lg font-bold mb-4">Upload Information</h3>
-              
-              <div class="space-y-3 text-sm">
-                <div>
-                  <span class="text-gray-600 dark:text-gray-300 block mb-1">Uploaded:</span>
-                  <span>{{ formatDate(post.created_at) }}</span>
-                </div>
-                
-                <div v-if="post.updated_at !== post.created_at">
-                  <span class="text-gray-600 dark:text-gray-300 block mb-1">Updated:</span>
-                  <span>{{ formatDate(post.updated_at) }}</span>
+                    class="text-deeppink-500 hover:text-deeppink-400 transition-colors font-mono text-xs"
+                  >posts/{{ post.id }}</a>
                 </div>
               </div>
             </div>
@@ -399,10 +369,9 @@ const comments = ref([])
 const isLoading = ref(false)
 const hasError = ref(false)
 const videoRef = ref(null)
-const selectedVariantIndex = ref(2) // Default to middle quality
-const commentsExpanded = ref(false) // Comments collapsed by default
-const commentsFetched = ref(false) // Track if comments have been loaded
-const qualityToastShown = ref(false)
+const selectedVariantIndex = ref(2)
+const commentsExpanded = ref(false)
+const commentsFetched = ref(false)
 
 // Lazy-load comments when section is first expanded
 watch(commentsExpanded, (expanded) => {
@@ -411,8 +380,6 @@ watch(commentsExpanded, (expanded) => {
     fetchComments()
   }
 })
-const isMounted = ref(false)
-
 // Computed properties
 const isVideo = computed(() => {
   return post.value?.file_ext === 'mp4' || post.value?.file_ext === 'zip' || post.value?.file_ext === 'webm'
@@ -452,11 +419,17 @@ const status = computed(() => {
          post.value.is_pending ? 'Pending' : 'Active'
 })
 
-const formattedScore = computed(() => {
-  return {
-    up: post.value?.up_score || 0,
-    down: post.value?.down_score || 0,
-    total: (post.value?.up_score || 0) - (post.value?.down_score || 0)
+const formattedScore = computed(() => ({
+  up: post.value?.up_score || 0,
+  down: post.value?.down_score || 0,
+}))
+
+const sourceHostname = computed(() => {
+  if (!post.value?.source) return ''
+  try {
+    return new URL(post.value.source).hostname
+  } catch {
+    return post.value.source
   }
 })
 
@@ -471,43 +444,6 @@ const tagsByCategory = computed(() => {
   }
 })
 
-// Quality toast methods
-const toast = useToast()
-
-const checkAndShowQualityToast = () => {
-  if (!isMounted.value) return // Don't show toast if component is unmounted
-  if (qualityToastShown.value) return
-  if (!post.value?.media_asset?.variants?.length) return
-  if (isVideo.value) return // Only show for images
-  
-  // Check if we've shown the quality toast recently (within 30 minutes)
-  const lastToastTime = getCookie('milkbooru-quality-toast-shown')
-  if (lastToastTime) {
-    const timeSinceLastToast = Date.now() - parseInt(lastToastTime)
-    const thirtyMinutesInMs = 30 * 60 * 1000 // 30 minutes in milliseconds
-    if (timeSinceLastToast < thirtyMinutesInMs) {
-      return // Don't show toast if it was shown within the last 30 minutes
-    }
-  }
-  
-  const maxQualityIndex = post.value.media_asset.variants.length - 1
-  const currentQuality = selectedVariantIndex.value
-  
-  // Show toast if user is not at the highest quality
-  if (currentQuality < maxQualityIndex) {
-    toast.add({
-      title: 'Increase image quality',
-      description: 'You can view this image in higher resolution using the slider above.',
-      icon: 'i-lucide-settings-2',
-      color: 'royalblue',
-      timeout: 8000
-    })
-    qualityToastShown.value = true
-    
-    // Set cookie with current timestamp to track when toast was last shown
-    setCookie('milkbooru-quality-toast-shown', Date.now().toString(), 1) // 1 day expiry (cleanup)
-  }
-}
 
 const getVideoUrl = (post) => {
   if (post.is_banned) return '/banned.jpg'
@@ -586,17 +522,6 @@ const getSelectedVariantUrl = () => {
   return variant?.url || '/placeholder.jpg'
 }
 
-const getCurrentVariantInfo = () => {
-  if (!post.value?.media_asset?.variants?.length) return 'N/A'
-  
-  const variants = post.value.media_asset.variants
-  const safeIndex = Math.min(selectedVariantIndex.value, variants.length - 1)
-  const variant = variants[safeIndex]
-  
-  if (!variant) return 'N/A'
-  
-  return `${variant.width}×${variant.height} (${variant.file_ext?.toUpperCase() || 'Unknown'})`
-}
 
 const onVariantChange = () => {
   // Save user's quality preference
@@ -657,18 +582,7 @@ const parseCommentBody = (body) => {
 
 // Initial fetch
 onMounted(async () => {
-  isMounted.value = true
   await fetchPost()
-  
-  // Set up quality toast timer
-  setTimeout(() => {
-    checkAndShowQualityToast()
-  }, 5000)
-})
-
-// Cleanup on unmount
-onBeforeUnmount(() => {
-  isMounted.value = false
 })
 
 // Dynamic meta tags
@@ -764,65 +678,14 @@ useHead({
 
 <style scoped>
 @reference "tailwindcss";
-/* Custom slider styling */
-.slider {
-  cursor: pointer;
-}
 
-.slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ec4899, #be185d);
-  border: 2px solid white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.slider::-webkit-slider-thumb:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.slider::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  background: linear-gradient(135deg, #ec4899, #be185d);
-  border: 2px solid white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.slider::-moz-range-thumb:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.slider::-webkit-slider-track {
-  background: linear-gradient(90deg, #6b7280, #ec4899);
-  border-radius: 4px;
-}
-
-.slider::-moz-range-track {
-  background: linear-gradient(90deg, #6b7280, #ec4899);
-  border-radius: 4px;
-}
-
-/* Dark mode adjustments */
-.dark .slider::-webkit-slider-thumb {
-  border-color: #374151;
-}
-
-.dark .slider::-moz-range-thumb {
-  border-color: #374151;
+.variant-btn {
+  border-radius: 0;
 }
 
 /* Comment quote styling */
 :deep(.comment-quote) {
-  @apply bg-gray-100 dark:bg-gray-800/50 border-l-4 border-pink-400 rounded-r-lg p-3 my-2 italic;
+  @apply bg-gray-100 dark:bg-gray-800/50 border-l-4 border-pink-400 p-3 my-2 italic;
 }
 
 :deep(.quote-content) {
