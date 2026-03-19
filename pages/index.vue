@@ -13,14 +13,15 @@
             </figcaption>
           </figure>
           <div v-else class="animate-pulse">
-            <div class="h-6 bg-gray-300/20 rounded mb-4"/>
-            <div class="h-4 bg-gray-300/20 rounded w-32 mx-auto"/>
+            <div class="h-6 bg-gray-300/20 mb-4"/>
+            <div class="h-4 bg-gray-300/20 w-32 mx-auto"/>
           </div>
         </div>
       </div>
 
       <!-- Main Character Card -->
-      <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 sm:p-8 mb-12">
+      <div class="relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6 sm:p-8 mb-12">
+        <CornerBrackets />
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <!-- Character Info -->
           <div>
@@ -34,19 +35,19 @@
 
             <ul class="space-y-2 mb-6">
               <li class="flex items-center">
-                <span class="w-2 h-2 bg-pink-400 rounded-full mr-3"/>
+                <span class="w-2 h-2 bg-pink-400 rotate-45 inline-block mr-3"/>
                 <span class="font-semibold">Species:</span> <span class="ml-2">Amanojaku</span>
               </li>
               <li class="flex items-center">
-                <span class="w-2 h-2 bg-purple-400 rounded-full mr-3"/>
+                <span class="w-2 h-2 bg-purple-400 rotate-45 inline-block mr-3"/>
                 <span class="font-semibold">Ability:</span> <span class="ml-2">Turn over anything</span>
               </li>
               <li class="flex items-center">
-                <span class="w-2 h-2 bg-red-400 rounded-full mr-3"/>
+                <span class="w-2 h-2 bg-red-400 rotate-45 inline-block mr-3"/>
                 <span class="font-semibold">First Appearance:</span> <span class="ml-2">Double Dealing Character</span>
               </li>
               <li class="flex items-center">
-                <span class="w-2 h-2 bg-plum-400 rounded-full mr-3"/>
+                <span class="w-2 h-2 bg-plum-400 rotate-45 inline-block mr-3"/>
                 <span class="font-semibold">Location:</span> <span class="ml-2">Unknown</span>
               </li>
             </ul>
@@ -62,19 +63,19 @@
 
           <!-- Seija Mood Index -->
           <div class="text-center">
-            <div class="mood-image-wrapper arrow-color-transition inline-block rounded-xl w-auto h-100 sm:h-150" :style="arrowColorVars">
-              <div class="mood-arrows-clip absolute inset-0 rounded-xl overflow-hidden">
-                <div class="absolute inset-0 z-1 rounded-xl shadow-[inset_0_4px_12px_rgba(0,0,0,0.5),inset_0_-4px_12px_rgba(0,0,0,0.3)] pointer-events-none"/>
+            <div class="mood-image-wrapper arrow-color-transition inline-block w-auto h-100 sm:h-150" :style="arrowColorVars">
+              <div class="mood-arrows-clip absolute inset-0 overflow-hidden">
+                <div class="absolute inset-0 z-1 shadow-[inset_0_4px_12px_rgba(0,0,0,0.5),inset_0_-4px_12px_rgba(0,0,0,0.3)] pointer-events-none"/>
                 <ArrowPattern pattern-id="arrows-mood" :parallax-style="arrowParallaxStyle"/>
               </div>
               <div v-if="mood" class="mood-image-shadow relative z-10">
                 <nuxt-img
                     :src="`https://mood.seija-kij.in${mood.imageUrl}`"
                     :alt="`Kijin Seija feeling ${mood.mood}`"
-                    class="w-auto h-100 sm:h-150 rounded-lg mx-auto transition-transform duration-900 hover:scale-105 hover:rotate-180"
+                    class="w-auto h-100 sm:h-150 mx-auto transition-transform duration-900 hover:scale-105 hover:rotate-180"
                 />
               </div>
-              <div v-else class="relative z-10 w-80 h-100 sm:h-150 bg-gray-300/20 rounded-lg animate-pulse mx-auto"/>
+              <div v-else class="relative z-10 w-80 h-100 sm:h-150 bg-gray-300/20 animate-pulse mx-auto"/>
             </div>
             <p class="mt-4 italic">
               Seija is feeling
@@ -100,7 +101,8 @@
       </div>
 
       <!-- Abilities & Spell Cards -->
-      <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 sm:p-8 mb-5">
+      <div class="relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6 sm:p-8 mb-5">
+        <CornerBrackets />
         <h3 class="text-3xl font-bold text-center mb-8">Abilities & Spell Cards</h3>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -110,15 +112,15 @@
             <p class="mb-4">Can flip anything upside down, including:</p>
             <ul class="space-y-2">
               <li class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-deeppink-400 rounded-full mr-3"/>
+                <span class="w-1.5 h-1.5 bg-deeppink-400 rotate-45 inline-block mr-3"/>
                 Physical objects
               </li>
               <li class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-deeppink-400 rounded-full mr-3"/>
+                <span class="w-1.5 h-1.5 bg-deeppink-400 rotate-45 inline-block mr-3"/>
                 Directions
               </li>
               <li class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-deeppink-400 rounded-full mr-3"/>
+                <span class="w-1.5 h-1.5 bg-deeppink-400 rotate-45 inline-block mr-3"/>
                 Abstract concepts
               </li>
             </ul>
@@ -131,39 +133,39 @@
             </h4>
             <div class="space-y-2 text-sm">
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
+                <span class="w-1.5 h-1.5 bg-orange-400 rotate-45 inline-block mr-3"/>
                 欺符「逆さ撃ち」
               </div>
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
+                <span class="w-1.5 h-1.5 bg-orange-400 rotate-45 inline-block mr-3"/>
                 逆符「鏡の国の弾幕」
               </div>
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
+                <span class="w-1.5 h-1.5 bg-orange-400 rotate-45 inline-block mr-3"/>
                 逆符「イーヴィルインザミラー」
               </div>
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
+                <span class="w-1.5 h-1.5 bg-orange-400 rotate-45 inline-block mr-3"/>
                 逆符「天地有用」
               </div>
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
+                <span class="w-1.5 h-1.5 bg-orange-400 rotate-45 inline-block mr-3"/>
                 逆符「天下転覆」
               </div>
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
+                <span class="w-1.5 h-1.5 bg-orange-400 rotate-45 inline-block mr-3"/>
                 逆弓「天壌夢弓」
               </div>
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
+                <span class="w-1.5 h-1.5 bg-orange-400 rotate-45 inline-block mr-3"/>
                 逆弓「天壌夢弓の詔勅」
               </div>
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
+                <span class="w-1.5 h-1.5 bg-orange-400 rotate-45 inline-block mr-3"/>
                 逆転「リバースヒエラルキー」
               </div>
               <div class="flex items-center">
-                <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"/>
+                <span class="w-1.5 h-1.5 bg-orange-400 rotate-45 inline-block mr-3"/>
                 逆転「チェンジエアブレイブ」
               </div>
             </div>
