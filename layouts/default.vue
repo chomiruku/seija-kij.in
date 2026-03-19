@@ -12,6 +12,10 @@
   </div>
 </template>
 
+<script setup>
+useSeijaFlip()
+</script>
+
 <style>
 @reference "tailwindcss";
 
@@ -127,5 +131,13 @@
 
 .dark .navbar-mobile-blur {
   background: rgb(17 24 39 / 0.9);
+}
+
+html.seija-flipped {
+  transform: rotate(180deg);
+}
+
+html.seija-flip-transition {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 </style>
