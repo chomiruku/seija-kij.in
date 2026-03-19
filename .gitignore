@@ -184,13 +184,10 @@ token.json
 # Claude temp files
 tmpclaude-*
 
-# Screenshots and review images
-*.png
-*.jpg
-*.jpeg
-!public/**/*.png
-!public/**/*.jpg
-!public/**/*.jpeg
+# Root-level screenshots and review images only
+/*.png
+/*.jpg
+/*.jpeg
 !assets/**/*.png
 !assets/**/*.jpg
 !assets/**/*.jpeg
