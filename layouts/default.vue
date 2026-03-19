@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-gradient-to-br from-white dark:from-blue-200/10 via-orange-200 dark:via-red-600/10 to-purple-400 dark:to-red-900/10 w-full">
+  <div class="seija-flip-wrapper min-h-screen flex flex-col bg-gradient-to-br from-white dark:from-blue-200/10 via-orange-200 dark:via-red-600/10 to-purple-400 dark:to-red-900/10 w-full">
     <LayoutNavbar/>
     <LayoutTimeBanner/>
 
@@ -133,11 +133,11 @@ useSeijaFlip()
   background: rgb(17 24 39 / 0.9);
 }
 
-html.seija-flipped {
+html.seija-flipped .seija-flip-wrapper {
   transform: rotate(180deg);
 }
 
-html.seija-flip-transition {
+html.seija-flip-transition .seija-flip-wrapper {
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 </style>
