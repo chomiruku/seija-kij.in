@@ -210,34 +210,6 @@
               <UiAngularTag :label="rating" :variant="ratingVariant" />
             </div>
 
-            <hr class="border-neutral-800 mb-3">
-
-            <!-- Artist / Character / Copyright -->
-            <div v-if="tagsByCategory.artist.length" class="flex gap-2 mb-1.5">
-              <span class="text-neutral-500 uppercase w-20 shrink-0 pt-0.5">ARTIST</span>
-              <div class="flex flex-wrap gap-1">
-                <NuxtLink v-for="tag in tagsByCategory.artist" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
-                  <UiAngularTag :label="tag" variant="pink" />
-                </NuxtLink>
-              </div>
-            </div>
-            <div v-if="tagsByCategory.character.length" class="flex gap-2 mb-1.5">
-              <span class="text-neutral-500 uppercase w-20 shrink-0 pt-0.5">CHARACTER</span>
-              <div class="flex flex-wrap gap-1">
-                <NuxtLink v-for="tag in tagsByCategory.character" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
-                  <UiAngularTag :label="tag" variant="crimson" />
-                </NuxtLink>
-              </div>
-            </div>
-            <div v-if="tagsByCategory.copyright.length" class="flex gap-2 mb-1.5">
-              <span class="text-neutral-500 uppercase w-20 shrink-0 pt-0.5">COPYRIGHT</span>
-              <div class="flex flex-wrap gap-1">
-                <NuxtLink v-for="tag in tagsByCategory.copyright" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
-                  <UiAngularTag :label="tag" variant="blue" />
-                </NuxtLink>
-              </div>
-            </div>
-
             <hr class="border-neutral-800 my-3">
 
             <!-- Score / File / Dates -->
