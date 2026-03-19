@@ -1,5 +1,5 @@
 import { onMounted } from 'vue'
-import { useState } from '#app'
+import { useState, useRouter } from '#app'
 import { useCookies } from '~/composables/useCookies'
 
 const COOKIE_NAME = 'seija_flipped'
@@ -39,6 +39,13 @@ export function useSeijaFlip() {
     if (flipped) {
       scrollToBottom()
     }
+
+    const router = useRouter()
+    router.afterEach(() => {
+      if (isFlipped.value) {
+        scrollToBottom()
+      }
+    })
   })
 
   function toggle() {

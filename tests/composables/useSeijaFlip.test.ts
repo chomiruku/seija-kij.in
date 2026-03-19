@@ -8,6 +8,7 @@ import { useSeijaFlip } from '~/composables/useSeijaFlip'
 vi.mock('#app', () => ({
   useState: vi.fn((key: string, init: () => unknown) => ref(init())),
   useNuxtApp: vi.fn(),
+  useRouter: vi.fn(() => ({ afterEach: vi.fn() })),
 }))
 
 // Mock useCookies composable
