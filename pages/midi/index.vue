@@ -48,7 +48,7 @@
             </div>
 
             <div class="relative z-10">
-              <h3 class="text-base font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300 truncate">
+              <h3 class="text-base font-bold text-gray-900 dark:text-white group-hover:text-blueviolet-600 dark:group-hover:text-blueviolet-400 transition-colors duration-300 truncate">
                 {{ midi.name }}
               </h3>
               <p v-if="midi.alternativeName" class="text-xs text-gray-500 dark:text-gray-400 italic truncate mt-0.5">
