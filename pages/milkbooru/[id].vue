@@ -122,247 +122,217 @@
             </div>
 
             <!-- Comments Section -->
-            <div class="relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-5">
-              <UiCornerBrackets size="sm" />
-              <!-- Clickable Header -->
-              <div 
-                class="flex justify-between items-center cursor-pointer hover:bg-gray-50/50 dark:hover:bg-gray-700/20 p-2 -m-2 transition-colors"
-                @click="commentsExpanded = !commentsExpanded"
-              >
-                <div class="flex items-center gap-2">
-                  <h3 class="text-xl font-bold">Comments ({{ comments.length }})</h3>
-                  <svg 
-                    class="w-5 h-5 transition-transform duration-200"
-                    :class="{ 'rotate-180': commentsExpanded }"
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
+            <div class="font-mono text-xs mt-6">
+
+              <!-- Header row -->
+              <div class="flex items-center gap-3 mb-4">
+                <div class="flex items-center gap-2 flex-1">
+                  <button
+                    class="flex items-center gap-2 text-neutral-400 hover:text-neutral-200 transition-colors"
+                    :aria-expanded="commentsExpanded"
+                    :aria-label="`${commentsExpanded ? 'Collapse' : 'Expand'} comments (${comments.length})`"
+                    @click="commentsExpanded = !commentsExpanded"
                   >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                  </svg>
+                    <span class="text-neutral-600 uppercase tracking-widest text-[10px]">── COMMENTS ({{ comments.length }})</span>
+                    <div class="w-24 border-t border-neutral-800"/>
+                    <svg
+                      class="w-3 h-3 transition-transform duration-200"
+                      :class="{ 'rotate-180': commentsExpanded }"
+                      fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </button>
                 </div>
                 <a
                   :href="`https://danbooru.donmai.us/posts/${post.id}`"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-sm text-pink-600 hover:text-pink-700 transition-colors"
+                  class="text-royalblue-400 hover:text-royalblue-300 transition-colors text-[10px]"
                   @click.stop
                 >
-                  View on Danbooru →
+                  ↗ danbooru
                 </a>
               </div>
 
-              <!-- Collapsible Content -->
-              <div v-show="commentsExpanded" class="mt-6">
-                <!-- No Comments State -->
-                <div v-if="comments.length === 0" class="py-6">
-                  <p class="text-gray-500 dark:text-gray-400 font-mono text-sm">no comments on danbooru yet</p>
+              <!-- Collapsible content -->
+              <div v-show="commentsExpanded">
+
+                <!-- Empty state -->
+                <div v-if="comments.length === 0" class="text-neutral-600 py-2">
+                  no comments —
+                  <a
+                    :href="`https://danbooru.donmai.us/posts/${post.id}`"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-royalblue-400 hover:text-royalblue-300 transition-colors"
+                  >view on danbooru</a>
                 </div>
 
-                <!-- Comments List -->
+                <!-- Comment log -->
                 <div v-else class="space-y-4">
-                  <div 
-                    v-for="comment in comments" 
-                    :key="comment.id" 
-                    class="bg-gray-50 dark:bg-gray-800 p-4 border border-gray-200 dark:border-gray-700"
-                  >
-                    <!-- Comment Header -->
-                    <div class="flex justify-between items-start mb-3">
-                      <div>
-                        <span class="font-semibold text-gray-900 dark:text-white text-sm">
-                          {{ comment.creator_name || 'Anonymous' }}
-                        </span>
-                        <div class="text-xs text-gray-500 dark:text-gray-400">
-                          {{ formatDate(comment.created_at) }}
-                          <span v-if="comment.updated_at !== comment.created_at" class="ml-1">
-                            (edited)
-                          </span>
-                        </div>
+                  <div v-for="comment in comments" :key="comment.id">
+                    <!-- Comment header line -->
+                    <div class="flex items-baseline justify-between gap-2 mb-1">
+                      <div class="flex items-baseline gap-3">
+                        <span class="text-neutral-500">[{{ formatDateShort(comment.created_at) }}]</span>
+                        <span class="text-neutral-200">{{ comment.creator_name || 'anonymous' }}</span>
+                        <span v-if="comment.updated_at !== comment.created_at" class="text-neutral-600">(edited)</span>
                       </div>
-                      <span 
+                      <span
+                        class="shrink-0"
                         :class="{
-                          'text-green-600 bg-green-100 dark:bg-green-900/20': comment.score > 0,
-                          'text-red-600 bg-red-100 dark:bg-red-900/20': comment.score < 0,
-                          'text-gray-500 bg-gray-100 dark:bg-gray-800/50': comment.score === 0
+                          'text-green-400': comment.score > 0,
+                          'text-red-400': comment.score < 0,
+                          'text-neutral-600': comment.score === 0
                         }"
-                        class="text-xs font-medium px-2 py-1"
-                      >
-                        {{ comment.score > 0 ? '+' : '' }}{{ comment.score }}
-                      </span>
+                      >{{ comment.score > 0 ? '+' : '' }}{{ comment.score }}</span>
                     </div>
-                    
-                    <!-- Comment Body with Quote Parsing -->
-                    <div class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                    <!-- Comment body -->
+                    <div class="text-neutral-400 leading-relaxed pl-4 text-[11px]">
                       <!-- eslint-disable-next-line vue/no-v-html -->
                       <div v-html="parseCommentBody(comment.body)"/>
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
 
           <!-- Details Sidebar -->
-          <div class="space-y-4">
-            <!-- Tags -->
-            <div class="relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-5">
-              <UiCornerBrackets size="sm" />
-              <h3 class="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">Tags</h3>
+          <div class="font-mono text-xs border border-neutral-800 bg-black/60 p-4 space-y-0">
 
-              <div v-if="tagsByCategory.artist.length" class="mb-4">
-                <h4 class="text-xs uppercase tracking-widest text-deeppink-400 dark:text-deeppink-500 mb-2 font-mono">artist</h4>
-                <div class="flex flex-wrap gap-1">
-                  <NuxtLink
-                    v-for="tag in tagsByCategory.artist"
-                    :key="tag"
-                    :to="`/milkbooru?tags=${encodeURIComponent(tag)}`"
-                  >
-                    <UiAngularTag :label="tag" variant="pink" />
-                  </NuxtLink>
-                </div>
+            <!-- Post ID + badges -->
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-neutral-200 text-sm tracking-wide">POST #{{ post.id }}</span>
+              <UiAngularTag :label="status" :variant="statusVariant" />
+              <UiAngularTag :label="rating" :variant="ratingVariant" />
+            </div>
+
+            <hr class="border-neutral-800 mb-3">
+
+            <!-- Artist / Character / Copyright -->
+            <div v-if="tagsByCategory.artist.length" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-500 uppercase w-20 shrink-0 pt-0.5">ARTIST</span>
+              <div class="flex flex-wrap gap-1">
+                <NuxtLink v-for="tag in tagsByCategory.artist" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                  <UiAngularTag :label="tag" variant="pink" />
+                </NuxtLink>
               </div>
-
-              <div v-if="tagsByCategory.character.length" class="mb-4">
-                <h4 class="text-xs uppercase tracking-widest text-crimson-400 dark:text-crimson-500 mb-2 font-mono">character</h4>
-                <div class="flex flex-wrap gap-1">
-                  <NuxtLink v-for="tag in tagsByCategory.character" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
-                    <UiAngularTag :label="tag" variant="crimson" />
-                  </NuxtLink>
-                </div>
+            </div>
+            <div v-if="tagsByCategory.character.length" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-500 uppercase w-20 shrink-0 pt-0.5">CHARACTER</span>
+              <div class="flex flex-wrap gap-1">
+                <NuxtLink v-for="tag in tagsByCategory.character" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                  <UiAngularTag :label="tag" variant="crimson" />
+                </NuxtLink>
               </div>
-
-              <div v-if="tagsByCategory.copyright.length" class="mb-4">
-                <h4 class="text-xs uppercase tracking-widest text-royalblue-400 dark:text-royalblue-500 mb-2 font-mono">copyright</h4>
-                <div class="flex flex-wrap gap-1">
-                  <NuxtLink v-for="tag in tagsByCategory.copyright" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
-                    <UiAngularTag :label="tag" variant="blue" />
-                  </NuxtLink>
-                </div>
-              </div>
-
-              <div v-if="tagsByCategory.general.length" class="mb-4">
-                <h4 class="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2 font-mono">general</h4>
-                <div class="flex flex-wrap gap-1">
-                  <NuxtLink v-for="tag in tagsByCategory.general" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
-                    <UiAngularTag :label="tag" variant="gray" />
-                  </NuxtLink>
-                </div>
-              </div>
-
-              <div v-if="tagsByCategory.meta.length">
-                <h4 class="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2 font-mono">meta</h4>
-                <div class="flex flex-wrap gap-1">
-                  <NuxtLink v-for="tag in tagsByCategory.meta" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
-                    <UiAngularTag :label="tag" variant="gray" />
-                  </NuxtLink>
-                </div>
+            </div>
+            <div v-if="tagsByCategory.copyright.length" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-500 uppercase w-20 shrink-0 pt-0.5">COPYRIGHT</span>
+              <div class="flex flex-wrap gap-1">
+                <NuxtLink v-for="tag in tagsByCategory.copyright" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                  <UiAngularTag :label="tag" variant="blue" />
+                </NuxtLink>
               </div>
             </div>
 
-            <!-- Unified Details Panel -->
-            <div class="relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-5">
-              <UiCornerBrackets size="sm" />
+            <hr class="border-neutral-800 my-3">
 
-              <!-- Post Info -->
-              <h3 class="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">post</h3>
-              <div class="space-y-2 text-sm mb-4">
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs">id</span>
-                  <span class="font-mono text-xs">#{{ post.id }}</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs">rating</span>
-                  <span
-                    class="px-2 py-0.5 text-xs font-mono"
-                    :class="{
-                      'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300': rating === 'General',
-                      'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300': rating === 'Sensitive',
-                      'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300': rating === 'Questionable',
-                      'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300': rating === 'Explicit'
-                    }"
-                  >{{ rating }}</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs">score</span>
-                  <div class="flex items-center gap-2 font-mono text-xs">
-                    <span class="text-green-500">↑{{ formattedScore.up }}</span>
-                    <span class="text-red-500">↓{{ formattedScore.down }}</span>
-                  </div>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs">status</span>
-                  <span
-                    class="px-2 py-0.5 text-xs font-mono"
-                    :class="{
-                      'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300': status === 'Pending',
-                      'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300': status === 'Active',
-                      'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300': status === 'Deleted',
-                      'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300': status === 'Banned'
-                    }"
-                  >{{ status }}</span>
-                </div>
-              </div>
+            <!-- Score / File / Dates -->
+            <div class="flex gap-2 mb-1.5">
+              <span class="text-neutral-500 uppercase w-20 shrink-0">SCORE</span>
+              <span>
+                <span class="text-green-400">+{{ formattedScore.up }}</span>
+                <span class="text-neutral-600 mx-1">/</span>
+                <span class="text-red-400">−{{ formattedScore.down }}</span>
+              </span>
+            </div>
+            <div class="flex gap-2 mb-1.5">
+              <span class="text-neutral-500 uppercase w-20 shrink-0">FILE</span>
+              <span class="text-neutral-300">{{ dimensions }} · {{ post.file_ext?.toUpperCase() }} · {{ formattedFileSize }}</span>
+            </div>
+            <div class="flex gap-2 mb-1.5">
+              <span class="text-neutral-500 uppercase w-20 shrink-0">UPLOADED</span>
+              <span class="text-neutral-300">{{ formatDateShort(post.created_at) }}</span>
+            </div>
+            <div v-if="post.updated_at !== post.created_at" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-500 uppercase w-20 shrink-0">UPDATED</span>
+              <span class="text-neutral-300">{{ formatDateShort(post.updated_at) }}</span>
+            </div>
 
-              <hr class="border-gray-200 dark:border-gray-800 mb-4">
+            <hr class="border-neutral-800 my-3">
 
-              <!-- File Info -->
-              <h3 class="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">file</h3>
-              <div class="space-y-2 text-sm mb-4">
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs">format</span>
-                  <span class="font-mono text-xs uppercase">{{ post.file_ext }}</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs">size</span>
-                  <span class="font-mono text-xs">{{ formattedFileSize }}</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs">dimensions</span>
-                  <span class="font-mono text-xs">{{ dimensions }}</span>
-                </div>
-              </div>
+            <!-- Links -->
+            <div v-if="post.source" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-500 uppercase w-20 shrink-0">SOURCE</span>
+              <a
+                :href="post.source" target="_blank" rel="noopener noreferrer"
+                class="text-royalblue-400 hover:text-royalblue-300 transition-colors truncate"
+              >
+                ↗ {{ truncateUrl(post.source) }}
+              </a>
+            </div>
+            <div class="flex gap-2 mb-1.5">
+              <span class="text-neutral-500 uppercase w-20 shrink-0">DANBOORU</span>
+              <a
+                :href="`https://danbooru.donmai.us/posts/${post.id}`" target="_blank" rel="noopener noreferrer"
+                class="text-royalblue-400 hover:text-royalblue-300 transition-colors"
+              >
+                ↗ /posts/{{ post.id }}
+              </a>
+            </div>
 
-              <hr class="border-gray-200 dark:border-gray-800 mb-4">
+            <hr class="border-neutral-800 my-3">
 
-              <!-- Dates -->
-              <h3 class="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">dates</h3>
-              <div class="space-y-2 text-sm mb-4">
-                <div class="flex justify-between items-start gap-4">
-                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs shrink-0">uploaded</span>
-                  <span class="font-mono text-xs text-right">{{ formatDate(post.created_at) }}</span>
-                </div>
-                <div v-if="post.updated_at !== post.created_at" class="flex justify-between items-start gap-4">
-                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs shrink-0">updated</span>
-                  <span class="font-mono text-xs text-right">{{ formatDate(post.updated_at) }}</span>
-                </div>
-              </div>
+            <!-- Tags section -->
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-neutral-600 uppercase tracking-widest text-[10px]">── TAGS</span>
+              <div class="flex-1 border-t border-neutral-800"/>
+            </div>
 
-              <hr class="border-gray-200 dark:border-gray-800 mb-4">
-
-              <!-- Links -->
-              <h3 class="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">links</h3>
-              <div class="space-y-2 text-sm">
-                <div v-if="post.source" class="flex justify-between items-center gap-4">
-                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs shrink-0">source</span>
-                  <a
-                    :href="post.source"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-deeppink-500 hover:text-deeppink-400 transition-colors font-mono text-xs truncate"
-                    :title="post.source"
-                  >{{ sourceHostname }}</a>
-                </div>
-                <div class="flex justify-between items-center gap-4">
-                  <span class="text-gray-500 dark:text-gray-400 font-mono text-xs shrink-0">danbooru</span>
-                  <a
-                    :href="`https://danbooru.donmai.us/posts/${post.id}`"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-deeppink-500 hover:text-deeppink-400 transition-colors font-mono text-xs"
-                  >posts/{{ post.id }}</a>
-                </div>
+            <div v-if="tagsByCategory.character.length" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-600 w-20 shrink-0">[character]</span>
+              <div class="flex flex-wrap gap-1">
+                <NuxtLink v-for="tag in tagsByCategory.character" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                  <UiAngularTag :label="tag" variant="crimson" />
+                </NuxtLink>
               </div>
             </div>
+            <div v-if="tagsByCategory.artist.length" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-600 w-20 shrink-0">[artist]</span>
+              <div class="flex flex-wrap gap-1">
+                <NuxtLink v-for="tag in tagsByCategory.artist" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                  <UiAngularTag :label="tag" variant="pink" />
+                </NuxtLink>
+              </div>
+            </div>
+            <div v-if="tagsByCategory.copyright.length" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-600 w-20 shrink-0">[copyright]</span>
+              <div class="flex flex-wrap gap-1">
+                <NuxtLink v-for="tag in tagsByCategory.copyright" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                  <UiAngularTag :label="tag" variant="blue" />
+                </NuxtLink>
+              </div>
+            </div>
+            <div v-if="tagsByCategory.general.length" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-600 w-20 shrink-0">[general]</span>
+              <div class="flex flex-wrap gap-1">
+                <NuxtLink v-for="tag in tagsByCategory.general" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                  <UiAngularTag :label="tag" variant="gray" />
+                </NuxtLink>
+              </div>
+            </div>
+            <div v-if="tagsByCategory.meta.length" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-600 w-20 shrink-0">[meta]</span>
+              <div class="flex flex-wrap gap-1">
+                <NuxtLink v-for="tag in tagsByCategory.meta" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                  <UiAngularTag :label="tag" variant="gray" />
+                </NuxtLink>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -458,13 +428,14 @@ const formattedScore = computed(() => ({
   down: post.value?.down_score || 0,
 }))
 
-const sourceHostname = computed(() => {
-  if (!post.value?.source) return ''
-  try {
-    return new URL(post.value.source).hostname
-  } catch {
-    return post.value.source
-  }
+const statusVariant = computed(() => {
+  const map = { Active: 'blue', Pending: 'pink', Deleted: 'gray', Banned: 'crimson' }
+  return map[status.value] || 'gray'
+})
+
+const ratingVariant = computed(() => {
+  const map = { General: 'blue', Sensitive: 'blue', Questionable: 'pink', Explicit: 'crimson' }
+  return map[rating.value] || 'gray'
 })
 
 const tagsByCategory = computed(() => {
@@ -484,14 +455,20 @@ const getVideoUrl = (post) => {
   return post.large_file_url || post.file_url || '/placeholder.jpg'
 }
 
-const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  })
+const formatDateShort = (dateString) => {
+  const d = new Date(dateString)
+  const pad = n => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`
+}
+
+const truncateUrl = (url) => {
+  try {
+    const u = new URL(url)
+    const path = u.pathname.length > 20 ? u.pathname.slice(0, 20) + '…' : u.pathname
+    return u.hostname + path
+  } catch {
+    return url.slice(0, 40)
+  }
 }
 
 const fetchPost = async () => {
@@ -719,14 +696,15 @@ useHead({
 
 /* Comment quote styling */
 :deep(.comment-quote) {
-  @apply bg-gray-100 dark:bg-gray-800/50 border-l-4 border-pink-400 p-3 my-2 italic;
+  @apply text-neutral-600 my-1 pl-2;
 }
 
-:deep(.quote-content) {
-  @apply text-gray-600 dark:text-gray-300 mb-2;
+:deep(.quote-content)::before {
+  content: '> ';
+  @apply text-neutral-700;
 }
 
 :deep(.quote-attribution) {
-  @apply text-sm text-pink-600 dark:text-pink-400 font-medium not-italic;
+  @apply text-neutral-700 text-[10px] not-italic mt-0.5;
 }
 </style>
