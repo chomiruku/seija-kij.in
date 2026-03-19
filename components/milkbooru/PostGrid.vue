@@ -4,10 +4,11 @@
       v-for="(post, index) in posts"
       :key="post.id"
       :to="getPostRoute(post)"
-      class="group relative overflow-hidden rounded-xl bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:-translate-y-1 hover:border-pink-300 dark:hover:border-pink-600 animate-fade-in-up block"
+      class="group relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:-translate-y-1 hover:border-crimson-500 dark:hover:border-crimson-500 animate-fade-in-up block"
       :style="`animation-delay: ${index * 50}ms`"
     >
-      <div class="aspect-square overflow-hidden rounded-lg relative">
+      <CornerBrackets size="sm" />
+      <div class="aspect-square overflow-hidden relative">
         <nuxt-img
           :src="getImageUrl(post)"
           :alt="post.tag_string_artist || 'Booru post'"
@@ -42,7 +43,7 @@
       <!-- Animation indicator -->
       <div
         v-if="isAnimated(post)"
-        class="absolute top-2 right-2 bg-black/50 text-white rounded-full p-1 z-10"
+        class="absolute top-2 right-2 bg-black/50 text-white p-1 z-10"
       >
         <UIcon name="i-heroicons-play" class="w-4 h-4" />
       </div>
