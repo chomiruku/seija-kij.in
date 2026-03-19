@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { ref } from 'vue'
+import { ref, defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
-import { defineComponent } from 'vue'
+import { useSeijaFlip } from '~/composables/useSeijaFlip'
 
 // Mock Nuxt auto-imports — useState is imported from '#app' in the composable.
 // The alias resolves to .nuxt/ which has no real exports, so we mock the whole module.
@@ -21,8 +21,6 @@ vi.mock('~/composables/useCookies', () => ({
     deleteCookie: mockDeleteCookie,
   }),
 }))
-
-import { useSeijaFlip } from '~/composables/useSeijaFlip'
 
 // Helper: mount a dummy component to trigger onMounted lifecycle
 function mountComposable() {
