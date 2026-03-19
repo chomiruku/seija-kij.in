@@ -46,7 +46,7 @@
           <!-- Media Column -->
           <div class="lg:col-span-2">
             <!-- Variant Buttons -->
-            <div v-if="!isVideo && post.media_asset?.variants?.length > 1" class="flex mb-2">
+            <div v-if="!isVideo && post.media_asset?.variants?.length > 1" class="flex">
               <div
                 v-for="(variant, idx) in post.media_asset.variants"
                 :key="idx"
