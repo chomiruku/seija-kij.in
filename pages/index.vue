@@ -72,7 +72,7 @@
                 <nuxt-img
                     :src="`https://mood.seija-kij.in${mood.imageUrl}`"
                     :alt="`Kijin Seija feeling ${mood.mood}`"
-                    class="w-auto h-100 sm:h-150 mx-auto transition-transform duration-900 hover:scale-105 hover:rotate-180"
+                    class="w-auto h-100 sm:h-150 mx-auto transition-transform duration-900 hover:rotate-180"
                 />
               </div>
               <div v-else class="relative z-10 w-80 h-100 sm:h-150 bg-gray-300/20 animate-pulse mx-auto"/>
