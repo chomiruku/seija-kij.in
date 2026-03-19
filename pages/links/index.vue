@@ -21,7 +21,7 @@
             :href="link.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="group relative overflow-hidden p-4 bg-white dark:bg-gray-900 rounded-xl border-l-4 border-l-crimson-500 dark:border-l-crimson-400 border border-gray-200 dark:border-gray-700 hover:border-l-crimson-400 dark:hover:border-l-crimson-300 transition-all duration-200 hover:-translate-y-0.5 animate-fade-in-up"
+            class="group relative overflow-hidden p-4 bg-white dark:bg-gray-900 border-l-4 border-l-crimson-500 dark:border-l-crimson-400 border border-gray-200 dark:border-gray-700 hover:border-l-crimson-400 dark:hover:border-l-crimson-300 transition-all duration-200 hover:-translate-y-0.5 animate-fade-in-up"
             :style="`animation-delay: ${index * 100}ms`"
           >
 
@@ -37,8 +37,8 @@
             <div class="relative z-10 flex items-center">
               <div class="flex-shrink-0 mr-5">
                 <div class="relative">
-                  <div class="absolute inset-0 bg-gradient-to-r from-crimson-400 to-deeppink-500 rounded-full blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"/>
-                  <div class="relative w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <div class="absolute inset-0 bg-gradient-to-r from-crimson-400 to-deeppink-500 blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"/>
+                  <div class="relative w-12 h-12 bg-gray-100 dark:bg-gray-800 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <img
                       v-if="link.image"
                       :src="link.image"
