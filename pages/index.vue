@@ -159,7 +159,7 @@
                 <span class="ability-name">Abstract Concepts</span>
                 <span class="ability-bar-fill" style="width: 65%"/>
               </div>
-              <div class="ability-target">
+              <div class="ability-target ability-target--clickable" @click="toggleFlip">
                 <span class="ability-index">04</span>
                 <span class="ability-name">Your Screen</span>
                 <span class="ability-bar-fill" style="width: 100%"/>
@@ -192,6 +192,7 @@
 <script setup>
 const { colorVars: arrowColorVars } = useSpecialOccasion()
 const { arrowParallaxStyle } = useArrowParallax()
+const { toggle: toggleFlip } = useSeijaFlip()
 
 const { data: quote } = useFetch('https://mood.seija-kij.in/quote', {
   default: () => null,
@@ -639,6 +640,10 @@ useHead({
 .ability-target:hover {
   border-color: color-mix(in srgb, var(--color-deeppink-500) 30%, transparent);
   background: color-mix(in srgb, var(--color-deeppink-500) 5%, transparent);
+}
+
+.ability-target.ability-target--clickable {
+  cursor: pointer;
 }
 
 .ability-index {
