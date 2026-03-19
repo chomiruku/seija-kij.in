@@ -1,7 +1,7 @@
 <template>
   <!-- Mobile Navbar -->
   <nav
-    class="navbar navbar-arrows fixed top-0 left-0 right-0 z-50 border-b border-gray-200 dark:border-gray-700 lg:hidden"
+    class="navbar navbar-arrows fixed top-0 left-0 right-0 z-50 border-b-2 border-crimson-500 lg:hidden"
     :style="arrowColorVars"
   >
     <ArrowPattern pattern-id="arrows-mobile" :parallax-style="arrowParallaxStyle"/>
@@ -27,14 +27,14 @@
     <!-- Mobile Menu Overlay -->
     <div
         v-if="isMobileMenuOpen"
-        class="fixed top-14 left-0 right-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 z-50"
+        class="fixed top-14 left-0 right-0 bg-white dark:bg-gray-900 border-b-2 border-crimson-500 z-50"
     >
       <div class="container mx-auto px-4 py-2">
         <NuxtLink
             v-for="item in routes"
             :key="item.route"
             :to="item.route"
-            class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white border-b border-gray-100 dark:border-gray-800 last:border-b-0"
+            class="block py-3 px-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white border-b border-crimson-500/20 last:border-b-0"
             @click="isMobileMenuOpen = false"
         >
           {{ item.name }}
@@ -45,7 +45,7 @@
 
   <!-- Desktop Navbar -->
   <nav
-    class="navbar navbar-arrows fixed top-0 left-0 right-0 z-50 h-16 border-b border-gray-200 dark:border-gray-700 hidden lg:block"
+    class="navbar navbar-arrows fixed top-0 left-0 right-0 z-50 h-16 border-b-2 border-crimson-500 hidden lg:block"
     :style="arrowColorVars"
   >
     <ArrowPattern pattern-id="arrows-desktop" :parallax-style="arrowParallaxStyle"/>
@@ -62,7 +62,7 @@
             v-for="item in routes"
             :key="item.route"
             :to="item.route"
-            class="relative z-10 font-medium transition-colors px-3 flex items-center"
+            class="relative z-10 font-medium transition-colors px-4 flex items-center clip-chevron text-xs tracking-widest uppercase"
         >
           {{ item.name }}
         </NuxtLink>

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-black text-white py-1 border-b border-red-500">
+  <div class="bg-black text-white py-1 border-b-2 border-crimson-500">
     <div class="container mx-auto px-4 text-center">
       <ClientOnly>
         <small class="time-banner-text hidden lg:inline">{{ time }}<span v-if="occasionName"> &mdash; {{ occasionName }}</span></small>
