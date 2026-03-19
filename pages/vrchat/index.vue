@@ -16,31 +16,31 @@
         <div v-if="isLoading">
           <!-- Toggle Buttons Skeleton -->
           <div class="flex justify-start mb-8 gap-2">
-            <div class="px-6 py-3 rounded-lg bg-gray-200 dark:bg-gray-800 animate-pulse w-32 h-12"/>
-            <div class="px-6 py-3 rounded-lg bg-gray-200 dark:bg-gray-800 animate-pulse w-32 h-12"/>
+            <div class="px-6 py-3 bg-gray-200 dark:bg-gray-800 animate-pulse w-32 h-12"/>
+            <div class="px-6 py-3 bg-gray-200 dark:bg-gray-800 animate-pulse w-32 h-12"/>
           </div>
 
           <!-- Skeleton Month Headers and Grid -->
           <div v-for="i in 3" :key="`skeleton-${i}`" class="mb-8">
             <!-- Month Header Skeleton -->
-            <div class="w-full flex justify-between items-center p-4 bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-xl border border-purple-300/20 dark:border-purple-700/20 mb-4 animate-pulse">
+            <div class="w-full flex justify-between items-center p-4 bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm border border-purple-300/20 dark:border-purple-700/20 mb-4 animate-pulse">
               <div class="flex items-center">
-                <div class="w-5 h-5 bg-gray-300 dark:bg-gray-600 rounded mr-3"/>
-                <div class="h-6 bg-gray-300 dark:bg-gray-600 rounded w-32"/>
+                <div class="w-5 h-5 bg-gray-300 dark:bg-gray-600 mr-3"/>
+                <div class="h-6 bg-gray-300 dark:bg-gray-600 w-32"/>
               </div>
-              <div class="bg-gray-300 dark:bg-gray-600 px-3 py-1 rounded-full w-8 h-6"/>
+              <div class="bg-gray-300 dark:bg-gray-600 px-3 py-1 w-8 h-6"/>
             </div>
 
             <!-- Images Grid Skeleton -->
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-4">
-              <div v-for="j in 10" :key="`skeleton-image-${i}-${j}`" class="aspect-square bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse"/>
+              <div v-for="j in 10" :key="`skeleton-image-${i}-${j}`" class="aspect-square bg-gray-200 dark:bg-gray-800 animate-pulse"/>
             </div>
           </div>
         </div>
 
         <!-- Error State -->
         <div v-else-if="hasError" class="text-center">
-          <div class="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-lg p-6 max-w-md mx-auto">
+          <div class="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 p-6 max-w-md mx-auto">
             <h1 class="text-4xl font-bold mb-6">
               huh?
             </h1>
@@ -49,7 +49,7 @@
             <p class="text-gray-800 dark:text-gray-400 mb-4">probably the server is dead</p>
             <UTooltip text="Retry loading gallery">
               <UButton
-                  class="bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
+                  class="bg-red-500 hover:bg-red-600 transition-colors"
                   @click="retryFetch"
               >
                 Retry
@@ -74,7 +74,7 @@
               <div v-for="(monthGroup, monthIndex) in yearGroup.months" :key="`${yearGroup.year}-${monthIndex}`" class="mb-8">
               <!-- Month Header -->
               <button
-                  class="w-full flex justify-between items-center p-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-xl border border-purple-300/30 dark:border-purple-700/30 hover:from-purple-500/30 hover:to-pink-500/30 transition-all duration-300 mb-4 cursor-pointer"
+                  class="w-full flex justify-between items-center p-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-300/30 dark:border-purple-700/30 hover:from-purple-500/30 hover:to-pink-500/30 transition-all duration-300 mb-4 cursor-pointer"
                   :class="{ 'shadow-lg': isMonthExpanded('images', `${yearGroup.year}-${monthGroup.month}`) }"
                   @click="toggleMonth('images', `${yearGroup.year}-${monthGroup.month}`)"
               >
@@ -88,7 +88,7 @@
                   </svg>
                   <span class="text-lg font-semibold">{{ monthGroup.month }}</span>
                 </div>
-                <span class="bg-purple-500 text-white px-3 py-1 rounded-full text-sm">
+                <span class="bg-purple-500 text-white px-3 py-1 text-sm">
                   {{ monthGroup.items.length }}
                 </span>
               </button>
@@ -101,9 +101,12 @@
                 <div
                     v-for="(image, imageIndex) in monthGroup.items"
                     :key="image.href"
-                    class="group relative aspect-square overflow-hidden rounded-lg cursor-pointer"
+                    class="group relative aspect-square overflow-hidden cursor-pointer"
                     @click="openImageModal(getGlobalImageIndex(yearGroup.year, monthGroup.month, imageIndex))"
                 >
+                  <div class="absolute inset-0 z-20 pointer-events-none">
+                    <CornerBrackets size="sm" />
+                  </div>
                   <nuxt-img
                       :src="`https://samba.seija-kij.in/public/vrchat/gallery/images/${image.href}?th=w`"
                       :alt="`VRChat screenshot taken on ${formatDate(image.ts * 1000)}`"
@@ -142,7 +145,7 @@
               <div v-for="(monthGroup, monthIndex) in yearGroup.months" :key="`${yearGroup.year}-${monthIndex}`" class="mb-8">
               <!-- Month Header -->
               <button
-                  class="w-full flex justify-between items-center p-4 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-sm rounded-xl border border-pink-300/30 dark:border-pink-700/30 hover:from-pink-500/30 hover:to-purple-500/30 transition-all duration-300 mb-4"
+                  class="w-full flex justify-between items-center p-4 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-sm border border-pink-300/30 dark:border-pink-700/30 hover:from-pink-500/30 hover:to-purple-500/30 transition-all duration-300 mb-4"
                   :class="{ 'shadow-lg': isMonthExpanded('videos', `${yearGroup.year}-${monthGroup.month}`) }"
                   @click="toggleMonth('videos', `${yearGroup.year}-${monthGroup.month}`)"
               >
@@ -156,7 +159,7 @@
                   </svg>
                   <span class="text-lg font-semibold">{{ monthGroup.month }}</span>
                 </div>
-                <span class="bg-pink-500 text-white px-3 py-1 rounded-full text-sm">
+                <span class="bg-pink-500 text-white px-3 py-1 text-sm">
                   {{ monthGroup.items.length }}
                 </span>
               </button>
@@ -169,9 +172,12 @@
                 <div
                     v-for="video in monthGroup.items"
                     :key="video.href"
-                    class="group bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-150 hover:border-deeppink-400 dark:hover:border-deeppink-500"
+                    class="group relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-150 hover:border-deeppink-400 dark:hover:border-deeppink-500"
                 >
-                  <div class="aspect-video bg-black rounded-t-xl overflow-hidden">
+                  <div class="absolute inset-0 z-20 pointer-events-none">
+                    <CornerBrackets size="sm" />
+                  </div>
+                  <div class="aspect-video bg-black overflow-hidden">
                     <video
                         :src="`https://samba.seija-kij.in/public/vrchat/gallery/videos/${video.href}`"
                         controls
@@ -204,7 +210,7 @@
 
           <!-- No Content -->
           <div v-if="!hasContent" class="text-center py-12">
-            <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-8 max-w-md mx-auto">
+            <div class="bg-gray-100 dark:bg-gray-800 p-8 max-w-md mx-auto">
               <svg class="w-12 h-12 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2h4a1 1 0 011 1v1a1 1 0 01-1 1h-1l-.757 9.083A2 2 0 0118.247 18H5.753a2 2 0 01-1.996-1.917L3 7H2a1 1 0 01-1-1V5a1 1 0 011-1h4z"/>
               </svg>
@@ -240,22 +246,20 @@
             <UButton
                 v-if="selectedImageIndex !== null && selectedImageIndex > 0"
                 icon="i-lucide-chevron-left"
-                color="gray"
+                color="neutral"
                 variant="soft"
                 class="absolute left-4 top-1/2 transform -translate-y-1/2 z-10"
                 size="xl"
-                :ui="{ rounded: 'rounded-full' }"
                 @click.stop="navigateImage(-1)"
             />
 
             <UButton
                 v-if="selectedImageIndex !== null && selectedImageIndex < allImages.length - 1"
                 icon="i-lucide-chevron-right"
-                color="gray"
+                color="neutral"
                 variant="soft"
                 class="absolute right-4 top-1/2 transform -translate-y-1/2 z-10"
                 size="xl"
-                :ui="{ rounded: 'rounded-full' }"
                 @click.stop="navigateImage(1)"
             />
 
