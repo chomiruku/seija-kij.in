@@ -48,7 +48,7 @@
             <!-- Main Media -->
             <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 overflow-hidden mb-6">
               <div class="absolute inset-0 pointer-events-none z-10">
-                <CornerBrackets />
+                <UiCornerBrackets />
               </div>
               <!-- Quality Slider for Images -->
               <div v-if="!isVideo && post.media_asset?.variants?.length > 1" class="p-4 border-b border-gray-200/50 dark:border-gray-700/50">
@@ -100,7 +100,7 @@
 
             <!-- Comments Section -->
             <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
-              <CornerBrackets size="sm" />
+              <UiCornerBrackets size="sm" />
               <!-- Clickable Header -->
               <div 
                 class="flex justify-between items-center cursor-pointer hover:bg-gray-50/50 dark:hover:bg-gray-700/20 p-2 -m-2 transition-colors"
@@ -185,7 +185,7 @@
           <div class="space-y-6">
             <!-- Tags -->
             <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
-              <CornerBrackets size="sm" />
+              <UiCornerBrackets size="sm" />
               <h3 class="text-lg font-bold mb-4">Tags</h3>
               
               <!-- Artists -->
@@ -197,7 +197,7 @@
                     :key="tag"
                     :to="`/milkbooru?tags=${encodeURIComponent(tag)}`"
                   >
-                    <AngularTag :label="tag" variant="pink" />
+                    <UiAngularTag :label="tag" variant="pink" />
                   </NuxtLink>
                 </div>
               </div>
@@ -207,7 +207,7 @@
                 <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">Characters</h4>
                 <div class="flex flex-wrap gap-1">
                   <NuxtLink v-for="tag in tagsByCategory.character" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
-                    <AngularTag :label="tag" variant="crimson" />
+                    <UiAngularTag :label="tag" variant="crimson" />
                   </NuxtLink>
                 </div>
               </div>
@@ -217,7 +217,7 @@
                 <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">Copyrights</h4>
                 <div class="flex flex-wrap gap-1">
                   <NuxtLink v-for="tag in tagsByCategory.copyright" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
-                    <AngularTag :label="tag" variant="blue" />
+                    <UiAngularTag :label="tag" variant="blue" />
                   </NuxtLink>
                 </div>
               </div>
@@ -227,7 +227,7 @@
                 <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">General</h4>
                 <div class="flex flex-wrap gap-1">
                   <NuxtLink v-for="tag in tagsByCategory.general" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
-                    <AngularTag :label="tag" variant="gray" />
+                    <UiAngularTag :label="tag" variant="gray" />
                   </NuxtLink>
                 </div>
               </div>
@@ -237,7 +237,7 @@
                 <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">Meta</h4>
                 <div class="flex flex-wrap gap-1">
                   <NuxtLink v-for="tag in tagsByCategory.meta" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
-                    <AngularTag :label="tag" variant="gray" />
+                    <UiAngularTag :label="tag" variant="gray" />
                   </NuxtLink>
                 </div>
               </div>
@@ -245,7 +245,7 @@
 
             <!-- Post Information -->
             <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
-              <CornerBrackets size="sm" />
+              <UiCornerBrackets size="sm" />
               <h3 class="text-lg font-bold mb-4">Post Information</h3>
               
               <div class="space-y-3 text-sm">
@@ -298,7 +298,7 @@
 
             <!-- File Details -->
             <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
-              <CornerBrackets size="sm" />
+              <UiCornerBrackets size="sm" />
               <h3 class="text-lg font-bold mb-4">File Details</h3>
               
               <div class="space-y-3 text-sm">
@@ -321,7 +321,7 @@
 
             <!-- Links -->
             <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
-              <CornerBrackets size="sm" />
+              <UiCornerBrackets size="sm" />
               <h3 class="text-lg font-bold mb-4">Links</h3>
               
               <div class="space-y-3 text-sm">
@@ -353,7 +353,7 @@
 
             <!-- Upload Info -->
             <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
-              <CornerBrackets size="sm" />
+              <UiCornerBrackets size="sm" />
               <h3 class="text-lg font-bold mb-4">Upload Information</h3>
               
               <div class="space-y-3 text-sm">

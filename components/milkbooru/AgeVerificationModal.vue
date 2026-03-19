@@ -8,7 +8,7 @@
   >
     <template #body>
       <div class="relative">
-        <CornerBrackets size="md" />
+        <UiCornerBrackets size="md" />
         <div class="flex gap-3 justify-center pt-2">
           <UTooltip text="I'm under 18">
             <UButton

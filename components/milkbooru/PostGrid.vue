@@ -7,7 +7,7 @@
       class="group relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:-translate-y-1 hover:border-crimson-500 dark:hover:border-crimson-500 animate-fade-in-up block"
       :style="`animation-delay: ${index * 50}ms`"
     >
-      <CornerBrackets size="sm" />
+      <UiCornerBrackets size="sm" />
       <div class="aspect-square overflow-hidden relative">
         <nuxt-img
           :src="getImageUrl(post)"

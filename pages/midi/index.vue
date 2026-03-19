@@ -63,7 +63,7 @@
                 </p>
               </div>
               <div v-if="midi.versions?.length" class="flex flex-wrap gap-1 mt-2">
-                <AngularTag v-for="version in midi.versions" :key="version.filename" :label="version.name" variant="blue" />
+                <UiAngularTag v-for="version in midi.versions" :key="version.filename" :label="version.name" variant="blue" />
               </div>
             </div>
           </div>

@@ -21,7 +21,7 @@
 
       <!-- Main Character Card -->
       <div class="relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6 sm:p-8 mb-12">
-        <CornerBrackets />
+        <UiCornerBrackets />
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <!-- Character Info -->
           <div>
@@ -102,7 +102,7 @@
 
       <!-- Abilities & Spell Cards -->
       <div class="relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6 sm:p-8 mb-5">
-        <CornerBrackets />
+        <UiCornerBrackets />
         <h3 class="text-3xl font-bold text-center mb-8">Abilities & Spell Cards</h3>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">

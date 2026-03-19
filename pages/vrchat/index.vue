@@ -105,7 +105,7 @@
                     @click="openImageModal(getGlobalImageIndex(yearGroup.year, monthGroup.month, imageIndex))"
                 >
                   <div class="absolute inset-0 z-20 pointer-events-none">
-                    <CornerBrackets size="sm" />
+                    <UiCornerBrackets size="sm" />
                   </div>
                   <nuxt-img
                       :src="`https://samba.seija-kij.in/public/vrchat/gallery/images/${image.href}?th=w`"
@@ -175,7 +175,7 @@
                     class="group relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-150 hover:border-deeppink-400 dark:hover:border-deeppink-500"
                 >
                   <div class="absolute inset-0 z-20 pointer-events-none">
-                    <CornerBrackets size="sm" />
+                    <UiCornerBrackets size="sm" />
                   </div>
                   <div class="aspect-video bg-black overflow-hidden">
                     <video
