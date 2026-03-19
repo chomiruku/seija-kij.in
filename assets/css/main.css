@@ -85,6 +85,65 @@
     --color-royalblue-950: #0a1438;
 }
 
+/* ── Angular design system ── */
+
+/* Zero out Tailwind v4 radius tokens */
+@theme {
+  --radius-none: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+}
+
+/* Override Nuxt UI's CSS custom property — cascades to all UI components */
+:root {
+  --ui-radius: 0px;
+}
+
+/* Clip-path shape definitions */
+:root {
+  --clip-parallelogram: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  --clip-chevron: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+
+/* Clip-path utility classes */
+.clip-parallelogram {
+  clip-path: var(--clip-parallelogram);
+}
+.clip-chevron {
+  clip-path: var(--clip-chevron);
+}
+
+/* Accessibility: inset box-shadow replaces clipped focus ring */
+.clip-parallelogram:focus-visible,
+.clip-chevron:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--color-crimson-500, #ff3342);
+}
+
+/* Transition safety: exclude clip-path from transition-all to prevent jank */
+.clip-parallelogram,
+.clip-chevron {
+  transition-property: background-color, color, border-color, opacity, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Fallback sweep: catches any hard-coded rounded-* classes in custom markup.
+   IMPORTANT: carve out rounded-full — USwitch and UTabs link indicator rely on it
+   functionally and must retain their pill/circle shape. */
+[class*="rounded"]:not([class*="rounded-full"]) {
+  border-radius: 0 !important;
+}
+
+/* Restore rounded-full explicitly after the sweep, in case of specificity conflicts */
+.rounded-full {
+  border-radius: 9999px !important;
+}
+
 /*
 Set the default cursor for buttons.
 */
