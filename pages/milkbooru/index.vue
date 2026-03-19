@@ -38,7 +38,7 @@
             <USkeleton
               v-for="i in 20"
               :key="`skeleton-${i}`"
-              class="h-64 rounded-xl"
+              class="h-64"
             />
           </div>
         </div>

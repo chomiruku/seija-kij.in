@@ -3,7 +3,7 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-20">
       <!-- Loading State -->
       <div v-if="isLoading" class="text-center py-12">
-        <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-8 max-w-md mx-auto border border-gray-200/50 dark:border-gray-700/50">
+        <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm p-8 max-w-md mx-auto border border-gray-200/50 dark:border-gray-700/50">
           <div class="w-8 h-8 mx-auto mb-4">
             <svg class="animate-spin w-8 h-8 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
@@ -15,7 +15,7 @@
 
       <!-- Error State -->
       <div v-else-if="hasError" class="text-center py-12">
-        <div class="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-lg p-6 max-w-md mx-auto">
+        <div class="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 p-6 max-w-md mx-auto">
           <h1 class="text-4xl font-bold mb-6">
             huh?
           </h1>
@@ -24,14 +24,14 @@
           <p class="text-gray-800 dark:text-gray-400 mb-4">This post might not exist or the booru is down</p>
           <div class="flex gap-3 justify-center">
             <button
-              class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition-colors text-white"
+              class="bg-red-500 hover:bg-red-600 px-4 py-2 transition-colors text-white"
               @click="retryFetch"
             >
               Retry
             </button>
             <NuxtLink
               to="/milkbooru"
-              class="bg-gray-500 hover:bg-gray-600 px-4 py-2 rounded-lg transition-colors text-white"
+              class="bg-gray-500 hover:bg-gray-600 px-4 py-2 transition-colors text-white"
             >
               Back to Gallery
             </NuxtLink>
@@ -46,7 +46,10 @@
           <!-- Media Column -->
           <div class="lg:col-span-2">
             <!-- Main Media -->
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden mb-6">
+            <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 overflow-hidden mb-6">
+              <div class="absolute inset-0 pointer-events-none z-10">
+                <CornerBrackets />
+              </div>
               <!-- Quality Slider for Images -->
               <div v-if="!isVideo && post.media_asset?.variants?.length > 1" class="p-4 border-b border-gray-200/50 dark:border-gray-700/50">
                 <div class="flex items-center justify-between mb-2">
@@ -96,10 +99,11 @@
             </div>
 
             <!-- Comments Section -->
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-6">
+            <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
+              <CornerBrackets size="sm" />
               <!-- Clickable Header -->
               <div 
-                class="flex justify-between items-center cursor-pointer hover:bg-gray-50/50 dark:hover:bg-gray-700/20 rounded-lg p-2 -m-2 transition-colors"
+                class="flex justify-between items-center cursor-pointer hover:bg-gray-50/50 dark:hover:bg-gray-700/20 p-2 -m-2 transition-colors"
                 @click="commentsExpanded = !commentsExpanded"
               >
                 <div class="flex items-center gap-2">
@@ -139,7 +143,7 @@
                   <div 
                     v-for="comment in comments" 
                     :key="comment.id" 
-                    class="bg-gray-50/80 dark:bg-gray-700/30 rounded-lg p-4 border border-gray-200/50 dark:border-gray-600/30"
+                    class="bg-gray-50/80 dark:bg-gray-700/30 p-4 border border-gray-200/50 dark:border-gray-600/30"
                   >
                     <!-- Comment Header -->
                     <div class="flex justify-between items-start mb-3">
@@ -160,7 +164,7 @@
                           'text-red-600 bg-red-100 dark:bg-red-900/20': comment.score < 0,
                           'text-gray-500 bg-gray-100 dark:bg-gray-800/50': comment.score === 0
                         }"
-                        class="text-xs font-medium px-2 py-1 rounded-full"
+                        class="text-xs font-medium px-2 py-1"
                       >
                         {{ comment.score > 0 ? '+' : '' }}{{ comment.score }}
                       </span>
@@ -180,7 +184,8 @@
           <!-- Details Sidebar -->
           <div class="space-y-6">
             <!-- Tags -->
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-6">
+            <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
+              <CornerBrackets size="sm" />
               <h3 class="text-lg font-bold mb-4">Tags</h3>
               
               <!-- Artists -->
@@ -191,9 +196,8 @@
                     v-for="tag in tagsByCategory.artist"
                     :key="tag"
                     :to="`/milkbooru?tags=${encodeURIComponent(tag)}`"
-                    class="inline-block px-2 py-1 bg-red-500 hover:bg-red-600 text-white text-xs rounded transition-colors cursor-pointer"
                   >
-                    {{ tag }}
+                    <AngularTag :label="tag" variant="pink" />
                   </NuxtLink>
                 </div>
               </div>
@@ -202,13 +206,8 @@
               <div v-if="tagsByCategory.character.length" class="mb-4">
                 <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">Characters</h4>
                 <div class="flex flex-wrap gap-1">
-                  <NuxtLink
-                    v-for="tag in tagsByCategory.character"
-                    :key="tag"
-                    :to="`/milkbooru?tags=${encodeURIComponent(tag)}`"
-                    class="inline-block px-2 py-1 bg-green-500 hover:bg-green-600 text-white text-xs rounded transition-colors cursor-pointer"
-                  >
-                    {{ tag }}
+                  <NuxtLink v-for="tag in tagsByCategory.character" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                    <AngularTag :label="tag" variant="crimson" />
                   </NuxtLink>
                 </div>
               </div>
@@ -217,13 +216,8 @@
               <div v-if="tagsByCategory.copyright.length" class="mb-4">
                 <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">Copyrights</h4>
                 <div class="flex flex-wrap gap-1">
-                  <NuxtLink
-                    v-for="tag in tagsByCategory.copyright"
-                    :key="tag"
-                    :to="`/milkbooru?tags=${encodeURIComponent(tag)}`"
-                    class="inline-block px-2 py-1 bg-blueviolet-500 hover:bg-blueviolet-600 text-white text-xs rounded transition-colors cursor-pointer"
-                  >
-                    {{ tag }}
+                  <NuxtLink v-for="tag in tagsByCategory.copyright" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                    <AngularTag :label="tag" variant="blue" />
                   </NuxtLink>
                 </div>
               </div>
@@ -232,13 +226,8 @@
               <div v-if="tagsByCategory.general.length" class="mb-4">
                 <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">General</h4>
                 <div class="flex flex-wrap gap-1">
-                  <NuxtLink
-                    v-for="tag in tagsByCategory.general"
-                    :key="tag"
-                    :to="`/milkbooru?tags=${encodeURIComponent(tag)}`"
-                    class="inline-block px-2 py-1 bg-gray-500 hover:bg-gray-600 text-white text-xs rounded transition-colors cursor-pointer"
-                  >
-                    {{ tag }}
+                  <NuxtLink v-for="tag in tagsByCategory.general" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                    <AngularTag :label="tag" variant="gray" />
                   </NuxtLink>
                 </div>
               </div>
@@ -247,20 +236,16 @@
               <div v-if="tagsByCategory.meta.length">
                 <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">Meta</h4>
                 <div class="flex flex-wrap gap-1">
-                  <NuxtLink
-                    v-for="tag in tagsByCategory.meta"
-                    :key="tag"
-                    :to="`/milkbooru?tags=${encodeURIComponent(tag)}`"
-                    class="inline-block px-2 py-1 bg-cyan-500 hover:bg-cyan-600 text-white text-xs rounded transition-colors cursor-pointer"
-                  >
-                    {{ tag }}
+                  <NuxtLink v-for="tag in tagsByCategory.meta" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                    <AngularTag :label="tag" variant="gray" />
                   </NuxtLink>
                 </div>
               </div>
             </div>
 
             <!-- Post Information -->
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-6">
+            <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
+              <CornerBrackets size="sm" />
               <h3 class="text-lg font-bold mb-4">Post Information</h3>
               
               <div class="space-y-3 text-sm">
@@ -272,7 +257,7 @@
                 <div class="flex justify-between items-center">
                   <span class="text-gray-600 dark:text-gray-300">Rating:</span>
                   <span 
-                    class="px-2 py-1 rounded text-xs font-medium"
+                    class="px-2 py-1 text-xs font-medium"
                     :class="{
                       'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300': rating === 'General',
                       'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300': rating === 'Sensitive',
@@ -297,7 +282,7 @@
                 <div class="flex justify-between items-center">
                   <span class="text-gray-600 dark:text-gray-300">Status:</span>
                   <span 
-                    class="px-2 py-1 rounded text-xs font-medium"
+                    class="px-2 py-1 text-xs font-medium"
                     :class="{
                       'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300': status === 'Pending',
                       'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300': status === 'Active',
@@ -312,7 +297,8 @@
             </div>
 
             <!-- File Details -->
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-6">
+            <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
+              <CornerBrackets size="sm" />
               <h3 class="text-lg font-bold mb-4">File Details</h3>
               
               <div class="space-y-3 text-sm">
@@ -334,7 +320,8 @@
             </div>
 
             <!-- Links -->
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-6">
+            <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
+              <CornerBrackets size="sm" />
               <h3 class="text-lg font-bold mb-4">Links</h3>
               
               <div class="space-y-3 text-sm">
@@ -365,7 +352,8 @@
             </div>
 
             <!-- Upload Info -->
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-6">
+            <div class="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
+              <CornerBrackets size="sm" />
               <h3 class="text-lg font-bold mb-4">Upload Information</h3>
               
               <div class="space-y-3 text-sm">
