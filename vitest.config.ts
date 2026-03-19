@@ -28,7 +28,7 @@ export default defineConfig({
     alias: {
       '~': resolve(__dirname, './'),
       '@': resolve(__dirname, './'),
-      '#app': resolve(__dirname, './.nuxt'),
+      '#app': resolve(__dirname, './node_modules/nuxt/dist/app/index.js'),
     },
   },
 })

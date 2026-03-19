@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-160 -10 800 350" width="800" height="350">
+  <!-- White arrow: no change -->
+  <polygon points="10,60 160,60 160,10 310,110 160,210 160,160 10,160" fill="#ffffff" stroke="#000000" stroke-width="0" stroke-linejoin="miter"/>
+  <!-- Red arrow: move right 200px -->
+  <polygon points="10,60 160,60 160,10 310,110 160,210 160,160 10,160" fill="#ff0000" stroke="#000000" stroke-width="0" stroke-linejoin="miter" transform="translate(300,0)"/>
+  <!-- Black arrow: flip horizontally around center (x=160), then move right 100px, down 50px -->
+  <polygon points="10,60 160,60 160,10 310,110 160,210 160,160 10,160" fill="#000000" stroke="#000000" stroke-width="0" stroke-linejoin="miter" transform="translate(310,100) scale(-1,1) translate(-160,0)"/>
+  <!-- Grey arrow: flip horizontally around center (x=160), then move left 100px, down 50px -->
+  <polygon points="10,60 160,60 160,10 310,110 160,210 160,160 10,160" fill="#c0c0c0" stroke="#000000" stroke-width="0" stroke-linejoin="miter" transform="translate(10,100) scale(-1,1) translate(-160,0)"/>
+</svg>

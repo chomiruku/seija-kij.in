@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600">
+  <defs>
+    <!--
+      TILE SIZE: 600 × 200 px
+      Each arrow is 300 × 200 (x:0→300, y:0→200)
+      Normalized arrow (right-pointing):  "0,50 150,50 150,0 300,100 150,200 150,150 0,150"
+      Mirrored arrow  (left-pointing):   "300,50 150,50 150,0 0,100 150,200 150,150 300,150"
+
+      Row 1 (y-offset 0):   White @(0,0)   Red   @(300,0)
+      Row 2 (y-offset 100): Grey  @(left-pointing, center at x=0 & x=600, y=200)
+                             Black @(left-pointing, center at x=300, y=200)
+
+      Because row-2 arrows span y:100→300 (bleeding 100px below tile),
+      and grey spans x:-150→150 & x:450→750 (bleeding outside x edges),
+      we add wrap-around duplicates shifted by ±200 (y) and ±600 (x).
+    -->
+    <pattern id="arrows" x="525" y="0" width="600" height="200" patternTransform="rotate(-60) scale(0.25)" patternUnits="userSpaceOnUse">
+      
+    <rect width="600" height="200" fill="#111111"/>
+
+      <!-- ══ GREY (left-pointing) — 4 instances to cover corners/edges ══ -->
+      <!-- top-left bleed wrap -->
+      <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150"
+               fill="#424242" stroke="#424242" stroke-width="1.5" stroke-linejoin="miter" transform="translate(-150,-100)"/>
+      <!-- top-right bleed wrap -->
+      <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150"
+               fill="#424242" stroke="#424242" stroke-width="1.5" transform="translate(450,-100)"/>
+      <!-- bottom-left (main row 2) -->
+      <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150"
+               fill="#424242" stroke="#424242" stroke-width="1.5" transform="translate(-150,100)"/>
+      <!-- bottom-right (main row 2) -->
+      <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150"
+               fill="#424242" stroke="#424242" stroke-width="1.5" transform="translate(450,100)"/>
+
+      <!-- ══ WHITE (right-pointing) — row 1 ══ -->
+      <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150"
+               fill="#ffffff" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="miter"/>
+
+      <!-- ══ RED (right-pointing) — row 1 ══ -->
+      <polygon points="0,50 150,50 150,0 300,100 150,200 150,150 0,150"
+               fill="#cc0000" stroke="#cc0000" stroke-width="1.5" stroke-linejoin="miter" transform="translate(300,0)"/>
+
+      <!-- ══ BLACK (left-pointing) — 2 instances to wrap top/bottom ══ -->
+      <!-- top bleed wrap -->
+      <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150"
+               fill="#111111" stroke="#111111" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,-100)"/>
+      <!-- main row 2 -->
+      <polygon points="300,50 150,50 150,0 0,100 150,200 150,150 300,150"
+               fill="#111111" stroke="#111111" stroke-width="1.5" stroke-linejoin="miter" transform="translate(150,100)"/>
+
+    </pattern>
+  </defs>
+
+  <!-- Fill the demo canvas -->
+  <rect width="900" height="600" fill="url(#arrows)"/>
+</svg>

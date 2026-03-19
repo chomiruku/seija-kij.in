@@ -7,25 +7,28 @@
     :ui="{ content: '' }"
   >
     <template #body>
-      <div class="flex gap-3 justify-center">
-        <UTooltip text="I'm under 18">
-          <UButton
-            color="neutral"
-            size="lg"
-            @click="handleConfirm(false)"
-          >
-            na✋
-          </UButton>
-        </UTooltip>
-        <UTooltip text="I'm 18 or older">
-          <UButton
-            color="deeppink"
-            size="lg"
-            @click="handleConfirm(true)"
-          >
-            ye🤙
-          </UButton>
-        </UTooltip>
+      <div class="relative">
+        <UiCornerBrackets size="md" />
+        <div class="flex gap-3 justify-center pt-2">
+          <UTooltip text="I'm under 18">
+            <UButton
+              color="neutral"
+              size="lg"
+              @click="handleConfirm(false)"
+            >
+              na✋
+            </UButton>
+          </UTooltip>
+          <UTooltip text="I'm 18 or older">
+            <UButton
+              color="deeppink"
+              size="lg"
+              @click="handleConfirm(true)"
+            >
+              ye🤙
+            </UButton>
+          </UTooltip>
+        </div>
       </div>
     </template>
   </UModal>

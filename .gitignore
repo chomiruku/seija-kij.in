@@ -183,3 +183,23 @@ token.json
 
 # Claude temp files
 tmpclaude-*
+
+# Root-level screenshots and review images only
+/*.png
+/*.jpg
+/*.jpeg
+!assets/**/*.png
+!assets/**/*.jpg
+!assets/**/*.jpeg
+
+# Playwright MCP output
+.playwright-mcp/
+
+# Superpowers brainstorm sessions
+.superpowers/
+
+# Misc doc summaries
+IMPROVEMENTS_SUMMARY.md
+REFACTORING_SUMMARY.md
+playwright-report/
+test-results/

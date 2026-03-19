@@ -3,7 +3,7 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-20">
       <!-- Loading State -->
       <div v-if="isLoading" class="text-center py-12">
-        <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-8 max-w-md mx-auto border border-gray-200/50 dark:border-gray-700/50">
+        <div class="bg-white dark:bg-gray-900 p-8 max-w-md mx-auto border border-gray-200 dark:border-gray-800">
           <div class="w-8 h-8 mx-auto mb-4">
             <svg class="animate-spin w-8 h-8 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
@@ -15,7 +15,7 @@
 
       <!-- Error State -->
       <div v-else-if="hasError" class="text-center py-12">
-        <div class="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-lg p-6 max-w-md mx-auto">
+        <div class="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 p-6 max-w-md mx-auto">
           <h1 class="text-4xl font-bold mb-6">
             huh?
           </h1>
@@ -24,14 +24,14 @@
           <p class="text-gray-800 dark:text-gray-400 mb-4">This post might not exist or the booru is down</p>
           <div class="flex gap-3 justify-center">
             <button
-              class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition-colors text-white"
+              class="bg-red-500 hover:bg-red-600 px-4 py-2 transition-colors text-white"
               @click="retryFetch"
             >
               Retry
             </button>
             <NuxtLink
               to="/milkbooru"
-              class="bg-gray-500 hover:bg-gray-600 px-4 py-2 rounded-lg transition-colors text-white"
+              class="bg-gray-500 hover:bg-gray-600 px-4 py-2 transition-colors text-white"
             >
               Back to Gallery
             </NuxtLink>
@@ -39,34 +39,60 @@
         </div>
       </div>
 
+      <!-- Post Navigation Bar -->
       <!-- Post Content -->
       <div v-else-if="post" class="max-w-8xl mx-auto">
+        <!-- Post Navigation Bar -->
+        <div class="mb-4 flex items-center justify-between gap-2">
+          <button
+            class="flex items-center gap-1.5 font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-crimson-400 dark:hover:text-crimson-400 transition-colors"
+            @click="goBack"
+          >
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            back
+          </button>
+
+          <div class="flex items-center gap-1 font-mono text-xs">
+            <NuxtLink
+              :to="`/milkbooru/${Number(postId) - 1}`"
+              class="px-3 py-1.5 border border-gray-200 dark:border-gray-800 text-gray-500 dark:text-gray-400 hover:border-crimson-500/50 hover:text-crimson-400 transition-colors"
+            >← prev</NuxtLink>
+            <span class="px-2 text-gray-400 dark:text-gray-600">#{{ postId }}</span>
+            <NuxtLink
+              :to="`/milkbooru/${Number(postId) + 1}`"
+              class="px-3 py-1.5 border border-gray-200 dark:border-gray-800 text-gray-500 dark:text-gray-400 hover:border-crimson-500/50 hover:text-crimson-400 transition-colors"
+            >next →</NuxtLink>
+          </div>
+        </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <!-- Media Column -->
           <div class="lg:col-span-2">
+            <!-- Variant Buttons -->
+            <div v-if="!isVideo && post.media_asset?.variants?.length > 1" class="flex">
+              <div
+                v-for="(variant, idx) in post.media_asset.variants"
+                :key="idx"
+                class="relative flex-1 border -ml-px first:ml-0 transition-colors"
+                :class="selectedVariantIndex === idx ? 'bg-crimson-500/20 border-crimson-500/30' : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800'"
+              >
+                <UiCornerBrackets size="sm" :color="selectedVariantIndex === idx ? 'crimson' : 'pink'" />
+                <button
+                  class="variant-btn w-full px-3 py-2 text-xs font-mono transition-colors"
+                  :class="selectedVariantIndex === idx ? 'text-crimson-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'"
+                  @click="selectedVariantIndex = idx; onVariantChange()"
+                >
+                  {{ variant.width }}×{{ variant.height }}
+                </button>
+              </div>
+            </div>
+
             <!-- Main Media -->
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden mb-6">
-              <!-- Quality Slider for Images -->
-              <div v-if="!isVideo && post.media_asset?.variants?.length > 1" class="p-4 border-b border-gray-200/50 dark:border-gray-700/50">
-                <div class="flex items-center justify-between mb-2">
-                  <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Image Quality</span>
-                  <span class="text-xs text-gray-500 dark:text-gray-400">
-                    {{ getCurrentVariantInfo() }}
-                  </span>
-                </div>
-                <div class="flex items-center gap-3">
-                  <span class="text-xs text-gray-500">Low</span>
-                  <input
-                    v-model.number="selectedVariantIndex"
-                    type="range"
-                    :min="0"
-                    :max="post.media_asset.variants.length - 1"
-                    class="flex-1 h-2 bg-gray-200 dark:bg-gray-700 appearance-none slider"
-                    @input="onVariantChange"
-                  >
-                  <span class="text-xs text-gray-500">High</span>
-                </div>
+            <div class="relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 overflow-hidden mb-4">
+              <div class="absolute inset-0 pointer-events-none z-10">
+                <UiCornerBrackets />
               </div>
 
               <!-- Video -->
@@ -96,290 +122,189 @@
             </div>
 
             <!-- Comments Section -->
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-6">
-              <!-- Clickable Header -->
-              <div 
-                class="flex justify-between items-center cursor-pointer hover:bg-gray-50/50 dark:hover:bg-gray-700/20 rounded-lg p-2 -m-2 transition-colors"
-                @click="commentsExpanded = !commentsExpanded"
-              >
-                <div class="flex items-center gap-2">
-                  <h3 class="text-xl font-bold">Comments ({{ comments.length }})</h3>
-                  <svg 
-                    class="w-5 h-5 transition-transform duration-200"
-                    :class="{ 'rotate-180': commentsExpanded }"
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
+            <div class="font-mono text-xs mt-6">
+
+              <!-- Header row -->
+              <div class="flex items-center gap-3 mb-4">
+                <div class="flex items-center gap-2 flex-1">
+                  <button
+                    class="flex items-center gap-2 text-neutral-400 hover:text-neutral-200 transition-colors"
+                    :aria-expanded="commentsExpanded"
+                    :aria-label="`${commentsExpanded ? 'Collapse' : 'Expand'} comments (${comments.length})`"
+                    @click="commentsExpanded = !commentsExpanded"
                   >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                  </svg>
+                    <span class="text-neutral-600 uppercase tracking-widest text-[10px]">── COMMENTS ({{ comments.length }})</span>
+                    <div class="w-24 border-t border-neutral-800"/>
+                    <svg
+                      class="w-3 h-3 transition-transform duration-200"
+                      :class="{ 'rotate-180': commentsExpanded }"
+                      fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </button>
                 </div>
                 <a
                   :href="`https://danbooru.donmai.us/posts/${post.id}`"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-sm text-pink-600 hover:text-pink-700 transition-colors"
+                  class="text-royalblue-400 hover:text-royalblue-300 transition-colors text-[10px]"
                   @click.stop
                 >
-                  View on Danbooru →
+                  ↗ danbooru
                 </a>
               </div>
 
-              <!-- Collapsible Content -->
-              <div v-show="commentsExpanded" class="mt-6">
-                <!-- No Comments State -->
-                <div v-if="comments.length === 0" class="text-center py-8">
-                  <UIcon name="i-heroicons-chat-bubble-left-ellipsis" class="w-12 h-12 mx-auto text-gray-400 mb-4" />
-                  <p class="text-gray-500 dark:text-gray-400">No comments yet.</p>
-                  <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">Be the first to share your thoughts!</p>
+              <!-- Collapsible content -->
+              <div v-show="commentsExpanded">
+
+                <!-- Empty state -->
+                <div v-if="comments.length === 0" class="text-neutral-600 py-2">
+                  no comments —
+                  <a
+                    :href="`https://danbooru.donmai.us/posts/${post.id}`"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-royalblue-400 hover:text-royalblue-300 transition-colors"
+                  >view on danbooru</a>
                 </div>
 
-                <!-- Comments List -->
+                <!-- Comment log -->
                 <div v-else class="space-y-4">
-                  <div 
-                    v-for="comment in comments" 
-                    :key="comment.id" 
-                    class="bg-gray-50/80 dark:bg-gray-700/30 rounded-lg p-4 border border-gray-200/50 dark:border-gray-600/30"
-                  >
-                    <!-- Comment Header -->
-                    <div class="flex justify-between items-start mb-3">
-                      <div>
-                        <span class="font-semibold text-gray-900 dark:text-white text-sm">
-                          {{ comment.creator_name || 'Anonymous' }}
-                        </span>
-                        <div class="text-xs text-gray-500 dark:text-gray-400">
-                          {{ formatDate(comment.created_at) }}
-                          <span v-if="comment.updated_at !== comment.created_at" class="ml-1">
-                            (edited)
-                          </span>
-                        </div>
+                  <div v-for="comment in comments" :key="comment.id">
+                    <!-- Comment header line -->
+                    <div class="flex items-baseline justify-between gap-2 mb-1">
+                      <div class="flex items-baseline gap-3">
+                        <span class="text-neutral-500">[{{ formatDateShort(comment.created_at) }}]</span>
+                        <span class="text-neutral-200">{{ comment.creator_name || 'anonymous' }}</span>
+                        <span v-if="comment.updated_at !== comment.created_at" class="text-neutral-600">(edited)</span>
                       </div>
-                      <span 
+                      <span
+                        class="shrink-0"
                         :class="{
-                          'text-green-600 bg-green-100 dark:bg-green-900/20': comment.score > 0,
-                          'text-red-600 bg-red-100 dark:bg-red-900/20': comment.score < 0,
-                          'text-gray-500 bg-gray-100 dark:bg-gray-800/50': comment.score === 0
+                          'text-green-400': comment.score > 0,
+                          'text-red-400': comment.score < 0,
+                          'text-neutral-600': comment.score === 0
                         }"
-                        class="text-xs font-medium px-2 py-1 rounded-full"
-                      >
-                        {{ comment.score > 0 ? '+' : '' }}{{ comment.score }}
-                      </span>
+                      >{{ comment.score > 0 ? '+' : '' }}{{ comment.score }}</span>
                     </div>
-                    
-                    <!-- Comment Body with Quote Parsing -->
-                    <div class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                    <!-- Comment body -->
+                    <div class="text-neutral-400 leading-relaxed pl-4 text-[11px]">
                       <!-- eslint-disable-next-line vue/no-v-html -->
                       <div v-html="parseCommentBody(comment.body)"/>
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
 
           <!-- Details Sidebar -->
-          <div class="space-y-6">
-            <!-- Tags -->
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-6">
-              <h3 class="text-lg font-bold mb-4">Tags</h3>
-              
-              <!-- Artists -->
-              <div v-if="tagsByCategory.artist.length" class="mb-4">
-                <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">Artists</h4>
-                <div class="flex flex-wrap gap-1">
-                  <NuxtLink
-                    v-for="tag in tagsByCategory.artist"
-                    :key="tag"
-                    :to="`/milkbooru?tags=${encodeURIComponent(tag)}`"
-                    class="inline-block px-2 py-1 bg-red-500 hover:bg-red-600 text-white text-xs rounded transition-colors cursor-pointer"
-                  >
-                    {{ tag }}
-                  </NuxtLink>
-                </div>
-              </div>
+          <div class="font-mono text-xs border border-neutral-800 bg-black/60 p-4 space-y-0">
 
-              <!-- Characters -->
-              <div v-if="tagsByCategory.character.length" class="mb-4">
-                <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">Characters</h4>
-                <div class="flex flex-wrap gap-1">
-                  <NuxtLink
-                    v-for="tag in tagsByCategory.character"
-                    :key="tag"
-                    :to="`/milkbooru?tags=${encodeURIComponent(tag)}`"
-                    class="inline-block px-2 py-1 bg-green-500 hover:bg-green-600 text-white text-xs rounded transition-colors cursor-pointer"
-                  >
-                    {{ tag }}
-                  </NuxtLink>
-                </div>
-              </div>
-
-              <!-- Copyrights -->
-              <div v-if="tagsByCategory.copyright.length" class="mb-4">
-                <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">Copyrights</h4>
-                <div class="flex flex-wrap gap-1">
-                  <NuxtLink
-                    v-for="tag in tagsByCategory.copyright"
-                    :key="tag"
-                    :to="`/milkbooru?tags=${encodeURIComponent(tag)}`"
-                    class="inline-block px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white text-xs rounded transition-colors cursor-pointer"
-                  >
-                    {{ tag }}
-                  </NuxtLink>
-                </div>
-              </div>
-
-              <!-- General -->
-              <div v-if="tagsByCategory.general.length" class="mb-4">
-                <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">General</h4>
-                <div class="flex flex-wrap gap-1">
-                  <NuxtLink
-                    v-for="tag in tagsByCategory.general"
-                    :key="tag"
-                    :to="`/milkbooru?tags=${encodeURIComponent(tag)}`"
-                    class="inline-block px-2 py-1 bg-gray-500 hover:bg-gray-600 text-white text-xs rounded transition-colors cursor-pointer"
-                  >
-                    {{ tag }}
-                  </NuxtLink>
-                </div>
-              </div>
-
-              <!-- Meta -->
-              <div v-if="tagsByCategory.meta.length">
-                <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">Meta</h4>
-                <div class="flex flex-wrap gap-1">
-                  <NuxtLink
-                    v-for="tag in tagsByCategory.meta"
-                    :key="tag"
-                    :to="`/milkbooru?tags=${encodeURIComponent(tag)}`"
-                    class="inline-block px-2 py-1 bg-cyan-500 hover:bg-cyan-600 text-white text-xs rounded transition-colors cursor-pointer"
-                  >
-                    {{ tag }}
-                  </NuxtLink>
-                </div>
-              </div>
+            <!-- Post ID + badges -->
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-neutral-200 text-sm tracking-wide">POST #{{ post.id }}</span>
+              <UiAngularTag :label="status" :variant="statusVariant" />
+              <UiAngularTag :label="rating" :variant="ratingVariant" />
             </div>
 
-            <!-- Post Information -->
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-6">
-              <h3 class="text-lg font-bold mb-4">Post Information</h3>
-              
-              <div class="space-y-3 text-sm">
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-600 dark:text-gray-300">ID:</span>
-                  <span class="font-mono">#{{ post.id }}</span>
-                </div>
-                
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-600 dark:text-gray-300">Rating:</span>
-                  <span 
-                    class="px-2 py-1 rounded text-xs font-medium"
-                    :class="{
-                      'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300': rating === 'General',
-                      'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300': rating === 'Sensitive',
-                      'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300': rating === 'Questionable',
-                      'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300': rating === 'Explicit'
-                    }"
-                  >
-                    {{ rating }}
-                  </span>
-                </div>
-                
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-600 dark:text-gray-300">Score:</span>
-                  <div class="flex items-center gap-2">
-                    <span class="text-green-600">↑{{ formattedScore.up }}</span>
-                    <span class="text-gray-400">/</span>
-                    <span class="text-red-600">↓{{ formattedScore.down }}</span>
-                    <span class="ml-2 font-medium">({{ formattedScore.total }})</span>
-                  </div>
-                </div>
-                
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-600 dark:text-gray-300">Status:</span>
-                  <span 
-                    class="px-2 py-1 rounded text-xs font-medium"
-                    :class="{
-                      'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300': status === 'Pending',
-                      'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300': status === 'Active',
-                      'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300': status === 'Deleted',
-                      'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300': status === 'Banned'
-                    }"
-                  >
-                    {{ status }}
-                  </span>
-                </div>
-              </div>
+            <hr class="border-neutral-800 my-3">
+
+            <!-- Score / File / Dates -->
+            <div class="flex gap-2 mb-1.5">
+              <span class="text-neutral-500 uppercase w-20 shrink-0">SCORE</span>
+              <span>
+                <span class="text-green-400">+{{ formattedScore.up }}</span>
+                <span class="text-neutral-600 mx-1">/</span>
+                <span class="text-red-400">−{{ formattedScore.down }}</span>
+              </span>
+            </div>
+            <div class="flex gap-2 mb-1.5">
+              <span class="text-neutral-500 uppercase w-20 shrink-0">FILE</span>
+              <span class="text-neutral-300">{{ dimensions }} · {{ post.file_ext?.toUpperCase() }} · {{ formattedFileSize }}</span>
+            </div>
+            <div class="flex gap-2 mb-1.5">
+              <span class="text-neutral-500 uppercase w-20 shrink-0">UPLOADED</span>
+              <span class="text-neutral-300">{{ formatDateShort(post.created_at) }}</span>
+            </div>
+            <div v-if="post.updated_at !== post.created_at" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-500 uppercase w-20 shrink-0">UPDATED</span>
+              <span class="text-neutral-300">{{ formatDateShort(post.updated_at) }}</span>
             </div>
 
-            <!-- File Details -->
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-6">
-              <h3 class="text-lg font-bold mb-4">File Details</h3>
-              
-              <div class="space-y-3 text-sm">
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-600 dark:text-gray-300">Format:</span>
-                  <span class="font-mono uppercase">{{ post.file_ext }}</span>
-                </div>
-                
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-600 dark:text-gray-300">Size:</span>
-                  <span>{{ formattedFileSize }}</span>
-                </div>
-                
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-600 dark:text-gray-300">Dimensions:</span>
-                  <span class="font-mono">{{ dimensions }}</span>
-                </div>
-              </div>
-            </div>
+            <hr class="border-neutral-800 my-3">
 
             <!-- Links -->
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-6">
-              <h3 class="text-lg font-bold mb-4">Links</h3>
-              
-              <div class="space-y-3 text-sm">
-                <div v-if="post.source">
-                  <span class="text-gray-600 dark:text-gray-300 block mb-1">Source:</span>
-                  <a
-                    :href="post.source"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-pink-600 hover:text-pink-700 transition-colors break-all"
-                  >
-                    {{ post.source }}
-                  </a>
-                </div>
-                
-                <div>
-                  <span class="text-gray-600 dark:text-gray-300 block mb-1">Danbooru:</span>
-                  <a
-                    :href="`https://danbooru.donmai.us/posts/${post.id}`"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-pink-600 hover:text-pink-700 transition-colors"
-                  >
-                    danbooru.donmai.us/posts/{{ post.id }}
-                  </a>
-                </div>
+            <div v-if="post.source" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-500 uppercase w-20 shrink-0">SOURCE</span>
+              <a
+                :href="post.source" target="_blank" rel="noopener noreferrer"
+                class="text-royalblue-400 hover:text-royalblue-300 transition-colors truncate"
+              >
+                ↗ {{ truncateUrl(post.source) }}
+              </a>
+            </div>
+            <div class="flex gap-2 mb-1.5">
+              <span class="text-neutral-500 uppercase w-20 shrink-0">DANBOORU</span>
+              <a
+                :href="`https://danbooru.donmai.us/posts/${post.id}`" target="_blank" rel="noopener noreferrer"
+                class="text-royalblue-400 hover:text-royalblue-300 transition-colors"
+              >
+                ↗ /posts/{{ post.id }}
+              </a>
+            </div>
+
+            <hr class="border-neutral-800 my-3">
+
+            <!-- Tags section -->
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-neutral-600 uppercase tracking-widest text-[10px]">── TAGS</span>
+              <div class="flex-1 border-t border-neutral-800"/>
+            </div>
+
+            <div v-if="tagsByCategory.character.length" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-600 w-20 shrink-0">[character]</span>
+              <div class="flex flex-wrap gap-1">
+                <NuxtLink v-for="tag in tagsByCategory.character" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                  <UiAngularTag :label="tag" variant="crimson" />
+                </NuxtLink>
+              </div>
+            </div>
+            <div v-if="tagsByCategory.artist.length" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-600 w-20 shrink-0">[artist]</span>
+              <div class="flex flex-wrap gap-1">
+                <NuxtLink v-for="tag in tagsByCategory.artist" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                  <UiAngularTag :label="tag" variant="pink" />
+                </NuxtLink>
+              </div>
+            </div>
+            <div v-if="tagsByCategory.copyright.length" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-600 w-20 shrink-0">[copyright]</span>
+              <div class="flex flex-wrap gap-1">
+                <NuxtLink v-for="tag in tagsByCategory.copyright" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                  <UiAngularTag :label="tag" variant="blue" />
+                </NuxtLink>
+              </div>
+            </div>
+            <div v-if="tagsByCategory.general.length" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-600 w-20 shrink-0">[general]</span>
+              <div class="flex flex-wrap gap-1">
+                <NuxtLink v-for="tag in tagsByCategory.general" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                  <UiAngularTag :label="tag" variant="gray" />
+                </NuxtLink>
+              </div>
+            </div>
+            <div v-if="tagsByCategory.meta.length" class="flex gap-2 mb-1.5">
+              <span class="text-neutral-600 w-20 shrink-0">[meta]</span>
+              <div class="flex flex-wrap gap-1">
+                <NuxtLink v-for="tag in tagsByCategory.meta" :key="tag" :to="`/milkbooru?tags=${encodeURIComponent(tag)}`">
+                  <UiAngularTag :label="tag" variant="gray" />
+                </NuxtLink>
               </div>
             </div>
 
-            <!-- Upload Info -->
-            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-6">
-              <h3 class="text-lg font-bold mb-4">Upload Information</h3>
-              
-              <div class="space-y-3 text-sm">
-                <div>
-                  <span class="text-gray-600 dark:text-gray-300 block mb-1">Uploaded:</span>
-                  <span>{{ formatDate(post.created_at) }}</span>
-                </div>
-                
-                <div v-if="post.updated_at !== post.created_at">
-                  <span class="text-gray-600 dark:text-gray-300 block mb-1">Updated:</span>
-                  <span>{{ formatDate(post.updated_at) }}</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -389,8 +314,17 @@
 
 <script setup>
 const route = useRoute()
+const router = useRouter()
 const { setCookie, getCookie } = useCookies()
 const postId = route.params.id
+
+const goBack = () => {
+  if (window.history.length > 1) {
+    router.back()
+  } else {
+    router.push('/milkbooru')
+  }
+}
 
 // Validate that the ID is a valid post ID (numeric)
 const isValidPostId = computed(() => {
@@ -411,10 +345,9 @@ const comments = ref([])
 const isLoading = ref(false)
 const hasError = ref(false)
 const videoRef = ref(null)
-const selectedVariantIndex = ref(2) // Default to middle quality
-const commentsExpanded = ref(false) // Comments collapsed by default
-const commentsFetched = ref(false) // Track if comments have been loaded
-const qualityToastShown = ref(false)
+const selectedVariantIndex = ref(2)
+const commentsExpanded = ref(false)
+const commentsFetched = ref(false)
 
 // Lazy-load comments when section is first expanded
 watch(commentsExpanded, (expanded) => {
@@ -423,8 +356,6 @@ watch(commentsExpanded, (expanded) => {
     fetchComments()
   }
 })
-const isMounted = ref(false)
-
 // Computed properties
 const isVideo = computed(() => {
   return post.value?.file_ext === 'mp4' || post.value?.file_ext === 'zip' || post.value?.file_ext === 'webm'
@@ -464,12 +395,19 @@ const status = computed(() => {
          post.value.is_pending ? 'Pending' : 'Active'
 })
 
-const formattedScore = computed(() => {
-  return {
-    up: post.value?.up_score || 0,
-    down: post.value?.down_score || 0,
-    total: (post.value?.up_score || 0) - (post.value?.down_score || 0)
-  }
+const formattedScore = computed(() => ({
+  up: post.value?.up_score || 0,
+  down: post.value?.down_score || 0,
+}))
+
+const statusVariant = computed(() => {
+  const map = { Active: 'blue', Pending: 'pink', Deleted: 'gray', Banned: 'crimson' }
+  return map[status.value] || 'gray'
+})
+
+const ratingVariant = computed(() => {
+  const map = { General: 'blue', Sensitive: 'blue', Questionable: 'pink', Explicit: 'crimson' }
+  return map[rating.value] || 'gray'
 })
 
 const tagsByCategory = computed(() => {
@@ -483,57 +421,26 @@ const tagsByCategory = computed(() => {
   }
 })
 
-// Quality toast methods
-const toast = useToast()
-
-const checkAndShowQualityToast = () => {
-  if (!isMounted.value) return // Don't show toast if component is unmounted
-  if (qualityToastShown.value) return
-  if (!post.value?.media_asset?.variants?.length) return
-  if (isVideo.value) return // Only show for images
-  
-  // Check if we've shown the quality toast recently (within 30 minutes)
-  const lastToastTime = getCookie('milkbooru-quality-toast-shown')
-  if (lastToastTime) {
-    const timeSinceLastToast = Date.now() - parseInt(lastToastTime)
-    const thirtyMinutesInMs = 30 * 60 * 1000 // 30 minutes in milliseconds
-    if (timeSinceLastToast < thirtyMinutesInMs) {
-      return // Don't show toast if it was shown within the last 30 minutes
-    }
-  }
-  
-  const maxQualityIndex = post.value.media_asset.variants.length - 1
-  const currentQuality = selectedVariantIndex.value
-  
-  // Show toast if user is not at the highest quality
-  if (currentQuality < maxQualityIndex) {
-    toast.add({
-      title: 'Increase image quality',
-      description: 'You can view this image in higher resolution using the slider above.',
-      icon: 'i-lucide-settings-2',
-      color: 'royalblue',
-      timeout: 8000
-    })
-    qualityToastShown.value = true
-    
-    // Set cookie with current timestamp to track when toast was last shown
-    setCookie('milkbooru-quality-toast-shown', Date.now().toString(), 1) // 1 day expiry (cleanup)
-  }
-}
 
 const getVideoUrl = (post) => {
   if (post.is_banned) return '/banned.jpg'
   return post.large_file_url || post.file_url || '/placeholder.jpg'
 }
 
-const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  })
+const formatDateShort = (dateString) => {
+  const d = new Date(dateString)
+  const pad = n => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`
+}
+
+const truncateUrl = (url) => {
+  try {
+    const u = new URL(url)
+    const path = u.pathname.length > 20 ? u.pathname.slice(0, 20) + '…' : u.pathname
+    return u.hostname + path
+  } catch {
+    return url.slice(0, 40)
+  }
 }
 
 const fetchPost = async () => {
@@ -598,17 +505,6 @@ const getSelectedVariantUrl = () => {
   return variant?.url || '/placeholder.jpg'
 }
 
-const getCurrentVariantInfo = () => {
-  if (!post.value?.media_asset?.variants?.length) return 'N/A'
-  
-  const variants = post.value.media_asset.variants
-  const safeIndex = Math.min(selectedVariantIndex.value, variants.length - 1)
-  const variant = variants[safeIndex]
-  
-  if (!variant) return 'N/A'
-  
-  return `${variant.width}×${variant.height} (${variant.file_ext?.toUpperCase() || 'Unknown'})`
-}
 
 const onVariantChange = () => {
   // Save user's quality preference
@@ -669,18 +565,7 @@ const parseCommentBody = (body) => {
 
 // Initial fetch
 onMounted(async () => {
-  isMounted.value = true
   await fetchPost()
-  
-  // Set up quality toast timer
-  setTimeout(() => {
-    checkAndShowQualityToast()
-  }, 5000)
-})
-
-// Cleanup on unmount
-onBeforeUnmount(() => {
-  isMounted.value = false
 })
 
 // Dynamic meta tags
@@ -776,72 +661,22 @@ useHead({
 
 <style scoped>
 @reference "tailwindcss";
-/* Custom slider styling */
-.slider {
-  cursor: pointer;
-}
 
-.slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ec4899, #be185d);
-  border: 2px solid white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.slider::-webkit-slider-thumb:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.slider::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  background: linear-gradient(135deg, #ec4899, #be185d);
-  border: 2px solid white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.slider::-moz-range-thumb:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.slider::-webkit-slider-track {
-  background: linear-gradient(90deg, #6b7280, #ec4899);
-  border-radius: 4px;
-}
-
-.slider::-moz-range-track {
-  background: linear-gradient(90deg, #6b7280, #ec4899);
-  border-radius: 4px;
-}
-
-/* Dark mode adjustments */
-.dark .slider::-webkit-slider-thumb {
-  border-color: #374151;
-}
-
-.dark .slider::-moz-range-thumb {
-  border-color: #374151;
+.variant-btn {
+  border-radius: 0;
 }
 
 /* Comment quote styling */
 :deep(.comment-quote) {
-  @apply bg-gray-100 dark:bg-gray-800/50 border-l-4 border-pink-400 rounded-r-lg p-3 my-2 italic;
+  @apply text-neutral-600 my-1 pl-2;
 }
 
-:deep(.quote-content) {
-  @apply text-gray-600 dark:text-gray-300 mb-2;
+:deep(.quote-content)::before {
+  content: '> ';
+  @apply text-neutral-700;
 }
 
 :deep(.quote-attribution) {
-  @apply text-sm text-pink-600 dark:text-pink-400 font-medium not-italic;
+  @apply text-neutral-700 text-[10px] not-italic mt-0.5;
 }
 </style>

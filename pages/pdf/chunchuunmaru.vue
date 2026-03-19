@@ -13,7 +13,7 @@
     <div class="bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-6 mb-6">
       <div class="flex flex-wrap gap-3">
         <a
-          class="inline-block px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors"
+          class="inline-block px-4 py-2 bg-crimson-500 hover:bg-crimson-600 text-white rounded transition-colors"
           href="https://vrchat.com/home/user/usr_09503244-0cb1-4822-a356-26b01b21f621"
           target="_blank"
           rel="noopener noreferrer"
@@ -21,7 +21,7 @@
           VRChat account
         </a>
         <a
-          class="inline-block px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors"
+          class="inline-block px-4 py-2 bg-crimson-500 hover:bg-crimson-600 text-white rounded transition-colors"
           href="https://vrc.group/WECHUN.6951"
           target="_blank"
           rel="noopener noreferrer"
@@ -29,7 +29,7 @@
           VRChat Group
         </a>
         <a
-          class="inline-block px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors"
+          class="inline-block px-4 py-2 bg-crimson-500 hover:bg-crimson-600 text-white rounded transition-colors"
           href="https://vrc.group/HAPPYS.7607"
           target="_blank"
           rel="noopener noreferrer"
@@ -37,7 +37,7 @@
           VRChat Group #2
         </a>
         <a
-          class="inline-block px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors"
+          class="inline-block px-4 py-2 bg-crimson-500 hover:bg-crimson-600 text-white rounded transition-colors"
           href="https://steamcommunity.com/profiles/76561198186229289"
           target="_blank"
           rel="noopener noreferrer"

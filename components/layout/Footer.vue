@@ -1,5 +1,5 @@
 <template>
-  <footer class="border-t border-red-500 bg-gray-50/80 dark:bg-gray-800/80">
+  <footer class="border-t-2 border-crimson-500 bg-gray-50/80 dark:bg-gray-800/80">
     <div class="px-4 py-6">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
         <!-- Theme Toggle -->
