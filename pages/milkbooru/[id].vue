@@ -39,8 +39,33 @@
         </div>
       </div>
 
+      <!-- Post Navigation Bar -->
       <!-- Post Content -->
       <div v-else-if="post" class="max-w-8xl mx-auto">
+        <!-- Post Navigation Bar -->
+        <div class="mb-4 flex items-center justify-between gap-2">
+          <button
+            class="flex items-center gap-1.5 font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-crimson-400 dark:hover:text-crimson-400 transition-colors"
+            @click="goBack"
+          >
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            back
+          </button>
+
+          <div class="flex items-center gap-1 font-mono text-xs">
+            <NuxtLink
+              :to="`/milkbooru/${Number(postId) - 1}`"
+              class="px-3 py-1.5 border border-gray-200 dark:border-gray-800 text-gray-500 dark:text-gray-400 hover:border-crimson-500/50 hover:text-crimson-400 transition-colors"
+            >← prev</NuxtLink>
+            <span class="px-2 text-gray-400 dark:text-gray-600">#{{ postId }}</span>
+            <NuxtLink
+              :to="`/milkbooru/${Number(postId) + 1}`"
+              class="px-3 py-1.5 border border-gray-200 dark:border-gray-800 text-gray-500 dark:text-gray-400 hover:border-crimson-500/50 hover:text-crimson-400 transition-colors"
+            >next →</NuxtLink>
+          </div>
+        </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <!-- Media Column -->
@@ -347,8 +372,17 @@
 
 <script setup>
 const route = useRoute()
+const router = useRouter()
 const { setCookie, getCookie } = useCookies()
 const postId = route.params.id
+
+const goBack = () => {
+  if (window.history.length > 1) {
+    router.back()
+  } else {
+    router.push('/milkbooru')
+  }
+}
 
 // Validate that the ID is a valid post ID (numeric)
 const isValidPostId = computed(() => {
