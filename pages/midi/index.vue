@@ -24,7 +24,7 @@
                 v-model="searchQuery"
                 type="text"
                 placeholder="Search MIDI files by name..."
-                class="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-xl leading-5 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 relative z-0"
+                class="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 border-l-2 border-l-blueviolet-500 leading-5 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blueviolet-500 focus:border-transparent transition-all duration-200 relative z-0 font-mono"
             >
           </div>
         </div>
@@ -34,7 +34,7 @@
           <div
             v-for="(midi, index) in filteredMidis"
             :key="index"
-            class="group relative overflow-hidden p-3 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-blueviolet-400 dark:hover:border-blueviolet-500 transition-colors duration-150 animate-fade-in-up cursor-pointer"
+            class="group relative overflow-hidden p-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-blueviolet-400 dark:hover:border-blueviolet-500 transition-colors duration-150 animate-fade-in-up cursor-pointer"
             :style="`animation-delay: ${index * 50}ms`"
             @click="openMidiDetails(midi)"
           >
@@ -63,9 +63,7 @@
                 </p>
               </div>
               <div v-if="midi.versions?.length" class="flex flex-wrap gap-1 mt-2">
-                <span v-for="version in midi.versions" :key="version.filename" class="inline-block px-2 py-0.5 text-[10px] font-medium bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full">
-                  {{ version.name }}
-                </span>
+                <AngularTag v-for="version in midi.versions" :key="version.filename" :label="version.name" variant="blue" />
               </div>
             </div>
           </div>
@@ -76,12 +74,12 @@
           <div
             v-for="n in 9"
             :key="n"
-            class="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-3 animate-pulse"
+            class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-3 animate-pulse"
           >
-            <div class="h-5 bg-gray-300/20 rounded mb-2 w-3/4"/>
-            <div class="h-3 bg-gray-300/20 rounded mb-3 w-1/2"/>
-            <div class="h-3 bg-gray-300/20 rounded mb-1 w-full"/>
-            <div class="h-3 bg-gray-300/20 rounded w-2/3"/>
+            <div class="h-5 bg-gray-300/20 mb-2 w-3/4"/>
+            <div class="h-3 bg-gray-300/20 mb-3 w-1/2"/>
+            <div class="h-3 bg-gray-300/20 mb-1 w-full"/>
+            <div class="h-3 bg-gray-300/20 w-2/3"/>
           </div>
         </div>
 
@@ -141,7 +139,7 @@
           <div class="space-y-8">
             <!-- YouTube Embed -->
             <div v-if="selectedMidi?.youtubePreview">
-              <div class="relative aspect-video bg-gray-100 dark:bg-gray-700 rounded-xl overflow-hidden">
+              <div class="relative aspect-video bg-gray-100 dark:bg-gray-700 overflow-hidden">
                 <iframe
                     :src="`https://www.youtube.com/embed/${getYouTubeVideoId(selectedMidi.youtubePreview)}`"
                     class="absolute inset-0 w-full h-full"
@@ -201,7 +199,7 @@
                 <div
                     v-for="version in selectedMidi.versions"
                     :key="version.filename"
-                    class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors gap-3 sm:gap-0"
+                    class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors gap-3 sm:gap-0"
                 >
                   <div class="flex-1">
                     <div class="font-medium text-gray-900 dark:text-white">{{ version.name }}</div>
@@ -209,7 +207,7 @@
                   </div>
                   <UTooltip text="Download MIDI file">
                     <UButton
-                        color="purple"
+                        color="blueviolet"
                         variant="solid"
                         icon="i-heroicons-arrow-down-tray"
                         @click="downloadMidi(selectedMidi, version)"
