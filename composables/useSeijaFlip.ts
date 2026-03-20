@@ -49,6 +49,10 @@ export function useSeijaFlip() {
   })
 
   function toggle() {
+    const audio = new Audio('/se_boon01.wav')
+    audio.volume = 0.5
+    audio.play().catch(() => {})
+
     const { setCookie, deleteCookie } = useCookies()
     isFlipped.value = !isFlipped.value
 

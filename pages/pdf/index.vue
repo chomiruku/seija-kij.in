@@ -21,7 +21,8 @@
         <h4 class="text-base leading-relaxed">
           This list serves to collect and archive information about pedophiles in VRChat or any other platforms that relate to it.<br><br>
           These pages will get updated as more people submit information to me.<br><br>
-          Pages that are (COMPILING) are not complete and you cannot navigate into them.
+          Pages that are (COMPILING) are not complete and you cannot navigate into them.<br><br>
+          These pages cannot be navigated to normally through the site, as it contains serious accusations. If you want to view this page, you have to know the URL or be given the URL by someone else.
         </h4>
       </div>
     </div>

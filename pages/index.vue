@@ -431,6 +431,8 @@ useHead({
   line-height: 1.7;
   margin-bottom: 1.5rem;
   opacity: 0.85;
+  border-left: 2px solid color-mix(in srgb, var(--color-crimson-500, #ff3342) 30%, transparent);
+  padding-left: 0.75rem;
 }
 
 /* Stat grid — HUD readout style */

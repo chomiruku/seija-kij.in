@@ -1,26 +1,24 @@
 <template>
   <div>
     <div
-      class="container mx-auto px-4 sm:px-6 lg:px-8 pb-20 transition-all duration-3000 ease-out"
-      :class="search.isSearchFocused.value ? 'pt-0' : 'pt-12'"
+      class="container mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-300 ease-out"
+      :class="search.isSearchFocused.value ? 'pt-5 pb-5' : 'pt-12 pb-20'"
     >
       <div class="max-w-8xl mx-auto">
         <!-- Header -->
-        <div class="mb-4 text-center">
-          <h1
+        <div class="mb-4" :class="search.isSearchFocused.value ? '' : 'mb-8'">
+          <div
             v-if="!search.shouldHideElements.value"
-            class="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-pink-400 via-red-500 to-purple-600 dark:from-pink-300 dark:via-red-300 dark:to-purple-400 bg-clip-text text-transparent pb-3 mb-1 transition-all duration-3000 ease-out overflow-hidden"
-            :class="search.isSearchFocused.value ? 'scale-y-0 max-h-0 opacity-0 mt-0 mb-0 pt-0 pb-0' : 'scale-y-100 max-h-32 opacity-100'"
+            class="transition-all duration-300 ease-out overflow-hidden"
+            :class="search.isSearchFocused.value ? 'max-h-0 opacity-0 mb-0' : 'max-h-32 opacity-100 mb-4'"
           >
-            milkbooru
-          </h1>
-          <p
-            v-if="!search.shouldHideElements.value"
-            class="text-lg text-gray-600 dark:text-gray-300 mb-8 transition-all duration-3000 ease-out overflow-hidden"
-            :class="search.isSearchFocused.value ? 'scale-y-0 max-h-0 opacity-0 mt-0 mb-0 pt-0 pb-0' : 'scale-y-100 max-h-16 opacity-100'"
-          >
-            just a booru
-          </p>
+            <h1 class="navbar-brand text-5xl sm:text-7xl text-crimson-500 leading-none mb-1">
+              milkbooru
+            </h1>
+            <p class="font-mono text-xs text-deeppink-500/70 dark:text-deeppink-400/70 tracking-widest uppercase">
+              just a booru
+            </p>
+          </div>
 
           <!-- Search Bar -->
           <MilkbooruSearchBar
@@ -35,43 +33,36 @@
         <!-- Loading State -->
         <div v-if="search.isLoading.value">
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            <USkeleton
+            <div
               v-for="i in 20"
               :key="`skeleton-${i}`"
-              class="h-64"
+              class="bg-gray-200 dark:bg-gray-800 animate-pulse aspect-square"
             />
           </div>
+          <p class="font-mono text-xs text-center text-gray-400 dark:text-gray-600 mt-6 tracking-widest">
+            loading posts...
+          </p>
         </div>
 
         <!-- Error State -->
         <div v-else-if="search.hasError.value" class="text-center">
-          <UCard class="max-w-md mx-auto">
-            <template #header>
-              <h1 class="text-4xl font-bold">
-                huh?
-              </h1>
-            </template>
-            <div class="space-y-4">
-              <nuxt-img
-                src="/seijaflustered.png"
-                alt="seija-kij.in"
-                class="mx-auto h-48 w-auto"
-              />
-              <h3 class="text-lg font-medium">
-                the query failed
-              </h3>
-              <p class="text-gray-600 dark:text-gray-400">
-                probably the booru is dead
-              </p>
-              <UButton
-                color="red"
-                size="lg"
-                @click="search.retryFetch"
-              >
-                Retry
-              </UButton>
-            </div>
-          </UCard>
+          <div class="bg-crimson-500/10 border border-crimson-500/30 p-6 max-w-md mx-auto">
+            <h1 class="navbar-brand text-5xl uppercase text-crimson-500 mb-4">
+              huh?
+            </h1>
+            <nuxt-img
+              src="/seijaflustered.png"
+              alt="seija-kij.in"
+              class="mx-auto h-48 w-auto mb-4"
+            />
+            <p class="font-mono text-xs text-gray-400 dark:text-gray-500 mb-2 tracking-wide">probably the booru is dead</p>
+            <button
+              class="mt-4 clip-parallelogram font-mono text-xs uppercase tracking-widest px-6 py-3 bg-crimson-500 hover:bg-crimson-400 text-white transition-colors"
+              @click="search.retryFetch"
+            >
+              retry
+            </button>
+          </div>
         </div>
 
         <!-- Posts Grid -->
@@ -82,36 +73,47 @@
           />
 
           <!-- Pagination -->
-          <div v-if="search.pagination.value" class="flex justify-center">
-            <UPagination
-              :page="search.currentPage.value"
-              :total="search.totalPages.value"
-              :items-per-page="1"
-              :sibling-count="2"
-              color="neutral"
-              variant="link"
-              active-color="deeppink"
-              active-variant="solid"
-              size="md"
-              :disabled="search.isLoading.value"
-              @update:page="search.goToPage"
-            />
+          <div v-if="search.pagination.value" class="flex justify-center mt-8">
+            <nav class="flex items-center gap-0.5 font-mono text-xs" aria-label="Pagination">
+              <button
+                class="px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-crimson-400 transition-colors disabled:opacity-30 disabled:cursor-not-allowed tracking-widest"
+                :disabled="search.currentPage.value <= 1 || search.isLoading.value"
+                @click="search.goToPage(search.currentPage.value - 1)"
+              >← prev</button>
+
+              <template v-for="page in paginationPages" :key="page">
+                <span v-if="page === '...'" class="px-2 py-2 text-neutral-600">···</span>
+                <button
+                  v-else
+                  class="px-3 py-2 tracking-widest transition-colors"
+                  :class="page === search.currentPage.value
+                    ? 'clip-parallelogram bg-crimson-500 text-white'
+                    : 'text-gray-500 dark:text-gray-400 hover:text-crimson-400'"
+                  :disabled="search.isLoading.value"
+                  @click="search.goToPage(page)"
+                >{{ page }}</button>
+              </template>
+
+              <button
+                class="px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-crimson-400 transition-colors disabled:opacity-30 disabled:cursor-not-allowed tracking-widest"
+                :disabled="search.currentPage.value >= search.totalPages.value || search.isLoading.value"
+                @click="search.goToPage(search.currentPage.value + 1)"
+              >next →</button>
+            </nav>
           </div>
         </template>
 
         <!-- No Results -->
-        <div v-else-if="!search.isLoading.value" class="text-center py-12">
-          <UCard class="max-w-md mx-auto">
-            <div class="space-y-4">
-              <UIcon
-                name="i-heroicons-magnifying-glass"
-                class="w-12 h-12 mx-auto text-gray-400"
-              />
-              <p class="text-gray-500 dark:text-gray-400">
-                No posts found. Try different tags!
-              </p>
+        <div v-else-if="!search.isLoading.value" class="py-12">
+          <div class="border border-gray-800 p-6 max-w-sm">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="text-neutral-600 uppercase tracking-widest text-[10px] font-mono">── QUERY RESULT</span>
+              <div class="flex-1 border-t border-neutral-800"/>
+              <span class="text-crimson-500/50 text-[10px] font-mono">◈</span>
             </div>
-          </UCard>
+            <p class="font-mono text-xs text-crimson-500/80 tracking-wide mb-1">nothing. absolutely nothing.</p>
+            <p class="font-mono text-xs text-neutral-600 tracking-wide">try different tags</p>
+          </div>
         </div>
       </div>
     </div>
@@ -154,6 +156,20 @@ const tagManagement = useTagManagement()
 
 // Local state
 const showSearchPrefs = ref(false)
+
+// Pagination page range with ellipsis
+const paginationPages = computed(() => {
+  const total = search.totalPages.value
+  const current = search.currentPage.value
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1)
+  const pages: (number | string)[] = []
+  pages.push(1)
+  if (current > 3) pages.push('...')
+  for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) pages.push(i)
+  if (current < total - 2) pages.push('...')
+  pages.push(total)
+  return pages
+})
 
 // Computed blacklist info for all posts
 const postsBlacklistInfo = computed(() => {
@@ -371,11 +387,10 @@ useHead({
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #ec4899, #be185d);
-  border-radius: 4px;
+  background: #ff3342;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #db2777, #9f1239);
+  background: #cc2935;
 }
 </style>

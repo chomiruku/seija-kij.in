@@ -138,6 +138,6 @@ html.seija-flipped .seija-flip-wrapper {
 }
 
 html.seija-flip-transition .seija-flip-wrapper {
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
 }
 </style>

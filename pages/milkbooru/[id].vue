@@ -71,21 +71,35 @@
           <!-- Media Column -->
           <div class="lg:col-span-2">
             <!-- Variant Buttons -->
-            <div v-if="!isVideo && post.media_asset?.variants?.length > 1" class="flex">
-              <div
-                v-for="(variant, idx) in post.media_asset.variants"
-                :key="idx"
-                class="relative flex-1 border -ml-px first:ml-0 transition-colors"
-                :class="selectedVariantIndex === idx ? 'bg-crimson-500/20 border-crimson-500/30' : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800'"
-              >
-                <UiCornerBrackets size="sm" :color="selectedVariantIndex === idx ? 'crimson' : 'pink'" />
-                <button
-                  class="variant-btn w-full px-3 py-2 text-xs font-mono transition-colors"
-                  :class="selectedVariantIndex === idx ? 'text-crimson-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'"
-                  @click="selectedVariantIndex = idx; onVariantChange()"
+            <div v-if="!isVideo && post.media_asset?.variants?.length > 1">
+              <div class="flex items-center gap-2 mb-1 px-1">
+                <span class="font-mono text-[10px] text-neutral-600 uppercase tracking-widest">// QUALITY</span>
+                <div class="flex-1 border-t border-neutral-800"/>
+              </div>
+              <div class="flex">
+                <div
+                  v-for="(variant, idx) in post.media_asset.variants"
+                  :key="idx"
+                  class="relative flex-1 border -ml-px first:ml-0 transition-colors"
+                  :class="selectedVariantIndex === idx
+                    ? 'bg-crimson-500 border-crimson-500'
+                    : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800'"
                 >
-                  {{ variant.width }}×{{ variant.height }}
-                </button>
+                  <UiCornerBrackets size="sm" :color="selectedVariantIndex === idx ? 'white' : 'pink'" />
+                  <button
+                    class="variant-btn w-full px-3 py-2 text-xs font-mono transition-colors"
+                    :class="selectedVariantIndex === idx
+                      ? 'text-white'
+                      : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'"
+                    @click="selectedVariantIndex = idx; onVariantChange()"
+                  >
+                    {{ variant.width }}×{{ variant.height }}
+                    <span
+                      v-if="idx === post.media_asset.variants.length - 1"
+                      class="ml-1 opacity-60"
+                    >{{ post.file_ext?.toUpperCase() }}</span>
+                  </button>
+                </div>
               </div>
             </div>
 
