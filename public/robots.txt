@@ -5,5 +5,7 @@ Allow: /
 # Block all bots from milkbooru
 Disallow: /milkbooru/
 
+Disallow: /pdf/
+
 # Also block API endpoints from being indexed
 Disallow: /api/
