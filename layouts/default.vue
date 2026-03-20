@@ -151,7 +151,9 @@ html.seija-inverted .seija-flip-wrapper {
   --seija-scale-y: -1;
 }
 
-.seija-flip-wrapper {
+html.seija-flipped .seija-flip-wrapper,
+html.seija-mirrored .seija-flip-wrapper,
+html.seija-inverted .seija-flip-wrapper {
   transform: rotate(var(--seija-rotate)) scaleX(var(--seija-scale-x)) scaleY(var(--seija-scale-y));
 }
 
