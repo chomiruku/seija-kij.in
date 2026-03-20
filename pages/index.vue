@@ -159,7 +159,7 @@
                 <span class="ability-name">Abstract Concepts</span>
                 <span class="ability-bar-fill" style="width: 65%"/>
               </div>
-              <div class="ability-target ability-target--clickable" @click="toggleFlip">
+              <div class="ability-target ability-target--clickable" :class="{ 'ability-target--active': isFlipped }" @click="toggleFlip">
                 <span class="ability-index">04</span>
                 <span class="ability-name">Your Screen</span>
                 <span class="ability-bar-fill" style="width: 100%"/>
@@ -177,9 +177,15 @@
             <span class="hud-value">SELECTION INDEX</span>
           </div>
           <ol class="spell-list">
-            <li v-for="(spell, i) in spells" :key="i" class="spell-entry">
+            <li
+              v-for="(spell, i) in spells"
+              :key="i"
+              class="spell-entry"
+              :class="{ 'spell-entry--clickable': spell.action, 'spell-entry--active': spell.active }"
+              @click="spell.action?.()"
+            >
               <span class="spell-num">{{ String(i + 1).padStart(2, '0') }}</span>
-              <span class="spell-text">{{ spell }}</span>
+              <span class="spell-text">{{ spell.text }}</span>
               <span class="spell-accent" aria-hidden="true"/>
             </li>
           </ol>
@@ -192,7 +198,7 @@
 <script setup>
 const { colorVars: arrowColorVars } = useSpecialOccasion()
 const { arrowParallaxStyle } = useArrowParallax()
-const { toggle: toggleFlip } = useSeijaFlip()
+const { toggle: toggleFlip, toggleMirror, toggleInvert, isFlipped, isMirrored, isInverted } = useSeijaFlip()
 
 const { data: quote } = useFetch('https://mood.seija-kij.in/quote', {
   default: () => null,
@@ -203,17 +209,17 @@ const { data: mood } = useFetch('https://mood.seija-kij.in/mood', {
   server: false,
 })
 
-const spells = [
-  '欺符「逆さ撃ち」',
-  '逆符「鏡の国の弾幕」',
-  '逆符「イーヴィルインザミラー」',
-  '逆符「天地有用」',
-  '逆符「天下転覆」',
-  '逆弓「天壌夢弓」',
-  '逆弓「天壌夢弓の詔勅」',
-  '逆転「リバースヒエラルキー」',
-  '逆転「チェンジエアブレイブ」',
-]
+const spells = computed(() => [
+  { text: '欺符「逆さ撃ち」' },
+  { text: '逆符「鏡の国の弾幕」' },
+  { text: '逆符「イーヴィルインザミラー」', action: toggleMirror, active: isMirrored.value },
+  { text: '逆符「天地有用」' },
+  { text: '逆符「天下転覆」', action: toggleInvert, active: isInverted.value },
+  { text: '逆弓「天壌夢弓」' },
+  { text: '逆弓「天壌夢弓の詔勅」' },
+  { text: '逆転「リバースヒエラルキー」' },
+  { text: '逆転「チェンジエアブレイブ」', action: toggleFlip, active: isFlipped.value },
+])
 
 useHead({
   title: 'Kijin Seija - 鬼人 正邪 | seija-kij.in',
@@ -698,6 +704,33 @@ useHead({
 
 .spell-entry:hover {
   background: color-mix(in srgb, var(--color-royalblue-500) 6%, transparent);
+}
+
+.spell-entry--clickable {
+  cursor: pointer;
+}
+
+.spell-entry--active {
+  background: color-mix(in srgb, var(--color-royalblue-500) 10%, transparent);
+  border-left: 2px solid var(--color-royalblue-500);
+}
+
+.spell-entry--active .spell-num {
+  opacity: 1;
+}
+
+.spell-entry--active .spell-accent {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.ability-target--active {
+  border-color: var(--color-deeppink-500) !important;
+  background: color-mix(in srgb, var(--color-deeppink-500) 12%, transparent) !important;
+}
+
+.ability-target--active .ability-name {
+  color: var(--color-deeppink-500);
 }
 
 .spell-entry:hover .spell-accent {

@@ -133,11 +133,29 @@ useSeijaFlip()
   background: rgb(17 24 39 / 0.9);
 }
 
+.seija-flip-wrapper {
+  --seija-rotate: 0deg;
+  --seija-scale-x: 1;
+  --seija-scale-y: 1;
+}
+
 html.seija-flipped .seija-flip-wrapper {
-  transform: rotate(180deg);
+  --seija-rotate: 180deg;
+}
+
+html.seija-mirrored .seija-flip-wrapper {
+  --seija-scale-x: -1;
+}
+
+html.seija-inverted .seija-flip-wrapper {
+  --seija-scale-y: -1;
+}
+
+.seija-flip-wrapper {
+  transform: rotate(var(--seija-rotate)) scaleX(var(--seija-scale-x)) scaleY(var(--seija-scale-y));
 }
 
 html.seija-flip-transition .seija-flip-wrapper {
-  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 </style>
