@@ -56,11 +56,11 @@ export function useSeijaFlip() {
       document.documentElement.classList.add(CLASS_TRANSITION)
     })
 
-    if (flipped) scrollToBottom()
+    if (flipped || inverted) scrollToBottom()
 
     const router = useRouter()
     router.afterEach(() => {
-      if (isFlipped.value) scrollToBottom()
+      if (isFlipped.value || isInverted.value) scrollToBottom()
     })
   })
 
@@ -104,10 +104,12 @@ export function useSeijaFlip() {
     if (isInverted.value) {
       document.documentElement.classList.add(CLASS_INVERTED)
       setCookie(INVERT_COOKIE, '1', COOKIE_DAYS)
+      scrollToBottom()
     }
     else {
       document.documentElement.classList.remove(CLASS_INVERTED)
       deleteCookie(INVERT_COOKIE)
+      window.scrollTo(0, 0)
     }
   }
 
