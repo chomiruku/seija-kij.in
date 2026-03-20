@@ -63,7 +63,7 @@
               class="clip-parallelogram font-mono text-xs uppercase tracking-widest px-6 py-3 transition-colors"
               :class="activeView === 'images'
                 ? 'bg-crimson-500 text-white'
-                : 'bg-white dark:bg-black border border-gray-200 dark:border-crimson-500 text-gray-500 dark:text-gray-400 hover:border-white hover:text-crimson-500'"
+                : 'bg-white dark:bg-black border border-black dark:border-crimson-500 text-gray-500 dark:text-gray-400 hover:border-white hover:text-crimson-500'"
               @click="activeView = 'images'"
             >
               images
@@ -73,7 +73,7 @@
               class="clip-parallelogram font-mono text-xs uppercase tracking-widest px-6 py-3 transition-colors"
               :class="activeView === 'videos'
                 ? 'bg-crimson-500 text-white'
-                : 'bg-white dark:bg-black border border-gray-200 dark:border-crimson-500 text-gray-500 dark:text-gray-400 hover:border-white hover:text-crimson-500'"
+                : 'bg-white dark:bg-black border border-black dark:border-crimson-500 text-gray-500 dark:text-gray-400 hover:border-white hover:text-crimson-500'"
               @click="activeView = 'videos'"
             >
               videos
