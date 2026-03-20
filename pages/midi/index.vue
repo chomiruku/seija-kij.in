@@ -5,28 +5,25 @@
 
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20">
       <div class="max-w-8xl mx-auto">
-        <div class="mb-12 text-center">
-          <h1 class="text-4xl sm:text-5xl font-bold text-blueviolet-500 dark:text-plum-400 mb-4">
+        <!-- Header -->
+        <div class="mb-10">
+          <h1 class="navbar-brand text-5xl sm:text-7xl text-crimson-500 dark:text-crimson-500 leading-none mb-1">
             midis
           </h1>
-          <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">
+          <p class="font-mono text-xs text-deeppink-500/70 dark:text-deeppink-400/70 tracking-widest uppercase">
             rip cirnodik
           </p>
-          
-          <!-- Search Bar -->
-          <div class="relative max-w-md mx-auto mb-8">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
-              <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-              </svg>
-            </div>
-            <input
-                v-model="searchQuery"
-                type="text"
-                placeholder="Search MIDI files by name..."
-                class="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 border-l-2 border-l-blueviolet-500 leading-5 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blueviolet-500 focus:border-transparent transition-all duration-200 relative z-0 font-mono"
-            >
-          </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative mb-8 max-w-md">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 font-mono text-xs text-crimson-500/60 pointer-events-none select-none">&gt;</span>
+          <input
+            v-model="searchQuery"
+            type="text"
+            placeholder="search midi files..."
+            class="block w-full pl-8 pr-3 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 focus:border-crimson-500 dark:focus:border-crimson-500 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none transition-colors duration-150 font-mono text-sm tracking-wide"
+          >
         </div>
         
         <!-- MIDI Grid -->
@@ -34,7 +31,7 @@
           <div
             v-for="(midi, index) in filteredMidis"
             :key="index"
-            class="group relative overflow-hidden p-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-blueviolet-400 dark:hover:border-blueviolet-500 transition-colors duration-150 animate-fade-in-up cursor-pointer"
+            class="group relative overflow-hidden p-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-crimson-500/40 dark:hover:border-crimson-500/40 transition-colors duration-150 animate-fade-in-up cursor-pointer"
             :style="`animation-delay: ${index * 50}ms`"
             @click="openMidiDetails(midi)"
           >
@@ -48,7 +45,7 @@
             </div>
 
             <div class="relative z-10">
-              <h3 class="text-base font-bold text-gray-900 dark:text-white group-hover:text-blueviolet-600 dark:group-hover:text-blueviolet-400 transition-colors duration-300 truncate">
+              <h3 class="text-base font-bold text-gray-900 dark:text-white group-hover:text-crimson-500 dark:group-hover:text-crimson-400 transition-colors duration-300 truncate">
                 {{ midi.name }}
               </h3>
               <p v-if="midi.alternativeName" class="text-xs text-gray-500 dark:text-gray-400 italic truncate mt-0.5">
@@ -120,8 +117,8 @@
           </div>
           <div class="relative z-10 flex items-center justify-between w-full">
             <div class="min-w-0 flex-1 mr-3">
-              <h2 class="text-lg font-semibold text-gray-900 dark:text-white truncate">{{ selectedMidi?.name }}</h2>
-              <p v-if="selectedMidi?.alternativeName" class="text-sm text-gray-500 dark:text-gray-400 truncate">{{ selectedMidi.alternativeName }}</p>
+              <h2 class="navbar-brand text-xl text-gray-900 dark:text-white truncate leading-none">{{ selectedMidi?.name }}</h2>
+              <p v-if="selectedMidi?.alternativeName" class="font-mono text-xs text-gray-400 dark:text-gray-600 truncate mt-0.5 italic">{{ selectedMidi.alternativeName }}</p>
             </div>
             <UButton
               icon="i-heroicons-x-mark"
@@ -153,61 +150,61 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <!-- Original Information -->
               <div class="space-y-4">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-600 pb-2">Original Information</h3>
+                <h3 class="font-mono text-xs uppercase tracking-widest text-crimson-500/70 border-b border-gray-200 dark:border-gray-800 pb-2">Original Information</h3>
 
                 <div v-if="selectedMidi?.originalTheme">
-                  <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Original Theme</dt>
-                  <dd class="text-gray-900 dark:text-white">{{ selectedMidi.originalTheme }}</dd>
+                  <dt class="font-mono text-xs text-gray-400 dark:text-gray-600 uppercase tracking-widest">Original Theme</dt>
+                  <dd class="font-mono text-sm text-gray-900 dark:text-white mt-0.5">{{ selectedMidi.originalTheme }}</dd>
                 </div>
 
                 <div v-if="selectedMidi?.originalComposer">
-                  <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Original Composer</dt>
-                  <dd class="text-gray-900 dark:text-white">{{ selectedMidi.originalComposer }}</dd>
+                  <dt class="font-mono text-xs text-gray-400 dark:text-gray-600 uppercase tracking-widest">Original Composer</dt>
+                  <dd class="font-mono text-sm text-gray-900 dark:text-white mt-0.5">{{ selectedMidi.originalComposer }}</dd>
                 </div>
 
                 <div v-if="selectedMidi?.originalArtist">
-                  <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Original Artist</dt>
-                  <dd class="text-gray-900 dark:text-white">{{ selectedMidi.originalArtist }}</dd>
+                  <dt class="font-mono text-xs text-gray-400 dark:text-gray-600 uppercase tracking-widest">Original Artist</dt>
+                  <dd class="font-mono text-sm text-gray-900 dark:text-white mt-0.5">{{ selectedMidi.originalArtist }}</dd>
                 </div>
 
                 <div v-if="selectedMidi?.Circle">
-                  <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Circle</dt>
-                  <dd class="text-gray-900 dark:text-white">{{ selectedMidi.Circle }}</dd>
+                  <dt class="font-mono text-xs text-gray-400 dark:text-gray-600 uppercase tracking-widest">Circle</dt>
+                  <dd class="font-mono text-sm text-gray-900 dark:text-white mt-0.5">{{ selectedMidi.Circle }}</dd>
                 </div>
               </div>
 
               <!-- MIDI Information -->
               <div class="space-y-4">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-600 pb-2">MIDI Information</h3>
+                <h3 class="font-mono text-xs uppercase tracking-widest text-crimson-500/70 border-b border-gray-200 dark:border-gray-800 pb-2">MIDI Information</h3>
 
                 <div v-if="selectedMidi?.midiArranger">
-                  <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">MIDI Arranger</dt>
-                  <dd class="text-gray-900 dark:text-white">{{ selectedMidi.midiArranger }}</dd>
+                  <dt class="font-mono text-xs text-gray-400 dark:text-gray-600 uppercase tracking-widest">MIDI Arranger</dt>
+                  <dd class="font-mono text-sm text-gray-900 dark:text-white mt-0.5">{{ selectedMidi.midiArranger }}</dd>
                 </div>
 
                 <div v-if="selectedMidi?.midiEditor">
-                  <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">MIDI Editor</dt>
-                  <dd class="text-gray-900 dark:text-white">{{ selectedMidi.midiEditor }}</dd>
+                  <dt class="font-mono text-xs text-gray-400 dark:text-gray-600 uppercase tracking-widest">MIDI Editor</dt>
+                  <dd class="font-mono text-sm text-gray-900 dark:text-white mt-0.5">{{ selectedMidi.midiEditor }}</dd>
                 </div>
               </div>
             </div>
 
             <!-- Download Versions -->
             <div v-if="selectedMidi?.versions?.length">
-              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Available Versions</h3>
+              <h3 class="font-mono text-xs uppercase tracking-widest text-crimson-500/70 mb-4">Available Versions</h3>
               <div class="grid gap-3">
                 <div
                     v-for="version in selectedMidi.versions"
                     :key="version.filename"
-                    class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors gap-3 sm:gap-0"
+                    class="flex flex-col sm:flex-row sm:items-center justify-between p-3 border border-gray-200 dark:border-gray-800 hover:border-crimson-500/30 transition-colors gap-3 sm:gap-0"
                 >
                   <div class="flex-1">
-                    <div class="font-medium text-gray-900 dark:text-white">{{ version.name }}</div>
-                    <div class="text-sm text-gray-500 dark:text-gray-400">{{ version.filename }}</div>
+                    <div class="font-mono text-xs uppercase tracking-widest text-gray-900 dark:text-white">{{ version.name }}</div>
+                    <div class="font-mono text-xs text-gray-400 dark:text-gray-600 mt-0.5">{{ version.filename }}</div>
                   </div>
                   <UTooltip text="Download MIDI file">
                     <UButton
-                        color="blueviolet"
+                        color="crimson"
                         variant="solid"
                         icon="i-heroicons-arrow-down-tray"
                         @click="downloadMidi(selectedMidi, version)"

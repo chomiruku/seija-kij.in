@@ -5,7 +5,7 @@
 
         <!-- Header -->
         <div class="mb-10">
-          <h1 class="navbar-brand text-5xl sm:text-7xl text-crimson-500 dark:text-crimson-400 leading-none mb-1">
+          <h1 class="navbar-brand text-5xl sm:text-7xl text-crimson-500 dark:text-crimson-500 leading-none mb-1">
             gallery
           </h1>
           <p class="font-mono text-xs text-deeppink-500/70 dark:text-deeppink-400/70 tracking-widest uppercase">

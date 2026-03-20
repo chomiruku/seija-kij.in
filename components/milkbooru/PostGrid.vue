@@ -4,7 +4,7 @@
       v-for="(post, index) in posts"
       :key="post.id"
       :to="getPostRoute(post)"
-      class="group relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:-translate-y-1 hover:border-crimson-500 dark:hover:border-crimson-500 animate-fade-in-up block"
+      class="group relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 cursor-pointer transition-colors duration-150 hover:border-crimson-500/50 dark:hover:border-crimson-500/50 animate-fade-in-up block"
       :style="`animation-delay: ${index * 50}ms`"
     >
       <UiCornerBrackets size="sm" />
@@ -27,14 +27,14 @@
           class="absolute inset-0 bg-black/80 backdrop-blur-lg flex items-center justify-center"
         >
           <div class="text-center text-white w-full">
-            <p class="text-sm font-extrabold mb-1 text-red-500 bg-black w-full py-1">
-              Blacklisted
+            <p class="font-mono text-xs font-bold mb-1 text-crimson-400 bg-black w-full py-1 uppercase tracking-widest">
+              blacklisted
             </p>
-            <p class="text-xs text-red-500 w-full">
-              Contains: {{ blacklistInfo[post.id]?.matchedTag }}
+            <p class="font-mono text-xs text-crimson-500/70 w-full">
+              {{ blacklistInfo[post.id]?.matchedTag }}
             </p>
-            <p class="text-xs text-gray-400 mt-1">
-              Click to view
+            <p class="font-mono text-xs text-gray-500 mt-1">
+              click to view
             </p>
           </div>
         </div>
@@ -43,18 +43,18 @@
       <!-- Animation indicator -->
       <div
         v-if="isAnimated(post)"
-        class="absolute top-2 right-2 bg-black/50 text-white p-1 z-10"
+        class="absolute top-2 right-2 bg-black/70 text-white px-1.5 py-0.5 z-10 font-mono text-xs uppercase tracking-widest text-crimson-400"
       >
-        <UIcon name="i-heroicons-play" class="w-4 h-4" />
+        ▶
       </div>
 
       <!-- Post Info -->
-      <div class="p-3">
-        <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">
-          {{ post.tag_string_artist || 'Unknown artist' }}
+      <div class="px-3 py-2 border-t border-gray-200 dark:border-gray-800 flex justify-between items-center">
+        <div class="font-mono text-xs text-gray-700 dark:text-gray-300 truncate">
+          {{ post.tag_string_artist || 'unknown' }}
         </div>
-        <div class="text-xs text-gray-400 dark:text-gray-500">
-          {{ post.image_width }}x{{ post.image_height }}
+        <div class="font-mono text-xs text-gray-400 dark:text-gray-600 shrink-0 ml-2 tabular-nums">
+          {{ post.image_width }}×{{ post.image_height }}
         </div>
       </div>
     </NuxtLink>

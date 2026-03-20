@@ -10,37 +10,29 @@
           type="text"
           :placeholder="placeholder"
           :disabled="disabled"
-          class="block w-full pl-10 pr-24 py-3 border border-gray-300 dark:border-gray-600 border-l-2 border-l-crimson-500 leading-5 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-crimson-500 focus:border-transparent transition-all duration-200 relative z-0 disabled:opacity-50 disabled:cursor-progress font-mono"
+          class="block w-full pl-10 pr-24 py-3 border border-gray-200 dark:border-gray-800 border-l-2 border-l-crimson-500 leading-5 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:border-crimson-500 dark:focus:border-crimson-500 transition-colors duration-150 relative z-0 disabled:opacity-50 disabled:cursor-progress font-mono text-sm tracking-wide"
           @keyup.enter="handleSearch"
           @focus="handleFocus"
         >
         <UTooltip text="Search for posts">
-          <UButton
+          <button
             :disabled="disabled"
-            class="absolute right-2 top-1/2 transform -translate-y-1/2 px-4 py-2 text-white transition-colors text-sm font-medium disabled:cursor-progress cursor-pointer"
-            color="deeppink"
-            :loading="disabled"
+            class="absolute right-2 top-1/2 -translate-y-1/2 clip-parallelogram font-mono text-xs uppercase tracking-widest px-4 py-2 bg-crimson-500 hover:bg-crimson-400 text-white transition-colors disabled:opacity-50 disabled:cursor-progress"
             @click="handleSearch"
           >
-            Search
-          </UButton>
+            search
+          </button>
         </UTooltip>
       </div>
 
       <UTooltip text="Configure NSFW settings and tag blacklist">
-        <UButton
-          class="text-white hidden sm:flex"
-          label="Search Preferences"
-          color="deeppink"
-          icon="i-heroicons-cog-6-tooth"
+        <button
+          class="clip-parallelogram font-mono text-xs uppercase tracking-widest px-4 py-3 border border-gray-200 dark:border-gray-800 text-gray-500 dark:text-gray-400 hover:border-crimson-500/40 hover:text-crimson-400 transition-colors"
           @click="$emit('open-preferences')"
-        />
-        <UButton
-          class="text-white sm:hidden"
-          color="deeppink"
-          icon="i-heroicons-cog-6-tooth"
-          @click="$emit('open-preferences')"
-        />
+        >
+          <span class="hidden sm:inline">prefs</span>
+          <span class="sm:hidden">⚙</span>
+        </button>
       </UTooltip>
     </div>
   </div>

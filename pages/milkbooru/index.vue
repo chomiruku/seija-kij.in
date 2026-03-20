@@ -1,26 +1,24 @@
 <template>
   <div>
     <div
-      class="container mx-auto px-4 sm:px-6 lg:px-8 pb-20 transition-all duration-3000 ease-out"
+      class="container mx-auto px-4 sm:px-6 lg:px-8 pb-20 transition-all duration-300 ease-out"
       :class="search.isSearchFocused.value ? 'pt-0' : 'pt-12'"
     >
       <div class="max-w-8xl mx-auto">
         <!-- Header -->
-        <div class="mb-4 text-center">
-          <h1
+        <div class="mb-4" :class="search.isSearchFocused.value ? '' : 'mb-8'">
+          <div
             v-if="!search.shouldHideElements.value"
-            class="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-pink-400 via-red-500 to-purple-600 dark:from-pink-300 dark:via-red-300 dark:to-purple-400 bg-clip-text text-transparent pb-3 mb-1 transition-all duration-3000 ease-out overflow-hidden"
-            :class="search.isSearchFocused.value ? 'scale-y-0 max-h-0 opacity-0 mt-0 mb-0 pt-0 pb-0' : 'scale-y-100 max-h-32 opacity-100'"
+            class="transition-all duration-300 ease-out overflow-hidden"
+            :class="search.isSearchFocused.value ? 'max-h-0 opacity-0 mb-0' : 'max-h-32 opacity-100 mb-4'"
           >
-            milkbooru
-          </h1>
-          <p
-            v-if="!search.shouldHideElements.value"
-            class="text-lg text-gray-600 dark:text-gray-300 mb-8 transition-all duration-3000 ease-out overflow-hidden"
-            :class="search.isSearchFocused.value ? 'scale-y-0 max-h-0 opacity-0 mt-0 mb-0 pt-0 pb-0' : 'scale-y-100 max-h-16 opacity-100'"
-          >
-            just a booru
-          </p>
+            <h1 class="navbar-brand text-5xl sm:text-7xl text-crimson-500 leading-none mb-1">
+              milkbooru
+            </h1>
+            <p class="font-mono text-xs text-deeppink-500/70 dark:text-deeppink-400/70 tracking-widest uppercase">
+              just a booru
+            </p>
+          </div>
 
           <!-- Search Bar -->
           <MilkbooruSearchBar
@@ -35,43 +33,36 @@
         <!-- Loading State -->
         <div v-if="search.isLoading.value">
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            <USkeleton
+            <div
               v-for="i in 20"
               :key="`skeleton-${i}`"
-              class="h-64"
+              class="bg-gray-200 dark:bg-gray-800 animate-pulse aspect-square"
             />
           </div>
+          <p class="font-mono text-xs text-center text-gray-400 dark:text-gray-600 mt-6 tracking-widest">
+            loading posts...
+          </p>
         </div>
 
         <!-- Error State -->
         <div v-else-if="search.hasError.value" class="text-center">
-          <UCard class="max-w-md mx-auto">
-            <template #header>
-              <h1 class="text-4xl font-bold">
-                huh?
-              </h1>
-            </template>
-            <div class="space-y-4">
-              <nuxt-img
-                src="/seijaflustered.png"
-                alt="seija-kij.in"
-                class="mx-auto h-48 w-auto"
-              />
-              <h3 class="text-lg font-medium">
-                the query failed
-              </h3>
-              <p class="text-gray-600 dark:text-gray-400">
-                probably the booru is dead
-              </p>
-              <UButton
-                color="red"
-                size="lg"
-                @click="search.retryFetch"
-              >
-                Retry
-              </UButton>
-            </div>
-          </UCard>
+          <div class="bg-crimson-500/10 border border-crimson-500/30 p-6 max-w-md mx-auto">
+            <h1 class="navbar-brand text-5xl uppercase text-crimson-500 mb-4">
+              huh?
+            </h1>
+            <nuxt-img
+              src="/seijaflustered.png"
+              alt="seija-kij.in"
+              class="mx-auto h-48 w-auto mb-4"
+            />
+            <p class="font-mono text-xs text-gray-400 dark:text-gray-500 mb-2 tracking-wide">probably the booru is dead</p>
+            <button
+              class="mt-4 clip-parallelogram font-mono text-xs uppercase tracking-widest px-6 py-3 bg-crimson-500 hover:bg-crimson-400 text-white transition-colors"
+              @click="search.retryFetch"
+            >
+              retry
+            </button>
+          </div>
         </div>
 
         <!-- Posts Grid -->
@@ -100,18 +91,11 @@
         </template>
 
         <!-- No Results -->
-        <div v-else-if="!search.isLoading.value" class="text-center py-12">
-          <UCard class="max-w-md mx-auto">
-            <div class="space-y-4">
-              <UIcon
-                name="i-heroicons-magnifying-glass"
-                class="w-12 h-12 mx-auto text-gray-400"
-              />
-              <p class="text-gray-500 dark:text-gray-400">
-                No posts found. Try different tags!
-              </p>
-            </div>
-          </UCard>
+        <div v-else-if="!search.isLoading.value" class="py-12">
+          <div class="border border-gray-200 dark:border-gray-800 p-8 max-w-md">
+            <p class="font-mono text-xs text-gray-400 dark:text-gray-600 tracking-wide">nothing. absolutely nothing.</p>
+            <p class="font-mono text-xs text-gray-300 dark:text-gray-700 tracking-wide mt-1">try different tags</p>
+          </div>
         </div>
       </div>
     </div>
@@ -371,11 +355,10 @@ useHead({
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #ec4899, #be185d);
-  border-radius: 4px;
+  background: #ff3342;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #db2777, #9f1239);
+  background: #cc2935;
 }
 </style>
