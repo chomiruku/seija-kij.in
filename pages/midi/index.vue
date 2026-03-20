@@ -26,57 +26,68 @@
           >
         </div>
         
-        <!-- MIDI Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        <!-- Loading Placeholders -->
+        <div v-if="isLoading" class="border border-gray-200 dark:border-gray-800 space-y-0">
+          <div
+            v-for="n in 9"
+            :key="n"
+            class="flex items-center gap-4 px-4 py-3 border-b border-gray-200 dark:border-gray-800 last:border-b-0 animate-pulse"
+          >
+            <div class="w-6 h-3 bg-gray-300/20 shrink-0"/>
+            <div class="w-2 h-3 bg-gray-300/20 shrink-0"/>
+            <div class="flex-1 h-4 bg-gray-300/20"/>
+            <div class="hidden sm:block w-32 h-3 bg-gray-300/20"/>
+          </div>
+        </div>
+
+        <!-- MIDI List -->
+        <div v-else-if="!hasError" class="space-y-0 border border-gray-200 dark:border-gray-800">
           <div
             v-for="(midi, index) in filteredMidis"
             :key="index"
-            class="group relative overflow-hidden p-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-crimson-500/40 dark:hover:border-crimson-500/40 transition-colors duration-150 animate-fade-in-up cursor-pointer"
-            :style="`animation-delay: ${index * 50}ms`"
+            class="group relative overflow-hidden flex items-center gap-4 px-4 py-3 border-b border-gray-200 dark:border-gray-800 last:border-b-0 hover:bg-crimson-500/5 transition-colors duration-150 animate-fade-in-up cursor-pointer"
+            :style="`animation-delay: ${index * 30}ms`"
             @click="openMidiDetails(midi)"
           >
-            <!-- Arrow pattern background - reveals from right on hover -->
+            <!-- Arrow pattern background -->
             <div class="midi-card-arrows">
               <svg class="arrow-parallax-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" :style="arrowParallaxStyle">
                 <rect width="100%" height="100%" fill="url(#midi-arrows)"/>
               </svg>
-              <!-- Blur + opacity overlay -->
-              <div class="absolute inset-0 backdrop-blur-[2px] bg-white/80 dark:bg-gray-900/80"/>
+              <div class="absolute inset-0 backdrop-blur-[2px] bg-white/90 dark:bg-gray-900/90"/>
             </div>
 
-            <div class="relative z-10">
-              <h3 class="text-base font-bold text-gray-900 dark:text-white group-hover:text-crimson-500 dark:group-hover:text-crimson-400 transition-colors duration-300 truncate">
+            <!-- Index number -->
+            <span class="relative z-10 font-mono text-xs text-neutral-600 tabular-nums shrink-0 w-6 text-right">
+              {{ String(index + 1).padStart(2, '0') }}
+            </span>
+
+            <!-- Divider -->
+            <span class="relative z-10 font-mono text-xs text-neutral-700 shrink-0">/</span>
+
+            <!-- Title + alt name -->
+            <div class="relative z-10 flex-1 min-w-0">
+              <span class="font-mono text-sm text-gray-900 dark:text-white group-hover:text-crimson-500 dark:group-hover:text-crimson-400 transition-colors duration-200 truncate block">
                 {{ midi.name }}
-              </h3>
-              <p v-if="midi.alternativeName" class="text-xs text-gray-500 dark:text-gray-400 italic truncate mt-0.5">
+              </span>
+              <span v-if="midi.alternativeName" class="font-mono text-xs text-gray-400 dark:text-gray-600 italic truncate block mt-0.5">
                 {{ midi.alternativeName }}
-              </p>
-              <div class="text-xs text-gray-600 dark:text-gray-300 mt-2 space-y-0.5">
-                <p v-if="midi.originalArtist" class="truncate">
-                  <span class="font-medium">Artist:</span> {{ midi.originalArtist }}<span v-if="midi.Circle"> ({{ midi.Circle }})</span>
-                </p>
-                <p v-if="midi.midiArranger" class="truncate">
-                  <span class="font-medium">MIDI by:</span> {{ midi.midiArranger }}
-                </p>
-              </div>
-              <div v-if="midi.versions?.length" class="flex flex-wrap gap-1 mt-2">
-                <UiAngularTag v-for="version in midi.versions" :key="version.filename" :label="version.name" variant="blue" />
-              </div>
+              </span>
             </div>
-          </div>
-        </div>
 
-        <!-- Loading Placeholders -->
-        <div v-if="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-          <div
-            v-for="n in 9"
-            :key="n"
-            class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-3 animate-pulse"
-          >
-            <div class="h-5 bg-gray-300/20 mb-2 w-3/4"/>
-            <div class="h-3 bg-gray-300/20 mb-3 w-1/2"/>
-            <div class="h-3 bg-gray-300/20 mb-1 w-full"/>
-            <div class="h-3 bg-gray-300/20 w-2/3"/>
+            <!-- Artist + MIDI by -->
+            <div class="relative z-10 hidden sm:flex items-center gap-4 shrink-0 font-mono text-xs text-gray-400 dark:text-gray-600">
+              <span v-if="midi.originalArtist" class="truncate max-w-40">{{ midi.originalArtist }}</span>
+              <span v-if="midi.midiArranger" class="text-neutral-600 truncate max-w-32">{{ midi.midiArranger }}</span>
+            </div>
+
+            <!-- Version tags -->
+            <div v-if="midi.versions?.length" class="relative z-10 hidden md:flex flex-wrap gap-1 shrink-0">
+              <UiAngularTag v-for="version in midi.versions" :key="version.filename" :label="version.name" variant="blue" />
+            </div>
+
+            <!-- Arrow indicator -->
+            <span class="relative z-10 font-mono text-xs text-crimson-500/30 group-hover:text-crimson-500/70 transition-colors shrink-0">→</span>
           </div>
         </div>
 

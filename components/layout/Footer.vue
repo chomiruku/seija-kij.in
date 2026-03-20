@@ -5,17 +5,17 @@
         <!-- Theme Toggle -->
         <div class="text-center md:text-left">
           <ClientOnly>
-            <UTooltip :text="`Switch to ${isDark ? 'light' : 'dark'} mode`">
-              <UButton
-                color="deeppink"
-                class="cursor-pointer text-white"
-                size="xl"
-                :icon="isDark ? 'i-heroicons-sun' : 'i-heroicons-moon'"
-                variant="solid"
-                :aria-label="`Switch to ${isDark ? 'light' : 'dark'} mode`"
-                @click="switchTheme"
+            <button
+              class="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 hover:text-crimson-400 dark:hover:text-crimson-400 transition-colors border border-gray-200 dark:border-gray-800 hover:border-crimson-500/40 px-3 py-2"
+              :aria-label="`Switch to ${isDark ? 'light' : 'dark'} mode`"
+              @click="switchTheme"
+            >
+              <UIcon
+                :name="isDark ? 'i-heroicons-sun' : 'i-heroicons-moon'"
+                class="w-3.5 h-3.5"
               />
-            </UTooltip>
+              <span>{{ isDark ? 'light' : 'dark' }}</span>
+            </button>
           </ClientOnly>
         </div>
 

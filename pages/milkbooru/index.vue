@@ -73,28 +73,46 @@
           />
 
           <!-- Pagination -->
-          <div v-if="search.pagination.value" class="flex justify-center">
-            <UPagination
-              :page="search.currentPage.value"
-              :total="search.totalPages.value"
-              :items-per-page="1"
-              :sibling-count="2"
-              color="neutral"
-              variant="link"
-              active-color="deeppink"
-              active-variant="solid"
-              size="md"
-              :disabled="search.isLoading.value"
-              @update:page="search.goToPage"
-            />
+          <div v-if="search.pagination.value" class="flex justify-center mt-8">
+            <nav class="flex items-center gap-0.5 font-mono text-xs" aria-label="Pagination">
+              <button
+                class="px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-crimson-400 transition-colors disabled:opacity-30 disabled:cursor-not-allowed tracking-widest"
+                :disabled="search.currentPage.value <= 1 || search.isLoading.value"
+                @click="search.goToPage(search.currentPage.value - 1)"
+              >← prev</button>
+
+              <template v-for="page in paginationPages" :key="page">
+                <span v-if="page === '...'" class="px-2 py-2 text-neutral-600">···</span>
+                <button
+                  v-else
+                  class="px-3 py-2 tracking-widest transition-colors"
+                  :class="page === search.currentPage.value
+                    ? 'clip-parallelogram bg-crimson-500 text-white'
+                    : 'text-gray-500 dark:text-gray-400 hover:text-crimson-400'"
+                  :disabled="search.isLoading.value"
+                  @click="search.goToPage(page)"
+                >{{ page }}</button>
+              </template>
+
+              <button
+                class="px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-crimson-400 transition-colors disabled:opacity-30 disabled:cursor-not-allowed tracking-widest"
+                :disabled="search.currentPage.value >= search.totalPages.value || search.isLoading.value"
+                @click="search.goToPage(search.currentPage.value + 1)"
+              >next →</button>
+            </nav>
           </div>
         </template>
 
         <!-- No Results -->
         <div v-else-if="!search.isLoading.value" class="py-12">
-          <div class="border border-gray-200 dark:border-gray-800 p-8 max-w-md">
-            <p class="font-mono text-xs text-gray-400 dark:text-gray-600 tracking-wide">nothing. absolutely nothing.</p>
-            <p class="font-mono text-xs text-gray-300 dark:text-gray-700 tracking-wide mt-1">try different tags</p>
+          <div class="border border-gray-800 p-6 max-w-sm">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="text-neutral-600 uppercase tracking-widest text-[10px] font-mono">── QUERY RESULT</span>
+              <div class="flex-1 border-t border-neutral-800"/>
+              <span class="text-crimson-500/50 text-[10px] font-mono">◈</span>
+            </div>
+            <p class="font-mono text-xs text-crimson-500/80 tracking-wide mb-1">nothing. absolutely nothing.</p>
+            <p class="font-mono text-xs text-neutral-600 tracking-wide">try different tags</p>
           </div>
         </div>
       </div>
@@ -138,6 +156,20 @@ const tagManagement = useTagManagement()
 
 // Local state
 const showSearchPrefs = ref(false)
+
+// Pagination page range with ellipsis
+const paginationPages = computed(() => {
+  const total = search.totalPages.value
+  const current = search.currentPage.value
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1)
+  const pages: (number | string)[] = []
+  pages.push(1)
+  if (current > 3) pages.push('...')
+  for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) pages.push(i)
+  if (current < total - 2) pages.push('...')
+  pages.push(total)
+  return pages
+})
 
 // Computed blacklist info for all posts
 const postsBlacklistInfo = computed(() => {

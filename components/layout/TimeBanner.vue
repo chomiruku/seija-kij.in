@@ -3,7 +3,8 @@
     <div class="container mx-auto px-4 text-center">
       <ClientOnly>
         <small class="time-banner-text hidden lg:inline">{{ time }}<span v-if="occasionName"> &mdash; {{ occasionName }}</span></small>
-        <small class="time-banner-text lg:hidden">{{ timeMobile }}<span v-if="occasionName"> &mdash; {{ occasionName }}</span></small>
+        <small class="time-banner-text hidden md:inline lg:hidden">{{ timeMedium }}<span v-if="occasionName"> &mdash; {{ occasionName }}</span></small>
+        <small class="time-banner-text md:hidden">{{ timeMobile }}</small>
         <template #fallback>
           <small class="time-banner-text">Loading time...</small>
         </template>
@@ -16,6 +17,7 @@
 const { occasionName } = useSpecialOccasion()
 
 const time = ref('')
+const timeMedium = ref('')
 const timeMobile = ref('')
 const timer = ref(null)
 
@@ -42,8 +44,20 @@ const updateTime = () => {
     hour12: false,
   }) + ' SGT'
 
+  const mediumTimeString = date.toLocaleString('en-SG', {
+    timeZone: 'Asia/Singapore',
+    weekday: 'short',
+    month: 'short',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  }) + ' SGT'
+
   const gmt8 = '+0800'
   time.value = `${timeString} GMT${gmt8} (Singapore Standard Time)`
+  timeMedium.value = mediumTimeString
   timeMobile.value = shortTimeString
 }
 

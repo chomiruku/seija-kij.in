@@ -27,11 +27,11 @@
 
       <UTooltip text="Configure NSFW settings and tag blacklist">
         <button
-          class="clip-parallelogram font-mono text-xs uppercase tracking-widest px-4 py-3 border border-gray-200 dark:border-gray-800 text-gray-500 dark:text-gray-400 hover:border-crimson-500/40 hover:text-crimson-400 transition-colors"
+          class="flex items-center justify-center w-10 h-10 border border-gray-200 dark:border-gray-800 text-gray-400 dark:text-gray-600 hover:border-crimson-500/40 hover:text-crimson-400 transition-colors shrink-0"
+          aria-label="Preferences"
           @click="$emit('open-preferences')"
         >
-          <span class="hidden sm:inline">prefs</span>
-          <span class="sm:hidden">⚙</span>
+          <UIcon name="i-heroicons-adjustments-horizontal" class="w-4 h-4" />
         </button>
       </UTooltip>
     </div>

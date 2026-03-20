@@ -85,10 +85,9 @@
           <div v-if="activeView === 'images' && groupedImagesByYear.length" class="mb-8">
             <div v-for="(yearGroup, yearIndex) in groupedImagesByYear" :key="yearGroup.year">
               <!-- Year Separator -->
-              <div v-if="yearIndex > 0" class="flex items-center gap-4 my-10">
-                <div class="h-px flex-1 bg-crimson-500/20"/>
-                <span class="font-mono text-xs text-crimson-500/60 tracking-widest uppercase">{{ yearGroup.year }}</span>
-                <div class="h-px flex-1 bg-crimson-500/20"/>
+              <div class="flex items-center gap-6 mb-6" :class="yearIndex > 0 ? 'mt-10' : ''">
+                <span class="font-mono text-2xl font-bold text-crimson-500/40 tracking-widest tabular-nums shrink-0">{{ yearGroup.year }}</span>
+                <div class="h-px flex-1 bg-crimson-500/30"/>
               </div>
 
               <div v-for="(monthGroup, monthIndex) in yearGroup.months" :key="`${yearGroup.year}-${monthIndex}`" class="mb-8">
@@ -154,10 +153,9 @@
           <div v-if="activeView === 'videos' && groupedVideosByYear.length" class="mb-8">
             <div v-for="(yearGroup, yearIndex) in groupedVideosByYear" :key="yearGroup.year">
               <!-- Year Separator -->
-              <div v-if="yearIndex > 0" class="flex items-center gap-4 my-10">
-                <div class="h-px flex-1 bg-crimson-500/20"/>
-                <span class="font-mono text-xs text-crimson-500/60 tracking-widest uppercase">{{ yearGroup.year }}</span>
-                <div class="h-px flex-1 bg-crimson-500/20"/>
+              <div class="flex items-center gap-6 mb-6" :class="yearIndex > 0 ? 'mt-10' : ''">
+                <span class="font-mono text-2xl font-bold text-crimson-500/40 tracking-widest tabular-nums shrink-0">{{ yearGroup.year }}</span>
+                <div class="h-px flex-1 bg-crimson-500/30"/>
               </div>
 
               <div v-for="(monthGroup, monthIndex) in yearGroup.months" :key="`${yearGroup.year}-${monthIndex}`" class="mb-8">
