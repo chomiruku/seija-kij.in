@@ -1,8 +1,8 @@
 <template>
   <div>
     <div
-      class="container mx-auto px-4 sm:px-6 lg:px-8 pb-20 transition-all duration-300 ease-out"
-      :class="search.isSearchFocused.value ? 'pt-0' : 'pt-12'"
+      class="container mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-300 ease-out"
+      :class="search.isSearchFocused.value ? 'pt-5 pb-5' : 'pt-12 pb-20'"
     >
       <div class="max-w-8xl mx-auto">
         <!-- Header -->

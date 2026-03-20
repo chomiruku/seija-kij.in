@@ -41,7 +41,7 @@
         </div>
 
         <!-- MIDI List -->
-        <div v-else-if="!hasError" class="space-y-0 border border-gray-200 dark:border-gray-800">
+        <div v-else-if="!hasError && filteredMidis.length > 0" class="space-y-0 border border-gray-200 dark:border-gray-800">
           <div
             v-for="(midi, index) in filteredMidis"
             :key="index"

@@ -11,7 +11,7 @@
             links
           </h1>
           <p class="font-mono text-xs text-deeppink-500/70 dark:text-deeppink-400/70 tracking-widest uppercase">
-            places chomilk can be found on the internet
+            you're that guy?
           </p>
         </div>
 
@@ -73,16 +73,16 @@
           :href="memorialLink.url"
           target="_blank"
           rel="noopener noreferrer"
-          class="group flex items-center gap-5 px-6 py-3 mt-2 border border-dashed border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 transition-colors duration-200 animate-fade-in-up block"
+          class="group flex items-center gap-5 px-6 py-3 mt-2 border border-dashed border-gray-900 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-500 transition-colors duration-200 animate-fade-in-up block"
           style="animation-delay: 420ms"
         >
           <div class="flex items-center gap-5 w-full opacity-40 group-hover:opacity-70 transition-opacity duration-200">
             <img :src="memorialLink.image" :alt="memorialLink.name" class="w-5 h-5 object-contain shrink-0 grayscale">
             <div class="flex-1 min-w-0">
-              <h3 class="font-mono text-xs text-gray-500 dark:text-gray-500 truncate">{{ memorialLink.name }}</h3>
-              <p class="font-mono text-xs text-gray-400 dark:text-gray-600 italic truncate mt-0.5">{{ memorialLink.description }}</p>
+              <h3 class="font-mono text-xs text-gray-900 dark:text-gray-500 truncate">{{ memorialLink.name }}</h3>
+              <p class="font-mono text-xs text-gray-800 dark:text-gray-500 italic truncate mt-0.5">{{ memorialLink.description }}</p>
             </div>
-            <span class="font-mono text-xs text-gray-400 dark:text-gray-600 tracking-widest shrink-0">rip</span>
+            <span class="font-mono text-xs text-gray-900 dark:text-gray-400 tracking-widest shrink-0">rip</span>
           </div>
         </a>
 
@@ -102,7 +102,7 @@ const featuredLink = {
   name: 'Booth',
   url: 'https://chomilk.booth.pm/',
   image: '/icons/booth.png',
-  description: 'chomilk store — vrc stuff and whatever else',
+  description: 'chomilk store',
   category: 'store',
 }
 

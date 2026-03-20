@@ -27,7 +27,7 @@
 
       <UTooltip text="Configure NSFW settings and tag blacklist">
         <button
-          class="flex items-center justify-center w-10 h-10 border border-gray-200 dark:border-gray-800 text-gray-400 dark:text-gray-600 hover:border-crimson-500/40 hover:text-crimson-400 transition-colors shrink-0"
+          class="flex items-center justify-center w-10 h-10 border border-black dark:border-white text-black dark:text-white hover:border-crimson-500/40 hover:text-crimson-400 transition-colors shrink-0"
           aria-label="Preferences"
           @click="$emit('open-preferences')"
         >

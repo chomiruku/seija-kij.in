@@ -63,7 +63,7 @@
               class="clip-parallelogram font-mono text-xs uppercase tracking-widest px-6 py-3 transition-colors"
               :class="activeView === 'images'
                 ? 'bg-crimson-500 text-white'
-                : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-500 dark:text-gray-400 hover:border-crimson-500/40 hover:text-crimson-400'"
+                : 'bg-white dark:bg-black border border-gray-200 dark:border-crimson-500 text-gray-500 dark:text-gray-400 hover:border-white hover:text-crimson-500'"
               @click="activeView = 'images'"
             >
               images
@@ -73,7 +73,7 @@
               class="clip-parallelogram font-mono text-xs uppercase tracking-widest px-6 py-3 transition-colors"
               :class="activeView === 'videos'
                 ? 'bg-crimson-500 text-white'
-                : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-500 dark:text-gray-400 hover:border-crimson-500/40 hover:text-crimson-400'"
+                : 'bg-white dark:bg-black border border-gray-200 dark:border-crimson-500 text-gray-500 dark:text-gray-400 hover:border-white hover:text-crimson-500'"
               @click="activeView = 'videos'"
             >
               videos
@@ -93,7 +93,7 @@
               <div v-for="(monthGroup, monthIndex) in yearGroup.months" :key="`${yearGroup.year}-${monthIndex}`" class="mb-8">
                 <!-- Month Header -->
                 <button
-                  class="w-full flex justify-between items-center px-4 py-3 border-l-2 border-crimson-500 bg-white/50 dark:bg-gray-900/50 hover:bg-crimson-500/5 transition-colors mb-4 cursor-pointer group"
+                  class="w-full flex justify-between items-center px-4 py-3 border-l-2 border-crimson-500 bg-white dark:bg-black hover:bg-crimson-200 dark:hover:bg-crimson-900 transition-colors mb-4 cursor-pointer group"
                   @click="toggleMonth('images', `${yearGroup.year}-${monthGroup.month}`)"
                 >
                   <div class="flex items-center gap-3">
