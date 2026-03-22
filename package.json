@@ -31,10 +31,10 @@
     "sharp": "latest",
     "tailwind-scrollbar": "latest",
     "vue": "^3.5.30",
-    "vue-router": "^4.5.0"
+    "vue-router": "^5.0.4"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.97",
+    "@iconify-json/lucide": "^1.2.98",
     "@playwright/test": "^1.58.2",
     "@types/chalk": "^2.2.4",
     "@vitest/coverage-v8": "^4.1.0",
