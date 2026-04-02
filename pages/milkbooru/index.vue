@@ -358,7 +358,7 @@ useHead({
   meta: [
     { name: 'description', content: dynamicDescription },
     { name: 'keywords', content: dynamicKeywords },
-    { name: 'robots', content: 'index, follow' },
+    { name: 'robots', content: 'noindex, nofollow' },
 
     { property: 'og:title', content: dynamicTitle },
     { property: 'og:description', content: dynamicDescription },
