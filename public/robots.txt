@@ -3,6 +3,7 @@ User-agent: *
 Allow: /
 
 # Block all bots from milkbooru
+Disallow: /milkbooru
 Disallow: /milkbooru/
 
 Disallow: /pdf/
