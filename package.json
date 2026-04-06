@@ -21,22 +21,22 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@chenglou/pretext": "^0.0.3",
+    "@chenglou/pretext": "^0.0.4",
     "@nuxt/eslint": "latest",
     "@nuxt/icon": "^2.2.1",
     "@nuxt/image": "latest",
-    "@nuxt/ui": "^4.6.0",
+    "@nuxt/ui": "^4.6.1",
     "chalk": "latest",
     "eslint": "latest",
     "nuxt": "^4.4.2",
     "sharp": "latest",
     "tailwind-scrollbar": "latest",
-    "vue": "^3.5.31",
+    "vue": "^3.5.32",
     "vue-router": "^5.0.4"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.100",
-    "@playwright/test": "^1.58.2",
+    "@iconify-json/lucide": "^1.2.101",
+    "@playwright/test": "^1.59.1",
     "@types/chalk": "^2.2.4",
     "@vitest/coverage-v8": "^4.1.2",
     "@vitest/ui": "^4.1.0",
