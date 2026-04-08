@@ -21,7 +21,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@chenglou/pretext": "^0.0.4",
+    "@chenglou/pretext": "^0.0.5",
     "@nuxt/eslint": "latest",
     "@nuxt/icon": "^2.2.1",
     "@nuxt/image": "latest",
