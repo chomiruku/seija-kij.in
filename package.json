@@ -21,26 +21,26 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@chenglou/pretext": "^0.0.5",
+    "@chenglou/pretext": "^0.0.6",
     "@nuxt/eslint": "latest",
     "@nuxt/icon": "^2.2.1",
     "@nuxt/image": "latest",
-    "@nuxt/ui": "^4.6.1",
+    "@nuxt/ui": "^4.7.0",
     "chalk": "latest",
     "eslint": "latest",
     "nuxt": "^4.4.2",
     "sharp": "latest",
     "tailwind-scrollbar": "latest",
-    "vue": "^3.5.32",
-    "vue-router": "^5.0.4"
+    "vue": "^3.5.33",
+    "vue-router": "^5.0.6"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.102",
+    "@iconify-json/lucide": "^1.2.103",
     "@playwright/test": "^1.59.1",
     "@types/chalk": "^2.2.4",
-    "@vitest/coverage-v8": "^4.1.4",
+    "@vitest/coverage-v8": "^4.1.5",
     "@vitest/ui": "^4.1.0",
-    "@vue/test-utils": "^2.4.6",
+    "@vue/test-utils": "^2.4.8",
     "happy-dom": "^20.9.0",
     "rimraf": "^6.1.3",
     "vitest": "^4.1.0"
