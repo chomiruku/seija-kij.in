@@ -71,7 +71,6 @@
             class="w-full bg-gray-900 border border-gray-700 border-l-2 border-l-crimson-500/60 focus:border-gray-600 focus:border-l-crimson-500 focus:outline-none text-gray-300 placeholder-gray-700 font-mono text-xs tracking-wide p-3 resize-none transition-colors leading-relaxed"
             aria-label="Tag blacklist"
             aria-describedby="blacklist-help"
-            @input="handleBlacklistChange"
             @keydown.enter.prevent
           />
           <p id="blacklist-help" class="mt-2 font-mono text-[10px] text-gray-400 leading-relaxed tracking-wide">
@@ -121,9 +120,5 @@ const tagCount = computed(() =>
 
 const handleNsfwChange = (value: boolean) => {
   emit('update:allowNsfw', value)
-}
-
-const handleBlacklistChange = () => {
-  emit('update:blacklistTags', blacklistValue.value)
 }
 </script>
