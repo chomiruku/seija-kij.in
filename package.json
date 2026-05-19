@@ -28,7 +28,7 @@
     "@nuxt/ui": "^4.7.1",
     "chalk": "latest",
     "eslint": "latest",
-    "nuxt": "^4.4.5",
+    "nuxt": "^4.4.6",
     "sharp": "latest",
     "tailwind-scrollbar": "latest",
     "vue": "^3.5.34",
