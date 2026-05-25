@@ -25,7 +25,7 @@
     "@nuxt/eslint": "latest",
     "@nuxt/icon": "^2.2.2",
     "@nuxt/image": "latest",
-    "@nuxt/ui": "^4.7.1",
+    "@nuxt/ui": "^4.8.0",
     "chalk": "latest",
     "eslint": "latest",
     "nuxt": "^4.4.6",
@@ -35,10 +35,10 @@
     "vue-router": "^5.0.7"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.108",
+    "@iconify-json/lucide": "^1.2.109",
     "@playwright/test": "^1.60.0",
     "@types/chalk": "^2.2.4",
-    "@vitest/coverage-v8": "^4.1.6",
+    "@vitest/coverage-v8": "^4.1.7",
     "@vitest/ui": "^4.1.0",
     "@vue/test-utils": "^2.4.10",
     "happy-dom": "^20.9.0",
