@@ -25,17 +25,17 @@
     "@nuxt/eslint": "latest",
     "@nuxt/icon": "^2.2.2",
     "@nuxt/image": "latest",
-    "@nuxt/ui": "^4.8.0",
+    "@nuxt/ui": "^4.8.1",
     "chalk": "latest",
     "eslint": "latest",
     "nuxt": "^4.4.6",
     "sharp": "latest",
     "tailwind-scrollbar": "latest",
-    "vue": "^3.5.34",
-    "vue-router": "^5.0.7"
+    "vue": "^3.5.35",
+    "vue-router": "^5.1.0"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.109",
+    "@iconify-json/lucide": "^1.2.111",
     "@playwright/test": "^1.60.0",
     "@types/chalk": "^2.2.4",
     "@vitest/coverage-v8": "^4.1.7",
