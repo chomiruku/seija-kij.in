@@ -23,7 +23,7 @@
   "dependencies": {
     "@chenglou/pretext": "^0.0.8",
     "@nuxt/eslint": "latest",
-    "@nuxt/icon": "^2.2.3",
+    "@nuxt/icon": "^2.2.4",
     "@nuxt/image": "latest",
     "@nuxt/ui": "^4.9.0",
     "chalk": "latest",
@@ -31,12 +31,12 @@
     "nuxt": "^4.4.8",
     "sharp": "latest",
     "tailwind-scrollbar": "latest",
-    "vue": "^3.5.38",
+    "vue": "^3.5.39",
     "vue-router": "^5.1.0"
   },
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.114",
-    "@playwright/test": "^1.61.0",
+    "@playwright/test": "^1.61.1",
     "@types/chalk": "^2.2.4",
     "@vitest/coverage-v8": "^4.1.9",
     "@vitest/ui": "^4.1.0",
