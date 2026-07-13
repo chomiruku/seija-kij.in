@@ -38,7 +38,7 @@
     "@iconify-json/lucide": "^1.2.116",
     "@playwright/test": "^1.61.1",
     "@types/chalk": "^2.2.4",
-    "@vitest/coverage-v8": "^4.1.9",
+    "@vitest/coverage-v8": "^4.1.10",
     "@vitest/ui": "^4.1.0",
     "@vue/test-utils": "^2.4.11",
     "happy-dom": "^20.10.6",
