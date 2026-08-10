@@ -28,14 +28,14 @@
     "@nuxt/ui": "^4.10.0",
     "chalk": "latest",
     "eslint": "latest",
-    "nuxt": "^4.5.1",
+    "nuxt": "^4.5.2",
     "sharp": "latest",
     "tailwind-scrollbar": "latest",
-    "vue": "^3.5.40",
+    "vue": "^3.5.41",
     "vue-router": "^5.1.0"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.120",
+    "@iconify-json/lucide": "^1.2.121",
     "@playwright/test": "^1.62.1",
     "@types/chalk": "^2.2.4",
     "@vitest/coverage-v8": "^4.1.10",
