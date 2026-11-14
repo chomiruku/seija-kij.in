@@ -1,18 +1,17 @@
-export default defineEventHandler(async (_event) => {
+// Cached 5 min so page views and bot crawls don't each hit copyparty
+export default defineCachedEventHandler(async () => {
   try {
-    // In production, fetch from local copyparty instance to avoid Cloudflare blocking
-    // In dev, use the public URL
+    // Production reads local copyparty to avoid Cloudflare blocking; dev uses the public URL
     const url = process.env.NODE_ENV === 'production'
       ? 'http://127.0.0.1:3923/public/vrchat/avatars.json'
       : 'https://samba.seija-kij.in/public/vrchat/avatars.json'
-    const response = await $fetch(url)
-    return response
+    return await $fetch(url)
   } catch (error: unknown) {
     console.error('[VRChat API] Failed to fetch avatars:', error)
     throw createError({
       statusCode: 500,
       statusMessage: 'Failed to fetch avatars data',
-      message: error?.message || 'Unknown error'
+      message: (error as Error)?.message || 'Unknown error',
     })
   }
-})
+}, { maxAge: 300, name: 'vrchat-avatars' })

@@ -23,7 +23,7 @@ export function useMilkBooruSearch() {
   const paginationToastShown = ref(false)
   const isSearchFocused = ref(false)
   const hasEverFocused = ref(false)
-  const shouldHideElements = ref(false)
+  let latestRequestId = 0
 
   // Computed
   const totalPages = computed(() => pagination.value?.total_pages || 0)
@@ -60,14 +60,12 @@ export function useMilkBooruSearch() {
     if (useCache) {
       const cachedResult = cache.getCachedResult(tags, page)
       if (cachedResult) {
+        latestRequestId++ // invalidate any in-flight fetch
+        isLoading.value = false
         // Use cached data instantly without loading state
         posts.value = cachedResult.posts
-        pagination.value = cachedResult.pagination
-
-        // Apply 1000 page limit
-        if (pagination.value && (pagination.value.total_pages > MAX_PAGES || pagination.value.total_pages === 1000)) {
-          pagination.value.total_pages = MAX_PAGES
-        }
+        // Copy so the page cap below never mutates the cached entry
+        pagination.value = { ...cachedResult.pagination, total_pages: Math.min(cachedResult.pagination.total_pages, MAX_PAGES) }
 
         currentPage.value = page
         hasError.value = false
@@ -81,6 +79,7 @@ export function useMilkBooruSearch() {
 
     isLoading.value = true
     hasError.value = false
+    const reqId = ++latestRequestId
 
     try {
       const response = await $fetch<BooruResponse>('https://booru.seija-kij.in/api/booru/posts', {
@@ -90,6 +89,8 @@ export function useMilkBooruSearch() {
           limit: 20,
         },
       })
+      // A newer request started while this one was in flight: drop this stale response
+      if (reqId !== latestRequestId) return
 
       posts.value = response.posts || []
       pagination.value = response.pagination || null
@@ -100,7 +101,7 @@ export function useMilkBooruSearch() {
       }
 
       // Apply 1000 page limit and show toast if needed (only once per search)
-      if (pagination.value && (pagination.value.total_pages > MAX_PAGES || pagination.value.total_pages === 1000)) {
+      if (pagination.value && pagination.value.total_pages >= MAX_PAGES) {
         const originalTotalPages = pagination.value.total_pages
         pagination.value.total_pages = MAX_PAGES
 
@@ -108,7 +109,7 @@ export function useMilkBooruSearch() {
         if (!paginationToastShown.value) {
           toast.add({
             title: 'Pagination Limited',
-            description: originalTotalPages === 1000
+            description: originalTotalPages === MAX_PAGES
               ? `Showing first ${MAX_PAGES} pages. Use tags to narrow down your search for better results.`
               : `Showing first ${MAX_PAGES} pages of ${originalTotalPages} total pages. Use tags to narrow down your search for better results.`,
             icon: 'i-heroicons-information-circle',
@@ -133,13 +134,14 @@ export function useMilkBooruSearch() {
       }
     }
     catch (error) {
+      if (reqId !== latestRequestId) return
       console.error('Failed to fetch posts:', error)
       hasError.value = true
       posts.value = []
       pagination.value = null
     }
     finally {
-      isLoading.value = false
+      if (reqId === latestRequestId) isLoading.value = false
     }
   }
 
@@ -211,19 +213,9 @@ export function useMilkBooruSearch() {
     const urlTags = route.query.tags
     const urlPage = route.query.page
 
-    // Apply header collapse logic
-    if (headerSeenCookie === 'true') {
-      isSearchFocused.value = true
-      hasEverFocused.value = true
-    }
-    else if (urlTags && typeof urlTags === 'string') {
-      isSearchFocused.value = false
-      hasEverFocused.value = false
-    }
-    else {
-      isSearchFocused.value = false
-      hasEverFocused.value = false
-    }
+    // Header stays collapsed once the user has seen it
+    isSearchFocused.value = headerSeenCookie === 'true'
+    hasEverFocused.value = headerSeenCookie === 'true'
 
     if (urlTags && typeof urlTags === 'string') {
       const tagsFromUrl = tagManagement.decodeTagsFromUrl(urlTags)
@@ -235,7 +227,7 @@ export function useMilkBooruSearch() {
       actualSearchTags.value = 'rating:g kijin_seija'
     }
 
-    const page = urlPage ? Number.parseInt(urlPage.toString()) : 1
+    const page = Math.max(1, Number.parseInt(String(urlPage)) || 1)
     currentPage.value = page
 
     // Fetch without updating URL since we're initializing from URL
@@ -291,7 +283,6 @@ export function useMilkBooruSearch() {
     totalPages,
     isSearchFocused,
     hasEverFocused: readonly(hasEverFocused),
-    shouldHideElements: readonly(shouldHideElements),
 
     // Methods
     fetchPosts,
