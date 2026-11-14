@@ -21,9 +21,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: |
-          rm package-lock.json
-          npm install
+        run: npx -y npm@11 ci
 
 
       - name: Run ESLint

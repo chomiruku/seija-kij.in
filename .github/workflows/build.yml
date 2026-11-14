@@ -23,9 +23,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: |
-          rm package-lock.json
-          npm install
+        run: npx -y npm@11 ci  # npm 11 writes the lockfile locally; Node 22 bundles npm 10, which rejects it
 
 
       - name: Build project
