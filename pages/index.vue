@@ -3,7 +3,7 @@
     <!-- ══ HERO QUOTE ══ -->
     <section class="quote-section">
       <div class="quote-slash-bg" aria-hidden="true">
-        <span class="quote-slash-text">天邪鬼</span>
+        <span class="quote-slash-text notranslate" translate="no" lang="ja">天邪鬼</span>
       </div>
       <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 relative z-10">
         <div class="quote-figure">
