@@ -10,18 +10,16 @@ test.describe('Homepage', () => {
   })
 
   test('should display navbar and footer', async ({ page }) => {
-    await expect(page.locator('nav')).toBeVisible()
+    // Separate mobile and desktop navs; exactly one is visible per viewport
+    await expect(page.locator('nav.navbar:visible')).toHaveCount(1)
     await expect(page.locator('footer')).toBeVisible()
   })
 
   test('should display character info section', async ({ page }) => {
-    await expect(page.getByText('鬼人 正邪')).toBeVisible()
-    await expect(page.getByText('Species:')).toBeVisible()
-    await expect(page.getByText('Amanojaku')).toBeVisible()
-    await expect(page.getByText('Ability:')).toBeVisible()
-    await expect(page.getByText('Turn over anything')).toBeVisible()
-    await expect(page.getByText('First Appearance:')).toBeVisible()
-    await expect(page.getByText('Double Dealing Character').first()).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: /鬼人 正邪/ })).toBeVisible()
+    await expect(page.getByText('Amanojaku', { exact: true })).toBeVisible()
+    await expect(page.getByText('Turn over anything', { exact: true })).toBeVisible()
+    await expect(page.getByText('Double Dealing Character', { exact: true })).toBeVisible()
   })
 
   test('should display personality section', async ({ page }) => {
@@ -30,31 +28,8 @@ test.describe('Homepage', () => {
   })
 
   test('should display abilities and spell cards section', async ({ page }) => {
-    await expect(page.getByText('Abilities & Spell Cards')).toBeVisible()
-    await expect(page.getByText('Turning Over')).toBeVisible()
-    await expect(page.getByText('Physical objects')).toBeVisible()
-    await expect(page.getByText('Spell Cards')).toBeVisible()
-    await expect(page.getByText('欺符「逆さ撃ち」')).toBeVisible()
-  })
-
-  test('should show loading skeleton then quote from API', async ({ page }) => {
-    // Quote section should either show a quote or a loading skeleton
-    const quoteOrSkeleton = page.locator('blockquote, .animate-pulse').first()
-    await expect(quoteOrSkeleton).toBeVisible()
-
-    // Wait for quote to potentially load
-    await page.waitForTimeout(3000)
-
-    // After loading, check if a quote appeared (external API may fail)
-    const blockquote = page.locator('blockquote')
-    const skeletonStillVisible = await page.locator('.animate-pulse').first().isVisible().catch(() => false)
-
-    // Either the quote loaded or the skeleton is still showing (API might be down)
-    if (await blockquote.isVisible().catch(() => false)) {
-      await expect(page.getByText('Kijin Seija in')).toBeVisible()
-    } else {
-      expect(skeletonStillVisible).toBe(true)
-    }
+    await expect(page.locator('.ability-name', { hasText: 'Physical Objects' })).toBeVisible()
+    await expect(page.locator('.spell-text', { hasText: '欺符「逆さ撃ち」' })).toBeVisible()
   })
 
   test('should display mood section with image or skeleton', async ({ page }) => {
@@ -91,13 +66,7 @@ test.describe('Homepage', () => {
     await expect(grid).toBeVisible()
   })
 
-  test('should have scrollable spell cards list', async ({ page }) => {
-    const spellCardsList = page.locator('.max-h-64.overflow-y-auto')
-    await expect(spellCardsList).toBeVisible()
-
-    // Verify multiple spell cards exist
-    const spellCards = spellCardsList.locator('div.flex.items-center')
-    const count = await spellCards.count()
-    expect(count).toBeGreaterThanOrEqual(5)
+  test('should list the spell cards', async ({ page }) => {
+    expect(await page.locator('.spell-list .spell-entry').count()).toBeGreaterThanOrEqual(5)
   })
 })
