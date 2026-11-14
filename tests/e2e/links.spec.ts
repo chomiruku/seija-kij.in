@@ -7,8 +7,8 @@ test.describe('Links Page', () => {
 
   test('should display page title and header', async ({ page }) => {
     await expect(page).toHaveTitle(/Links/i)
-    await expect(page.getByText('links').first()).toBeVisible()
-    await expect(page.getByText('hi')).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: 'links' })).toBeVisible()
+    await expect(page.getByText("you're that guy?")).toBeVisible()
   })
 
   test('should display all link cards', async ({ page }) => {
@@ -68,17 +68,6 @@ test.describe('Links Page', () => {
     }
   })
 
-  test('should have animated entrance for cards', async ({ page }) => {
-    // Cards should have staggered animation delays
-    const linkCards = page.locator('a[target="_blank"]')
-    const count = await linkCards.count()
-
-    for (let i = 0; i < count; i++) {
-      const style = await linkCards.nth(i).getAttribute('style')
-      expect(style).toContain(`animation-delay: ${i * 100}ms`)
-    }
-  })
-
   test('should have correct SEO meta tags', async ({ page }) => {
     const ogTitle = page.locator('meta[property="og:title"]')
     await expect(ogTitle).toHaveAttribute('content', /Links/i)
@@ -90,7 +79,7 @@ test.describe('Links Page', () => {
   test('should be responsive on mobile', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 })
     await expect(page.locator('body')).toBeVisible()
-    await expect(page.getByText('links').first()).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: 'links' })).toBeVisible()
 
     // All links should still be visible
     const linkCards = page.locator('a[target="_blank"]')

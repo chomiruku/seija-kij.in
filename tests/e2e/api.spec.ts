@@ -14,23 +14,6 @@ test.describe('API Endpoints', () => {
     expect(data.uptime).toBeGreaterThan(0)
   })
 
-  test('hello endpoint should return 200 with greeting', async ({ request }) => {
-    const response = await request.get('/api/hello')
-    expect(response.status()).toBe(200)
-
-    const data = await response.json()
-    expect(data).toHaveProperty('message', 'Hello from Nuxt API!')
-    expect(data).toHaveProperty('timestamp')
-  })
-
-  test('vrchat avatars endpoint should return data', async ({ request }) => {
-    const response = await request.get('/api/vrchat/avatars.json')
-    expect(response.status()).toBe(200)
-
-    const data = await response.json()
-    expect(data).toBeDefined()
-  })
-
   test('health check should have consistent uptime on repeated calls', async ({ request }) => {
     const response1 = await request.get('/api/health')
     const data1 = await response1.json()

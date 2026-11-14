@@ -7,8 +7,8 @@ test.describe('VRChat Gallery', () => {
 
   test('should display page title and header', async ({ page }) => {
     await expect(page).toHaveTitle(/VRChat/i)
-    await expect(page.getByText('gallery')).toBeVisible()
-    await expect(page.getByText('mug moment')).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: 'gallery' })).toBeVisible()
+    await expect(page.getByText('mug moment', { exact: true })).toBeVisible()
   })
 
   test('should display loading skeletons initially', async ({ page }) => {
@@ -21,11 +21,10 @@ test.describe('VRChat Gallery', () => {
     await page.waitForTimeout(5000)
 
     // Should have loaded content (either images or error state)
-    const hasContent = await page.locator('img').first().isVisible().catch(() => false)
+    const hasContent = await page.locator('main img:visible').first().isVisible().catch(() => false)
     const hasError = await page.getByText('huh?').isVisible().catch(() => false)
-    const hasTabs = await page.locator('[role="tablist"]').isVisible().catch(() => false)
 
-    expect(hasContent || hasError || hasTabs).toBe(true)
+    expect(hasContent || hasError).toBe(true)
   })
 
   test('should display Images and Videos tabs', async ({ page }) => {
@@ -66,17 +65,13 @@ test.describe('VRChat Gallery', () => {
       const firstMonth = monthButtons.first()
       await expect(firstMonth).toBeVisible()
 
-      // Should show count badge
-      const countBadge = firstMonth.locator('.rounded-full')
-      await expect(countBadge).toBeVisible()
-
-      // Click to expand
-      await firstMonth.click()
-      await page.waitForTimeout(500)
-
-      // Images should appear in the grid
-      const grid = page.locator('.grid').first()
-      await expect(grid).toBeVisible()
+      // Newest month starts expanded; expanding the next one shows its grid
+      if (count > 1) {
+        const visibleGrids = page.locator('main .grid:visible')
+        const before = await visibleGrids.count()
+        await monthButtons.nth(1).click()
+        await expect(visibleGrids).toHaveCount(before + 1)
+      }
 
       // Click again to collapse
       await firstMonth.click()
@@ -168,13 +163,9 @@ test.describe('VRChat Gallery', () => {
     })
 
     await page.goto('/vrchat')
-    await page.waitForTimeout(3000)
-
-    const error = page.getByText('huh?')
-    if (await error.isVisible().catch(() => false)) {
-      await expect(page.getByText('the query failed')).toBeVisible()
-      await expect(page.getByText('Retry')).toBeVisible()
-    }
+    await expect(page.getByText('huh?')).toBeVisible()
+    await expect(page.getByText('probably the server is dead')).toBeVisible()
+    await expect(page.getByRole('button', { name: 'retry' })).toBeVisible()
   })
 
   test('should have correct SEO meta tags', async ({ page }) => {

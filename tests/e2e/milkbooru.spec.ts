@@ -7,7 +7,7 @@ test.describe('MilkBooru Gallery', () => {
 
   test('should display page title and header', async ({ page }) => {
     await expect(page).toHaveTitle(/MilkBooru|Seija/i)
-    await expect(page.getByText('milkbooru')).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: 'milkbooru' })).toBeVisible()
     await expect(page.getByText('just a booru')).toBeVisible()
   })
 
@@ -33,26 +33,24 @@ test.describe('MilkBooru Gallery', () => {
   })
 
   test('should handle search input and update URL', async ({ page }) => {
+    // Wait for hydration, or Vue resets the typed value
+    await page.waitForLoadState('networkidle')
     const searchInput = page.locator('input[type="text"], input[type="search"]').first()
-    await searchInput.fill('kijin_seija')
-    await expect(searchInput).toHaveValue('kijin_seija')
+    // Not the default tag: the default search is intentionally kept out of the URL
+    await searchInput.fill('solo')
+    await expect(searchInput).toHaveValue('solo')
 
-    // Submit search
     await searchInput.press('Enter')
-    await page.waitForTimeout(2000)
-
-    // URL should contain tags parameter
-    expect(page.url()).toContain('tags')
-    expect(page.url()).toContain('kijin_seija')
+    await expect(page).toHaveURL(/tags=.*solo/)
   })
 
   test('should clear search and return to default', async ({ page }) => {
+    await page.waitForLoadState('networkidle')
     // First, do a search
     const searchInput = page.locator('input[type="text"], input[type="search"]').first()
     await searchInput.fill('solo')
     await searchInput.press('Enter')
-    await page.waitForTimeout(2000)
-    expect(page.url()).toContain('tags')
+    await expect(page).toHaveURL(/tags=/)
 
     // Clear search
     await searchInput.fill('')
@@ -237,27 +235,12 @@ test.describe('MilkBooru Post Detail', () => {
       await firstPost.click()
       await page.waitForTimeout(3000)
 
-      // Post content should load
-      if (await page.getByText('Tags').isVisible().catch(() => false)) {
-        // Tags section
-        await expect(page.getByText('Tags')).toBeVisible()
-
-        // Post Information section
-        await expect(page.getByText('Post Information')).toBeVisible()
-        await expect(page.getByText('Rating:')).toBeVisible()
-        await expect(page.getByText('Score:')).toBeVisible()
-        await expect(page.getByText('Status:')).toBeVisible()
-
-        // File Details section
-        await expect(page.getByText('File Details')).toBeVisible()
-        await expect(page.getByText('Format:')).toBeVisible()
-        await expect(page.getByText('Size:')).toBeVisible()
-        await expect(page.getByText('Dimensions:')).toBeVisible()
-
-        // Links section
-        await expect(page.getByText('Links').first()).toBeVisible()
-        await expect(page.getByText('Danbooru:')).toBeVisible()
+      // Post detail sidebar
+      await expect(page.getByText(/POST #\d+/)).toBeVisible()
+      for (const label of ['SCORE', 'FILE', 'UPLOADED', 'DANBOORU']) {
+        await expect(page.getByText(label, { exact: true })).toBeVisible()
       }
+      await expect(page.getByText('── TAGS')).toBeVisible()
     }
   })
 

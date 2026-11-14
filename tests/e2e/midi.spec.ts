@@ -7,12 +7,12 @@ test.describe('MIDI Page', () => {
 
   test('should display page title and header', async ({ page }) => {
     await expect(page).toHaveTitle(/MIDI/i)
-    await expect(page.getByText('midis')).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: 'midis' })).toBeVisible()
     await expect(page.getByText('rip cirnodik')).toBeVisible()
   })
 
   test('should display search input', async ({ page }) => {
-    const searchInput = page.getByPlaceholder('Search MIDI files by name...')
+    const searchInput = page.getByPlaceholder('search midi files...')
     await expect(searchInput).toBeVisible()
   })
 
@@ -39,8 +39,8 @@ test.describe('MIDI Page', () => {
     // Check first MIDI card has expected details
     const firstCard = page.locator('.cursor-pointer').first()
     if (await firstCard.isVisible().catch(() => false)) {
-      // Should have a name (h3)
-      const name = firstCard.locator('h3')
+      // Should have a name
+      const name = firstCard.locator('span.text-sm').first()
       await expect(name).toBeVisible()
     }
   })
@@ -48,7 +48,7 @@ test.describe('MIDI Page', () => {
   test('should filter MIDIs by search query', async ({ page }) => {
     await page.waitForTimeout(5000)
 
-    const searchInput = page.getByPlaceholder('Search MIDI files by name...')
+    const searchInput = page.getByPlaceholder('search midi files...')
     const cardsBeforeSearch = await page.locator('.cursor-pointer').count()
 
     if (cardsBeforeSearch > 0) {
@@ -66,7 +66,7 @@ test.describe('MIDI Page', () => {
   test('should update URL with search query', async ({ page }) => {
     await page.waitForTimeout(3000)
 
-    const searchInput = page.getByPlaceholder('Search MIDI files by name...')
+    const searchInput = page.getByPlaceholder('search midi files...')
     await searchInput.fill('test search')
     await page.waitForTimeout(1000)
 
@@ -78,14 +78,14 @@ test.describe('MIDI Page', () => {
     await page.goto('/midi?search=touhou')
     await page.waitForTimeout(3000)
 
-    const searchInput = page.getByPlaceholder('Search MIDI files by name...')
+    const searchInput = page.getByPlaceholder('search midi files...')
     await expect(searchInput).toHaveValue('touhou')
   })
 
   test('should show no results message for unmatched search', async ({ page }) => {
     await page.waitForTimeout(5000)
 
-    const searchInput = page.getByPlaceholder('Search MIDI files by name...')
+    const searchInput = page.getByPlaceholder('search midi files...')
     await searchInput.fill('xyznonexistentmidi99999')
     await page.waitForTimeout(500)
 
@@ -133,7 +133,7 @@ test.describe('MIDI Page', () => {
         const versions = page.getByText('Available Versions')
         if (await versions.isVisible().catch(() => false)) {
           // Download buttons should be present
-          const downloadButton = page.getByText('Download').first()
+          const downloadButton = page.getByRole('button', { name: /Download|DL/ }).first()
           await expect(downloadButton).toBeVisible()
         }
       }
@@ -196,9 +196,9 @@ test.describe('MIDI Page', () => {
   test('should be responsive on mobile', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 })
     await expect(page.locator('body')).toBeVisible()
-    await expect(page.getByText('midis')).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: 'midis' })).toBeVisible()
 
-    const searchInput = page.getByPlaceholder('Search MIDI files by name...')
+    const searchInput = page.getByPlaceholder('search midi files...')
     await expect(searchInput).toBeVisible()
   })
 })

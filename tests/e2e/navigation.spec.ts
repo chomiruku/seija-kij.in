@@ -18,7 +18,8 @@ test.describe('Site Navigation', () => {
     }
   })
 
-  test('should navigate via desktop navbar links', async ({ page }) => {
+  test('should navigate via desktop navbar links', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'Touch device stays on the mobile navbar')
     await page.setViewportSize({ width: 1280, height: 720 })
     await page.goto('/')
 
@@ -54,7 +55,7 @@ test.describe('Site Navigation', () => {
     await page.goto('/milkbooru')
 
     // Click the brand/logo to go home
-    const brand = page.locator('nav').getByText('seija-kij.in').first()
+    const brand = page.locator('nav.navbar:visible').getByRole('link', { name: 'seija-kij.in' }).first()
     await expect(brand).toBeVisible()
     await brand.click()
     await expect(page).toHaveURL('/')
@@ -104,7 +105,7 @@ test.describe('Mobile Navigation', () => {
     await menuButton.click()
 
     // Mobile menu should show route links
-    const mobileMenu = page.locator('nav .absolute')
+    const mobileMenu = page.locator('nav .fixed.top-14')
     await expect(mobileMenu).toBeVisible()
     await expect(mobileMenu.getByText('Home')).toBeVisible()
     await expect(mobileMenu.getByText('MilkBooru')).toBeVisible()
@@ -124,7 +125,7 @@ test.describe('Mobile Navigation', () => {
     await menuButton.click()
 
     // Click a link to navigate
-    const mobileMenu = page.locator('nav .absolute')
+    const mobileMenu = page.locator('nav .fixed.top-14')
     await mobileMenu.getByText('MilkBooru').click()
 
     await expect(page).toHaveURL('/milkbooru')
@@ -144,7 +145,7 @@ test.describe('Mobile Navigation', () => {
       await page.goto('/')
       const menuButton = page.getByLabel('Toggle mobile navigation menu')
       await menuButton.click()
-      await page.locator('nav .absolute').getByText(item.text).click()
+      await page.locator('nav .fixed.top-14').getByText(item.text).click()
       await expect(page).toHaveURL(item.url)
     }
   })

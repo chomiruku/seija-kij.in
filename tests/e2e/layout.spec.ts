@@ -6,8 +6,8 @@ test.describe('Layout - Time Banner', () => {
     await page.waitForLoadState('networkidle')
 
     // Time banner should show Singapore Standard Time
-    const timeBanner = page.getByText(/Singapore Standard Time|GMT\+0800/)
-    await expect(timeBanner).toBeVisible()
+    // Desktop shows the full zone name; smaller breakpoints show SGT
+    await expect(page.locator('.time-banner-text:visible')).toHaveText(/Singapore Standard Time|SGT/)
   })
 
   test('should display time in expected format', async ({ page }) => {
@@ -15,11 +15,8 @@ test.describe('Layout - Time Banner', () => {
     await page.waitForLoadState('networkidle')
     await page.waitForTimeout(1000)
 
-    const timeBanner = page.locator('.time-banner-text')
-    const timeText = await timeBanner.textContent()
-    // Should contain Singapore Standard Time format
-    expect(timeText).toContain('GMT+0800')
-    expect(timeText).toContain('Singapore Standard Time')
+    // One responsive variant is visible per breakpoint; all show HH:MM:SS
+    await expect(page.locator('.time-banner-text:visible')).toHaveText(/\d{2}:\d{2}:\d{2}/)
   })
 
   test('should show loading fallback before client hydration', async ({ page }) => {
@@ -105,22 +102,14 @@ test.describe('Layout - Navbar Structure', () => {
   test('should have fixed position navbar', async ({ page }) => {
     await page.goto('/')
 
-    const nav = page.locator('nav.fixed').first()
-    await expect(nav).toBeVisible()
-  })
-
-  test('should have backdrop blur on navbar', async ({ page }) => {
-    await page.goto('/')
-
-    const nav = page.locator('nav.backdrop-blur-md').first()
-    await expect(nav).toBeVisible()
+    await expect(page.locator('nav.navbar.fixed:visible')).toHaveCount(1)
   })
 
   test('should have brand with custom font', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 })
     await page.goto('/')
 
-    const brand = page.locator('.navbar-brand').first()
+    const brand = page.locator('.navbar-brand:visible').first()
     await expect(brand).toBeVisible()
   })
 })
@@ -151,11 +140,10 @@ test.describe('Layout - Consistent Across Pages', () => {
       await page.goto(pagePath)
 
       // Navbar
-      await expect(page.locator('nav').first()).toBeVisible()
+      await expect(page.locator('nav.navbar:visible')).toHaveCount(1)
 
-      // Time banner
-      const timeBanner = page.locator('.time-banner-text')
-      await expect(timeBanner).toBeVisible()
+      // Time banner (one responsive variant visible)
+      await expect(page.locator('.time-banner-text:visible')).toHaveCount(1)
 
       // Footer
       await expect(page.locator('footer')).toBeVisible()

@@ -46,15 +46,12 @@ test.describe('Accessibility', () => {
   test('should have proper heading hierarchy on homepage', async ({ page }) => {
     await page.goto('/')
 
-    // Should have h2 and h3 headings
-    const h2 = page.locator('h2')
-    const h3 = page.locator('h3')
-
-    await expect(h2.first()).toBeVisible()
-    expect(await h3.count()).toBeGreaterThan(0)
+    // Exactly one h1 per page
+    await expect(page.locator('h1')).toHaveCount(1)
   })
 
-  test('should have keyboard-accessible navigation', async ({ page }) => {
+  test('should have keyboard-accessible navigation', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'Desktop keyboard navigation; WebKit mobile does not Tab to links')
     await page.setViewportSize({ width: 1280, height: 720 })
     await page.goto('/')
 
@@ -102,7 +99,7 @@ test.describe('Accessibility', () => {
   test('should have labeled form controls on midi search', async ({ page }) => {
     await page.goto('/midi')
 
-    const searchInput = page.getByPlaceholder('Search MIDI files by name...')
+    const searchInput = page.getByPlaceholder('search midi files...')
     await expect(searchInput).toBeVisible()
   })
 
