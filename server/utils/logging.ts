@@ -149,3 +149,13 @@ export function shouldFilterRequest(pathname: string, _userAgent: string | undef
 
   return isAssetRequest
 }
+
+/**
+ * Makes untrusted input safe to print: strings only, no control chars
+ * (blocks fake log lines via \n and ANSI escapes), max 200 chars.
+ */
+export function cleanLogField(value: unknown): string {
+  if (typeof value !== 'string') return ''
+  // eslint-disable-next-line no-control-regex
+  return value.replace(/[\x00-\x1f\x7f]/g, '').slice(0, 200)
+}

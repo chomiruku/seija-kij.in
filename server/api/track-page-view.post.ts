@@ -1,40 +1,26 @@
 import { getClientIP } from '../utils/ip'
-import { getCloudflareData, formatBotLog, formatDetailedLog } from '../utils/logging'
+import { getCloudflareData, formatBotLog, formatDetailedLog, cleanLogField } from '../utils/logging'
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event)
+  const body = await readBody(event).catch(() => null)
+  if (!body || typeof body.path !== 'string') {
+    throw createError({ statusCode: 400, statusMessage: 'path required' })
+  }
 
   const clientIP = getClientIP(event)
-  const { path, query, referrer, userAgent, timestamp } = body
-
-  // Get Cloudflare data
   const cfData = getCloudflareData(event)
+  // Body fields are attacker-controlled: clean before they reach the console
+  const query = body.query && typeof body.query === 'object' ? new URLSearchParams(body.query).toString() : ''
+  const fullPath = cleanLogField(body.path + (query ? `?${query}` : ''))
+  const referrer = cleanLogField(body.referrer) || '/'
+  const userAgent = cleanLogField(getHeader(event, 'user-agent')) || 'Unknown'
+  const timestamp = new Date().toISOString()
 
-  // Build query string for display
-  const queryString = query && Object.keys(query).length > 0
-    ? '?' + new URLSearchParams(query).toString()
-    : ''
-
-  const fullPath = path + queryString
-
-  // Format similar to request logger but indicate it's a client-side navigation
   if (cfData.cfVerifiedBot) {
-    // Simplified logging for verified bots
     console.log(formatBotLog(timestamp, 'CLIENT-NAV', 200, userAgent, fullPath))
   }
   else {
-    // Full logging for legitimate traffic
-    console.log(formatDetailedLog(
-      timestamp,
-      'CLIENT-NAV',
-      200,
-      clientIP,
-      cfData,
-      fullPath,
-      null, // No duration for client-side navigation
-      userAgent,
-      { referrer: referrer || '/' }
-    ))
+    console.log(formatDetailedLog(timestamp, 'CLIENT-NAV', 200, clientIP, cfData, fullPath, null, userAgent, { referrer }))
   }
 
   return { success: true }

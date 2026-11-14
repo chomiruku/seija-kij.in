@@ -24,6 +24,7 @@ export function useMilkBooruSearch() {
   const isSearchFocused = ref(false)
   const hasEverFocused = ref(false)
   const shouldHideElements = ref(false)
+  let latestRequestId = 0
 
   // Computed
   const totalPages = computed(() => pagination.value?.total_pages || 0)
@@ -60,6 +61,8 @@ export function useMilkBooruSearch() {
     if (useCache) {
       const cachedResult = cache.getCachedResult(tags, page)
       if (cachedResult) {
+        latestRequestId++ // invalidate any in-flight fetch
+        isLoading.value = false
         // Use cached data instantly without loading state
         posts.value = cachedResult.posts
         pagination.value = cachedResult.pagination
@@ -81,6 +84,7 @@ export function useMilkBooruSearch() {
 
     isLoading.value = true
     hasError.value = false
+    const reqId = ++latestRequestId
 
     try {
       const response = await $fetch<BooruResponse>('https://booru.seija-kij.in/api/booru/posts', {
@@ -90,6 +94,8 @@ export function useMilkBooruSearch() {
           limit: 20,
         },
       })
+      // A newer request started while this one was in flight: drop this stale response
+      if (reqId !== latestRequestId) return
 
       posts.value = response.posts || []
       pagination.value = response.pagination || null
@@ -133,13 +139,14 @@ export function useMilkBooruSearch() {
       }
     }
     catch (error) {
+      if (reqId !== latestRequestId) return
       console.error('Failed to fetch posts:', error)
       hasError.value = true
       posts.value = []
       pagination.value = null
     }
     finally {
-      isLoading.value = false
+      if (reqId === latestRequestId) isLoading.value = false
     }
   }
 
@@ -235,7 +242,7 @@ export function useMilkBooruSearch() {
       actualSearchTags.value = 'rating:g kijin_seija'
     }
 
-    const page = urlPage ? Number.parseInt(urlPage.toString()) : 1
+    const page = Math.max(1, Number.parseInt(String(urlPage)) || 1)
     currentPage.value = page
 
     // Fetch without updating URL since we're initializing from URL
