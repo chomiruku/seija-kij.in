@@ -24,9 +24,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: |
-          rm package-lock.json
-          npm install --ignore-scripts
+        run: npm ci --ignore-scripts
 
       - name: Run npm audit
         run: npm audit --audit-level=moderate
@@ -65,9 +63,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: |
-          rm package-lock.json
-          npm install --ignore-scripts
+        run: npm ci --ignore-scripts
 
       - name: Check for outdated dependencies
         run: npx npm-check-updates --target minor --errorLevel 2

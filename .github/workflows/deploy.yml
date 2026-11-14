@@ -73,9 +73,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.check-artifact.outputs.found != 'true'
-        run: |
-          rm package-lock.json
-          npm install
+        run: npm ci
 
 
       - name: Build project
