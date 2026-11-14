@@ -8,7 +8,6 @@
         <!-- Header -->
         <div class="mb-4" :class="search.isSearchFocused.value ? '' : 'mb-8'">
           <div
-            v-if="!search.shouldHideElements.value"
             class="transition-all duration-300 ease-out overflow-hidden"
             :class="search.isSearchFocused.value ? 'max-h-0 opacity-0 mb-0' : 'max-h-32 opacity-100 mb-4'"
           >

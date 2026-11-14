@@ -23,7 +23,6 @@ export function useMilkBooruSearch() {
   const paginationToastShown = ref(false)
   const isSearchFocused = ref(false)
   const hasEverFocused = ref(false)
-  const shouldHideElements = ref(false)
   let latestRequestId = 0
 
   // Computed
@@ -65,12 +64,8 @@ export function useMilkBooruSearch() {
         isLoading.value = false
         // Use cached data instantly without loading state
         posts.value = cachedResult.posts
-        pagination.value = cachedResult.pagination
-
-        // Apply 1000 page limit
-        if (pagination.value && (pagination.value.total_pages > MAX_PAGES || pagination.value.total_pages === 1000)) {
-          pagination.value.total_pages = MAX_PAGES
-        }
+        // Copy so the page cap below never mutates the cached entry
+        pagination.value = { ...cachedResult.pagination, total_pages: Math.min(cachedResult.pagination.total_pages, MAX_PAGES) }
 
         currentPage.value = page
         hasError.value = false
@@ -106,7 +101,7 @@ export function useMilkBooruSearch() {
       }
 
       // Apply 1000 page limit and show toast if needed (only once per search)
-      if (pagination.value && (pagination.value.total_pages > MAX_PAGES || pagination.value.total_pages === 1000)) {
+      if (pagination.value && pagination.value.total_pages >= MAX_PAGES) {
         const originalTotalPages = pagination.value.total_pages
         pagination.value.total_pages = MAX_PAGES
 
@@ -114,7 +109,7 @@ export function useMilkBooruSearch() {
         if (!paginationToastShown.value) {
           toast.add({
             title: 'Pagination Limited',
-            description: originalTotalPages === 1000
+            description: originalTotalPages === MAX_PAGES
               ? `Showing first ${MAX_PAGES} pages. Use tags to narrow down your search for better results.`
               : `Showing first ${MAX_PAGES} pages of ${originalTotalPages} total pages. Use tags to narrow down your search for better results.`,
             icon: 'i-heroicons-information-circle',
@@ -218,19 +213,9 @@ export function useMilkBooruSearch() {
     const urlTags = route.query.tags
     const urlPage = route.query.page
 
-    // Apply header collapse logic
-    if (headerSeenCookie === 'true') {
-      isSearchFocused.value = true
-      hasEverFocused.value = true
-    }
-    else if (urlTags && typeof urlTags === 'string') {
-      isSearchFocused.value = false
-      hasEverFocused.value = false
-    }
-    else {
-      isSearchFocused.value = false
-      hasEverFocused.value = false
-    }
+    // Header stays collapsed once the user has seen it
+    isSearchFocused.value = headerSeenCookie === 'true'
+    hasEverFocused.value = headerSeenCookie === 'true'
 
     if (urlTags && typeof urlTags === 'string') {
       const tagsFromUrl = tagManagement.decodeTagsFromUrl(urlTags)
@@ -298,7 +283,6 @@ export function useMilkBooruSearch() {
     totalPages,
     isSearchFocused,
     hasEverFocused: readonly(hasEverFocused),
-    shouldHideElements: readonly(shouldHideElements),
 
     // Methods
     fetchPosts,

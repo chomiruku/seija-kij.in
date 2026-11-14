@@ -26,25 +26,10 @@ export default defineNuxtConfig({
 
     vite: {
         vue: {
-            // Suppress Vue Router warnings in production
             script: {
                 defineModel: true,
                 propsDestructure: true
             }
-        }
-    },
-
-    // Suppress Vue Router warnings
-    vue: {
-        compilerOptions: {
-            isCustomElement: (_tag) => false
-        }
-    },
-
-    // Router configuration to suppress 404 warnings
-    router: {
-        options: {
-            strict: false
         }
     },
 

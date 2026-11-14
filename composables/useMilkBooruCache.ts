@@ -53,7 +53,13 @@ export function useMilkBooruCache() {
    */
   const getCachedResult = (tags: string, page: number): CachedSearchResult | undefined => {
     const key = getCacheKey(tags, page)
-    return searchCache.value.get(key)
+    const hit = searchCache.value.get(key)
+    if (hit) {
+      // Re-insert so Map order tracks recency (LRU)
+      searchCache.value.delete(key)
+      searchCache.value.set(key, hit)
+    }
+    return hit
   }
 
   /**
@@ -63,6 +69,7 @@ export function useMilkBooruCache() {
     const key = getCacheKey(tags, page)
 
     // Implement LRU cache by removing oldest entries
+    searchCache.value.delete(key) // overwrite counts as most recent, never evicts another entry
     if (searchCache.value.size >= MAX_CACHE_SIZE) {
       const firstKey = searchCache.value.keys().next().value
       if (firstKey) {

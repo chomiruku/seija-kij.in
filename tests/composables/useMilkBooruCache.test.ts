@@ -287,7 +287,7 @@ describe('useMilkBooruCache', () => {
       expect(getCachedResult('tags', 2)?.posts[0].id).toBe(21)
     })
 
-    it('should evict oldest entry when cache is full (FIFO-like LRU)', () => {
+    it('should evict the least recently used entry when full', () => {
       const { setCachedResult, getCachedResult, getCacheSize } = useMilkBooruCache()
       const posts = [createMockPost()]
       const pagination = createMockPagination()
@@ -304,12 +304,10 @@ describe('useMilkBooruCache', () => {
       setCachedResult('tags_50', 1, posts, pagination)
 
       expect(getCacheSize()).toBe(50)
-      // First entry (tags_0) should be evicted
-      expect(getCachedResult('tags_0', 1)).toBeUndefined()
-      // Newest entry should exist
+      // tags_0 was read above, so tags_1 is now least recently used
+      expect(getCachedResult('tags_1', 1)).toBeUndefined()
+      expect(getCachedResult('tags_0', 1)).toBeDefined()
       expect(getCachedResult('tags_50', 1)).toBeDefined()
-      // Second entry should still exist
-      expect(getCachedResult('tags_1', 1)).toBeDefined()
     })
 
     it('should handle empty posts array', () => {
